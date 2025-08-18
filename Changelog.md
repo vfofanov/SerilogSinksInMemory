@@ -1,8 +1,6 @@
 ﻿# Changelog
 
-## 1.0.0.0
-
-Finally pulling the trigger on releasing version 1.0 of the InMemory sink.
+## 2.0.0.0
 
 This version bumps the minimum version of Serilog to 4.x to be more with the times.
 
