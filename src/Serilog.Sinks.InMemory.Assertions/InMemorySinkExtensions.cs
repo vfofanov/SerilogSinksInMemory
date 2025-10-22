@@ -1,6 +1,6 @@
 ﻿#nullable enable
+
 using System;
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
@@ -10,98 +10,97 @@ namespace Serilog.Sinks.InMemory.Assertions
 {
     public static class InMemorySinkAssertionExtensions
     {
-        private static Type? _assertionsType;
-        private static readonly object SyncRoot = new();
+        public static InMemorySinkAssertionsFactory AssertionsFactory { get; }
+
+        static InMemorySinkAssertionExtensions()
+        {
+            var factoryType = GetAssertionsFactoryType() ??
+                              throw new InvalidOperationException("Unable to load InMemorySinkAssertionsFactory");
+
+            AssertionsFactory = (InMemorySinkAssertionsFactory)Activator.CreateInstance(factoryType);
+        }
 
         public static InMemorySinkAssertions Should(this InMemorySink instance)
         {
-            if (_assertionsType == null)
-            {
-                lock (SyncRoot)
-                {
-                    var assemblyLocation =
-                        Path.GetDirectoryName(typeof(InMemorySinkAssertionExtensions).Assembly.Location);
-
-                    if (string.IsNullOrEmpty(assemblyLocation))
-                    {
-                        throw new Exception($"Unable to determine path to load assemblies from");
-                    }
-
-                    string? adapterName = null;
-                    int? majorVersion = null;
-                    Assembly? versionedAssembly = null;
-
-                    // Order is important here, first check the loaded assemblies before
-                    // looking on disk because otherwise we might load FluentAssertions from disk
-                    // while Shouldly is already loaded into the AppDomain and that's the one we
-                    // should be using.
-                    // That's also a guess but hey, if you mix and match assertion frameworks you
-                    // can deal with the fall out.
-                    if (IsFluentAssertionsAlreadyLoadedIntoDomain(out var fluentAssertionsAssembly))
-                    {
-                        adapterName = "FluentAssertions";
-                        majorVersion = fluentAssertionsAssembly.GetName().Version.Major;
-                    }
-                    else if (IsAwesomeAssertionsAlreadyLoadedIntoDomain(out var awesomeAssertionsAssembly))
-                    {
-                        adapterName = "AwesomeAssertions";
-                        majorVersion = awesomeAssertionsAssembly.GetName().Version.Major;
-                    }
-                    else if (IsShouldlyAlreadyLoadedIntoDomain(out var shouldlyAssembly))
-                    {
-                        adapterName = "Shouldly";
-                        majorVersion = shouldlyAssembly.GetName().Version.Major;
-                    }
-                    else if (IsFluentAssertionsAvailableOnDisk(assemblyLocation,
-                                 out var fluentAssertionsOnDiskAssembly))
-                    {
-                        adapterName = "FluentAssertions";
-                        majorVersion = fluentAssertionsOnDiskAssembly.GetName().Version.Major;
-                    }
-                    else if (IsAwesomeAssertionsAvailableOnDisk(assemblyLocation,
-                                 out var awesomeAssertionsOnDiskAssembly))
-                    {
-                        adapterName = "AwesomeAssertions";
-                        majorVersion = awesomeAssertionsOnDiskAssembly.GetName().Version.Major;
-                    }
-                    else if (IsShouldlyAvailableOnDisk(assemblyLocation, out var shouldlyOnDiskAssembly))
-                    {
-                        adapterName = "Shouldly";
-                        majorVersion = shouldlyOnDiskAssembly.GetName().Version.Major;
-                    }
-
-                    if (adapterName != null && majorVersion != null)
-                    {
-                        var versionedLocation = Path.Combine(
-                            assemblyLocation,
-                            $"Serilog.Sinks.InMemory.{adapterName}{majorVersion}.dll");
-
-                        if (!File.Exists(versionedLocation))
-                        {
-                            throw new InvalidOperationException($"Detected {adapterName} version {majorVersion} but the assertions adapter wasn't found on disk");
-                        }
-                        
-                        versionedAssembly = Assembly.LoadFile(versionedLocation);
-                    }
-
-                    if (versionedAssembly != null)
-                    {
-                        _assertionsType = versionedAssembly
-                            .GetTypes()
-                            .SingleOrDefault(t => t.Name == "InMemorySinkAssertionsImpl");
-                    }
-                }
-            }
-
-            if (_assertionsType == null)
-            {
-                throw new InvalidOperationException("Unable to load InMemorySinkAssertions");
-            }
-
             var snapshotInstance = SnapshotOf(instance);
+            return AssertionsFactory.CreateInMemorySinkAssertions(snapshotInstance);
+        }
 
-            return (InMemorySinkAssertions)Activator.CreateInstance(
-                _assertionsType, snapshotInstance);
+        private static Type? GetAssertionsFactoryType()
+        {
+            var assemblyLocation =
+                Path.GetDirectoryName(typeof(InMemorySinkAssertionExtensions).Assembly.Location);
+
+            if (string.IsNullOrEmpty(assemblyLocation))
+            {
+                throw new Exception($"Unable to determine path to load assemblies from");
+            }
+
+            string? adapterName = null;
+            int? majorVersion = null;
+            Assembly? versionedAssembly = null;
+
+            // Order is important here, first check the loaded assemblies before
+            // looking on disk because otherwise we might load FluentAssertions from disk
+            // while Shouldly is already loaded into the AppDomain and that's the one we
+            // should be using.
+            // That's also a guess but hey, if you mix and match assertion frameworks you
+            // can deal with the fall out.
+            if (IsFluentAssertionsAlreadyLoadedIntoDomain(out var fluentAssertionsAssembly))
+            {
+                adapterName = "FluentAssertions";
+                majorVersion = fluentAssertionsAssembly.GetName().Version.Major;
+            }
+            else if (IsAwesomeAssertionsAlreadyLoadedIntoDomain(out var awesomeAssertionsAssembly))
+            {
+                adapterName = "AwesomeAssertions";
+                majorVersion = awesomeAssertionsAssembly.GetName().Version.Major;
+            }
+            else if (IsShouldlyAlreadyLoadedIntoDomain(out var shouldlyAssembly))
+            {
+                adapterName = "Shouldly";
+                majorVersion = shouldlyAssembly.GetName().Version.Major;
+            }
+            else if (IsFluentAssertionsAvailableOnDisk(assemblyLocation,
+                         out var fluentAssertionsOnDiskAssembly))
+            {
+                adapterName = "FluentAssertions";
+                majorVersion = fluentAssertionsOnDiskAssembly.GetName().Version.Major;
+            }
+            else if (IsAwesomeAssertionsAvailableOnDisk(assemblyLocation,
+                         out var awesomeAssertionsOnDiskAssembly))
+            {
+                adapterName = "AwesomeAssertions";
+                majorVersion = awesomeAssertionsOnDiskAssembly.GetName().Version.Major;
+            }
+            else if (IsShouldlyAvailableOnDisk(assemblyLocation, out var shouldlyOnDiskAssembly))
+            {
+                adapterName = "Shouldly";
+                majorVersion = shouldlyOnDiskAssembly.GetName().Version.Major;
+            }
+
+            if (adapterName != null && majorVersion != null)
+            {
+                var versionedLocation = Path.Combine(
+                    assemblyLocation,
+                    $"Serilog.Sinks.InMemory.{adapterName}{majorVersion}.dll");
+
+                if (!File.Exists(versionedLocation))
+                {
+                    throw new InvalidOperationException($"Detected {adapterName} version {majorVersion} but the assertions adapter wasn't found on disk");
+                }
+
+                versionedAssembly = Assembly.LoadFile(versionedLocation);
+            }
+
+            if (versionedAssembly != null)
+            {
+                return versionedAssembly
+                    .GetTypes()
+                    .SingleOrDefault(t => t.Name == "InMemorySinkAssertionsFactoryImpl");
+            }
+
+            return null;
         }
 
         private static bool IsFluentAssertionsAlreadyLoadedIntoDomain(
@@ -161,8 +160,9 @@ namespace Serilog.Sinks.InMemory.Assertions
                 assembly = Assembly.LoadFile(assemblyPath);
 
                 var metadataAttributes = assembly.GetCustomAttributes<AssemblyMetadataAttribute>().ToList();
-                
-                if(!metadataAttributes.Any() || metadataAttributes.Any(metadata => metadata.Value.Contains("FluentAssertions", StringComparison.OrdinalIgnoreCase)))
+
+                if (!metadataAttributes.Any() ||
+                    metadataAttributes.Any(metadata => metadata.Value.Contains("FluentAssertions", StringComparison.OrdinalIgnoreCase)))
                 {
                     return true;
                 }
@@ -176,7 +176,7 @@ namespace Serilog.Sinks.InMemory.Assertions
             string assemblyLocation,
             [NotNullWhen(true)] out Assembly? assembly)
         {
-            var assemblyPath = Path.Combine(assemblyLocation, "FluentAssertions.dll");
+            var assemblyPath = Path.Combine(assemblyLocation, "AwesomeAssertions.dll");
 
             if (File.Exists(assemblyPath))
             {

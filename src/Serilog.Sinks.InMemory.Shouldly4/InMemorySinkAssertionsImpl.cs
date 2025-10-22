@@ -1,34 +1,42 @@
-﻿using System.Linq;
+﻿#nullable enable
+
+using System;
+using System.Linq;
+using Serilog.Events;
 using Serilog.Sinks.InMemory.Assertions;
 using Shouldly;
 
 namespace Serilog.Sinks.InMemory.Shouldly4
 {
-    [ShouldlyMethods] 
+    [ShouldlyMethods]
     public class InMemorySinkAssertionsImpl : InMemorySinkAssertions
     {
-        private readonly InMemorySink _snapshotInstance;
-
         public InMemorySinkAssertionsImpl(InMemorySink snapshotInstance)
         {
-            _snapshotInstance = snapshotInstance;
+            Subject = snapshotInstance;
         }
-        
-        /*
-         * Hack attack.
-         *
-         * This is a bit of a dirty way to work around snapshotting the InMemorySink instance
-         * to ensure that you won't get hit by an InvalidOperationException when calling
-         * HaveMessage() and the logger gets called from somewhere else and adds a new
-         * LogEvent to the collection while that method is invoked.
-         *
-         * For now we copy the LogEvents from the current sink and use reflection to assign
-         * it to a new instance of InMemorySink that will be used by the assertions,
-         * effectively creating a snapshot of the InMemorySink that was used by the tests.
-         */
-        private static InMemorySink SnapshotOf(InMemorySink instance)
+
+        public InMemorySink Subject { get; }
+
+        public LogEventsAssertions HaveMessage(
+            Func<LogEvent, bool> predicate,
+            string? predicateErrorName = null,
+            string because = "",
+            params object[] becauseArgs)
         {
-            return instance.Snapshot();
+            predicateErrorName ??= "<predicate>";
+
+            var matches = Subject
+                .LogEvents
+                .Where(predicate)
+                .ToArray();
+
+            if (!matches.Any())
+            {
+                throw new ShouldAssertException($"Expected message \"{predicateErrorName}\" to be logged");
+            }
+
+            return new LogEventsAssertionsImpl(predicateErrorName, matches);
         }
 
         public LogEventsAssertions HaveMessage(
@@ -36,43 +44,47 @@ namespace Serilog.Sinks.InMemory.Shouldly4
             string because = "",
             params object[] becauseArgs)
         {
-            var matches = _snapshotInstance
-                .LogEvents
-                .Where(logEvent => logEvent.MessageTemplate.Text == messageTemplate)
-                .ToList();
-
-            if (!matches.Any())
-            {
-                throw new ShouldAssertException($"Expected message \"{messageTemplate}\" to be logged");
-            }
-
-            return new LogEventsAssertionsImpl(messageTemplate, matches);
+            return HaveMessage(logEvent => logEvent.MessageTemplate.Text == messageTemplate, messageTemplate, because, becauseArgs);
         }
 
         public PatternLogEventsAssertions HaveMessage()
         {
-            return new PatternLogEventsAssertionsImpl(_snapshotInstance.LogEvents);
+            return new PatternLogEventsAssertionsImpl(Subject.LogEvents);
         }
 
         public void NotHaveMessage(
-            string messageTemplate = null,
+            string? messageTemplate = null,
             string because = "",
             params object[] becauseArgs)
         {
-            int count;
-            string failureMessage;
-
             if (messageTemplate != null)
             {
-                count = _snapshotInstance
-                .LogEvents
-                .Count(logEvent => logEvent.MessageTemplate.Text == messageTemplate);
-                
-                failureMessage = $"Expected message \"{messageTemplate}\" not to be logged, but it was found {(count > 1 ? $"{count} times" : "once")}";
+                NotHaveMessage(logEvent => logEvent.MessageTemplate.Text == messageTemplate, messageTemplate, because, becauseArgs);
             }
             else
             {
-                count = _snapshotInstance
+                NotHaveMessage(null, messageTemplate, because, becauseArgs);
+            }
+        }
+
+        public void NotHaveMessage(Func<LogEvent, bool>? predicate, string? predicateErrorName = null, string because = "", params object[] becauseArgs)
+        {
+            predicateErrorName ??= "<predicate>";
+
+            int count;
+            string failureMessage;
+
+            if (predicate != null)
+            {
+                count = Subject
+                    .LogEvents
+                    .Count(predicate);
+
+                failureMessage = $"Expected message \"{predicateErrorName}\" not to be logged, but it was found {(count > 1 ? $"{count} times" : "once")}";
+            }
+            else
+            {
+                count = Subject
                     .LogEvents
                     .Count();
 
