@@ -1,7 +1,7 @@
-namespace Serilog.Sinks.InMemory.Assertions
+namespace Serilog.Sinks.InMemory.Assertions;
+
+public interface InMemorySinkAssertionsFactory
 {
-    public interface InMemorySinkAssertionsFactory
-    {
-        InMemorySinkAssertions CreateInMemorySinkAssertions(InMemorySink snapshotInstance);
-    }
+    AssertionFramework AssertionFramework { get; }
+    InMemorySinkAssertions CreateInMemorySinkAssertions(InMemorySink snapshotInstance);
 }

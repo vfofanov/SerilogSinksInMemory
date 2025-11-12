@@ -1,12 +1,7 @@
-using Serilog.Sinks.InMemory.Assertions;
+namespace Serilog.Sinks.InMemory.AssertionsFrameworkExtension;
 
-namespace Serilog.Sinks.InMemory.FluentAssertions7
+partial class InMemorySinkAssertionsFactoryImpl
 {
-    public sealed class InMemorySinkAssertionsFactoryImpl : InMemorySinkAssertionsFactory
-    {
-        public InMemorySinkAssertions CreateInMemorySinkAssertions(InMemorySink snapshotInstance)
-        {
-            return new InMemorySinkAssertionsImpl(snapshotInstance);
-        }
-    }
+    public InMemorySinkAssertions CreateInMemorySinkAssertions(InMemorySink snapshotInstance)
+        => new InMemorySinkAssertionsImpl(snapshotInstance);
 }

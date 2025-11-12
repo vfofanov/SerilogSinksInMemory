@@ -1,6 +1,8 @@
-﻿namespace Serilog.Sinks.InMemory.Assertions;
+﻿using Serilog.Events;
 
-public interface LogEventPropertyValueAssertions
+namespace Serilog.Sinks.InMemory.Assertions;
+
+public interface LogEventPropertyValueAssertions: ISubjectAssertions<LogEventPropertyValue>
 {
     TValue WhichValue<TValue>();
     StructuredValueAssertions HavingADestructuredObject(string because = "", params object[] becauseArgs);

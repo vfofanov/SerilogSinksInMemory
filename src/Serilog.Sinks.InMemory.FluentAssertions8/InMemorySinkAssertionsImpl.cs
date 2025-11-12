@@ -1,102 +1,15 @@
 ﻿#nullable enable
+namespace Serilog.Sinks.InMemory.AssertionsFrameworkExtension;
 
-using System;
-using System.Linq;
-using FluentAssertions.Execution;
-using FluentAssertions.Primitives;
-using Serilog.Events;
-using Serilog.Sinks.InMemory.Assertions;
-
-namespace Serilog.Sinks.InMemory.FluentAssertions8
+partial class InMemorySinkAssertionsImpl : ReferenceTypeAssertions<InMemorySink, InMemorySinkAssertionsImpl>
 {
-    public class InMemorySinkAssertionsImpl : ReferenceTypeAssertions<InMemorySink, InMemorySinkAssertionsImpl>, InMemorySinkAssertions
+    public InMemorySinkAssertionsImpl(InMemorySink snapshotInstance)
+        : base(snapshotInstance, AssertionChain.GetOrCreate())
     {
-        public InMemorySinkAssertionsImpl(InMemorySink snapshotInstance)
-            : base(snapshotInstance, AssertionChain.GetOrCreate())
-        {
-        }
-
-        protected override string Identifier => nameof(InMemorySink);
-
-        public LogEventsAssertions HaveMessage(
-            Func<LogEvent, bool> predicate,
-            string? predicateErrorName = null,
-            string because = "",
-            params object[] becauseArgs)
-        {
-            predicateErrorName ??= "<predicate>";
-
-            var matches = Subject
-                .LogEvents
-                .Where(predicate)
-                .ToArray();
-
-            CurrentAssertionChain
-                .BecauseOf(because, becauseArgs)
-                .ForCondition(matches.Any())
-                .FailWith(
-                    "Expected message {0} to be logged",
-                    predicateErrorName);
-
-            return new LogEventsAssertionsImpl(predicateErrorName, matches, CurrentAssertionChain);
-        }
-
-        public LogEventsAssertions HaveMessage(
-            string messageTemplate,
-            string because = "",
-            params object[] becauseArgs)
-        {
-            return HaveMessage(logEvent => logEvent.MessageTemplate.Text == messageTemplate, messageTemplate, because, becauseArgs);
-        }
-
-        public PatternLogEventsAssertions HaveMessage()
-        {
-            return new PatternLogEventsAssertionsImpl(Subject.LogEvents, CurrentAssertionChain);
-        }
-
-        public void NotHaveMessage(
-            string? messageTemplate = null,
-            string because = "",
-            params object[] becauseArgs)
-        {
-            if (messageTemplate != null)
-            {
-                NotHaveMessage(logEvent => logEvent.MessageTemplate.Text == messageTemplate, messageTemplate, because, becauseArgs);
-            }
-            else
-            {
-                NotHaveMessage(null, messageTemplate, because, becauseArgs);
-            }
-        }
-
-        public void NotHaveMessage(Func<LogEvent, bool>? predicate, string? predicateErrorName = null, string because = "", params object[] becauseArgs)
-        {
-            predicateErrorName ??= "<predicate>";
-
-            int count;
-            string failureMessage;
-
-            if (predicate != null)
-            {
-                count = Subject
-                    .LogEvents
-                    .Count(predicate);
-
-                failureMessage = $"Expected message \"{predicateErrorName}\" not to be logged, but it was found {(count > 1 ? $"{count} times" : "once")}";
-            }
-            else
-            {
-                count = Subject
-                    .LogEvents
-                    .Count();
-
-                failureMessage = $"Expected no messages to be logged, but found {(count > 1 ? $"{count} messages" : "message")}";
-            }
-
-            CurrentAssertionChain
-                .BecauseOf(because, becauseArgs)
-                .ForCondition(count == 0)
-                .FailWith(failureMessage);
-        }
     }
+
+    protected override string Identifier => nameof(InMemorySink);
+
+    public void Assert(bool condition, FailMessage failureMessage, string because = "", params object[] becauseArgs)
+        => CurrentAssertionChain.Assert(condition, failureMessage, because: because, becauseArgs: becauseArgs);
 }

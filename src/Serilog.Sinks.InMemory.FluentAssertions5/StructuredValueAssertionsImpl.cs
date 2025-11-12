@@ -1,35 +1,16 @@
-﻿using System.Linq;
-using FluentAssertions.Execution;
-using FluentAssertions.Primitives;
-using Serilog.Events;
-using Serilog.Sinks.InMemory.Assertions;
+﻿namespace Serilog.Sinks.InMemory.AssertionsFrameworkExtension;
 
-namespace Serilog.Sinks.InMemory.FluentAssertions5;
-
-public class StructuredValueAssertionsImpl : ReferenceTypeAssertions<StructureValue, StructuredValueAssertionsImpl>, StructuredValueAssertions
+partial class StructuredValueAssertionsImpl : ReferenceTypeAssertions<StructureValue, StructuredValueAssertionsImpl>
 {
-    private readonly LogEventAssertionImpl _logEventAssertion;
-
-    public StructuredValueAssertionsImpl(StructureValue subject, string propertyName, LogEventAssertionImpl logEventAssertion) : base(subject)
+    public StructuredValueAssertionsImpl(LogEventAssertionImpl logEventAssertion, StructureValue subject, string propertyName)
+        : base(subject)
     {
-        Identifier = propertyName;
+        _propertyName = propertyName;
         _logEventAssertion = logEventAssertion;
     }
 
-    protected override string Identifier { get; }
+    protected override string Identifier => _propertyName;
 
-    public LogEventPropertyValueAssertions WithProperty(string name, string because = "", params object[] becauseArgs)
-    {
-        Execute.Assertion
-            .BecauseOf(because, becauseArgs)
-            .ForCondition(Subject.Properties.Any(p => p.Name == name))
-            .FailWith("Expected destructured object property {0} to have a property {1} but it wasn't found",
-                Identifier,
-                name);
-
-        return new LogEventPropertyValueAssertionsImpl(
-            _logEventAssertion,
-            Subject.Properties.Single(p => p.Name == name).Value,
-            name);
-    }
+    public void Assert(bool condition, FailMessage failureMessage, string because = "", params object[] becauseArgs)
+        => failureMessage.Assert(condition, because: because, becauseArgs: becauseArgs);
 }

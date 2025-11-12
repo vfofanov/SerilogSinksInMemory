@@ -1,6 +1,9 @@
-﻿namespace Serilog.Sinks.InMemory.Assertions;
+﻿using System.Collections.Generic;
+using Serilog.Events;
 
-public interface LogEventsPropertyAssertion
+namespace Serilog.Sinks.InMemory.Assertions;
+
+public interface LogEventsPropertyAssertion : ISubjectAssertions<IReadOnlyCollection<LogEvent>>
 {
     LogEventsAssertions WithValues(params object[] values);
 }

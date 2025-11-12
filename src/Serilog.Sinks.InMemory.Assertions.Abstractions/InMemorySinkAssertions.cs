@@ -5,10 +5,8 @@ using Serilog.Events;
 
 namespace Serilog.Sinks.InMemory.Assertions
 {
-    public interface InMemorySinkAssertions
+    public interface InMemorySinkAssertions : ISubjectAssertions<InMemorySink>
     {
-        InMemorySink Subject { get; }
-
         LogEventsAssertions HaveMessage(
             Func<LogEvent, bool> predicate,
             string? predicateErrorName = null,
