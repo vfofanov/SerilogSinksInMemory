@@ -5,6 +5,7 @@
 
     <IsPackable>false</IsPackable>
     <DefineConstants>$(DefineConstants);AWESOMEASSERTIONS_8</DefineConstants>
+    <RootNamespace>Serilog.Sinks.InMemory.AssertionsTests</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

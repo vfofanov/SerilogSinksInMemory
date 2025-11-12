@@ -5,6 +5,7 @@
 
     <IsPackable>false</IsPackable>
     <DefineConstants>$(DefineConstants);FLUENTASSERTIONS_6</DefineConstants>
+    <RootNamespace>Serilog.Sinks.InMemory.AssertionsTests</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

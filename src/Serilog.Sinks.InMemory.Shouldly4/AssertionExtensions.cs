@@ -1,3 +1,7 @@
+// ReSharper disable CoVariantArrayConversion
+
+using System.Collections;
+
 namespace Serilog.Sinks.InMemory.AssertionsFrameworkExtension;
 
 internal static class AssertionExtensions
@@ -15,11 +19,19 @@ internal static class AssertionExtensions
         var message = failureMessage.Message;
         if (failureMessage.Args.Length != 0)
         {
-            message = string.Format(message, failureMessage.Args);
+            message = string.Format(message, FormatArgs(failureMessage.Args));
         }
 
         throw new ShouldAssertException(message);
     }
+
+    private static string[] FormatArgs(IEnumerable args)
+        => args.Cast<object>().Select(arg => arg switch
+        {
+            null => null,
+            string str => $"\"{str}\"",
+            _ => typeof(IEnumerable).IsAssignableFrom(arg.GetType()) ? $"{{{string.Join(", ", FormatArgs((IEnumerable)arg))}}}" : arg.ToString(),
+        }).ToArray();
 
     public static LogEventsAssertions CreateLogEventsAssertions<TSubject>(
         this BaseShouldlyAssertions<TSubject> parent,
