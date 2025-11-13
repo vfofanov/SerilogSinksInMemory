@@ -22,13 +22,13 @@ internal static class AssertionExtensions
         this ReferenceTypeAssertions<TSubject, TAssertions> parent,
         string pattern,
         IReadOnlyCollection<LogEvent> logEvents)
-        where TAssertions : ReferenceTypeAssertions<TSubject, TAssertions>
+        where TAssertions : BaseAssertions<TSubject, TAssertions>
         => new LogEventsAssertionsImpl(pattern, logEvents, parent.CurrentAssertionChain);
 
     public static PatternLogEventsAssertions CreatePatternLogEventsAssertions<TSubject, TAssertions>(
         this ReferenceTypeAssertions<TSubject, TAssertions> parent,
         IReadOnlyCollection<LogEvent> logEvents)
-        where TAssertions : ReferenceTypeAssertions<TSubject, TAssertions>
+        where TAssertions : BaseAssertions<TSubject, TAssertions>
         => new PatternLogEventsAssertionsImpl(logEvents, parent.CurrentAssertionChain);
 
     public static StructuredValueAssertions CreateStructuredValueAssertions(
@@ -47,7 +47,7 @@ internal static class AssertionExtensions
         this ReferenceTypeAssertions<TSubject, TAssertions> parent,
         string messageTemplate,
         LogEvent logEvent)
-        where TAssertions : ReferenceTypeAssertions<TSubject, TAssertions>
+        where TAssertions : BaseAssertions<TSubject, TAssertions>
         => new LogEventAssertionImpl(messageTemplate, logEvent, parent.CurrentAssertionChain);
 
     public static LogEventsPropertyAssertion CreateLogEventsPropertyAssertion(

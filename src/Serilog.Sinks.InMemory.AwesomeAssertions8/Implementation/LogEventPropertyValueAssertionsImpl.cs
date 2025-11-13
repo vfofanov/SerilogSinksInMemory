@@ -1,6 +1,6 @@
 ﻿namespace Serilog.Sinks.InMemory.AssertionsFrameworkExtension;
 
-public partial class LogEventPropertyValueAssertionsImpl : LogEventPropertyValueAssertions, IInMemorySinkAssertionsExtension
+public partial class LogEventPropertyValueAssertionsImpl : LogEventPropertyValueAssertions
 {
     private readonly string _propertyName;
     private readonly LogEventAssertionImpl _logEventAssertion;
@@ -50,8 +50,6 @@ public partial class LogEventPropertyValueAssertionsImpl : LogEventPropertyValue
                 _propertyName),
             because, becauseArgs);
 
-        return AssertionExtensions.CreateStructuredValueAssertions(_logEventAssertion, Subject as StructureValue, _propertyName);
+        return _logEventAssertion.CreateStructuredValueAssertions(Subject as StructureValue, _propertyName);
     }
-
-    public AssertionFramework AssertionFramework => AssertionExtensions.AssertionFramework;
 }

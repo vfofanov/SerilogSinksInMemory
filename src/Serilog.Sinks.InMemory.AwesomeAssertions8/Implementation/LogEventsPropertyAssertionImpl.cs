@@ -1,6 +1,6 @@
 ﻿namespace Serilog.Sinks.InMemory.AssertionsFrameworkExtension;
 
-public partial class LogEventsPropertyAssertionImpl : LogEventsPropertyAssertion, IInMemorySinkAssertionsExtension
+public partial class LogEventsPropertyAssertionImpl : LogEventsPropertyAssertion
 {
     private readonly string _propertyName;
     private readonly LogEventsAssertions _logEventsAssertions;
@@ -26,8 +26,6 @@ public partial class LogEventsPropertyAssertionImpl : LogEventsPropertyAssertion
 
         return _logEventsAssertions;
     }
-
-    public AssertionFramework AssertionFramework => AssertionExtensions.AssertionFramework;
 
     private object GetValueFromProperty(LogEventPropertyValue instance)
         => instance switch

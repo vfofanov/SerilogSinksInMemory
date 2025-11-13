@@ -27,6 +27,4 @@ public partial class LogEventAssertionImpl : LogEventAssertion, IInMemorySinkAss
 
         return this;
     }
-
-    public AssertionFramework AssertionFramework => AssertionExtensions.AssertionFramework;
 }

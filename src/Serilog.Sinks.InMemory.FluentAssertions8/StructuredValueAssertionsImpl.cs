@@ -1,6 +1,6 @@
 ﻿namespace Serilog.Sinks.InMemory.AssertionsFrameworkExtension;
 
-partial class StructuredValueAssertionsImpl : ReferenceTypeAssertions<StructureValue, StructuredValueAssertionsImpl>
+partial class StructuredValueAssertionsImpl : BaseAssertions<StructureValue, StructuredValueAssertionsImpl>
 {
     public StructuredValueAssertionsImpl(LogEventAssertionImpl logEventAssertion, StructureValue subject, string propertyName)
         : base(subject, logEventAssertion.CurrentAssertionChain)
@@ -10,7 +10,4 @@ partial class StructuredValueAssertionsImpl : ReferenceTypeAssertions<StructureV
     }
 
     protected override string Identifier => _propertyName;
-
-    public void Assert(bool condition, FailMessage failureMessage, string because = "", params object[] becauseArgs)
-        => CurrentAssertionChain.Assert(condition, failureMessage, because: because, becauseArgs: becauseArgs);
 }

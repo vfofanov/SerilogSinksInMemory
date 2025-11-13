@@ -10,7 +10,5 @@ partial class LogEventAssertionImpl : BaseShouldlyAssertions<LogEvent>
     }
 
     public void Match(Func<LogEvent, bool> predicate)
-    {
-        Subject.ShouldSatisfyAllConditions(logEvent => predicate(logEvent).ShouldBeTrue());
-    }
+        => Subject.ShouldSatisfyAllConditions(logEvent => predicate(logEvent).ShouldBeTrue());
 }

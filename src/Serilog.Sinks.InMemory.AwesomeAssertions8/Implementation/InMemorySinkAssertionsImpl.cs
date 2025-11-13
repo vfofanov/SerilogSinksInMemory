@@ -2,7 +2,7 @@
 
 namespace Serilog.Sinks.InMemory.AssertionsFrameworkExtension;
 
-public partial class InMemorySinkAssertionsImpl : InMemorySinkAssertions, IInMemorySinkAssertionsExtension
+public partial class InMemorySinkAssertionsImpl : InMemorySinkAssertions
 {
     public LogEventsAssertions HaveMessage(
         Func<LogEvent, bool> predicate,
@@ -73,6 +73,4 @@ public partial class InMemorySinkAssertionsImpl : InMemorySinkAssertions, IInMem
 
         Assert(count == 0, failureMessage, because, becauseArgs);
     }
-
-    public AssertionFramework AssertionFramework => AssertionExtensions.AssertionFramework;
 }

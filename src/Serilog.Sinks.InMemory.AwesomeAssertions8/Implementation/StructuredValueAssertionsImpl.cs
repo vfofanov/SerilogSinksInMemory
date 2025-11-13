@@ -1,6 +1,6 @@
 ﻿namespace Serilog.Sinks.InMemory.AssertionsFrameworkExtension;
 
-public partial class StructuredValueAssertionsImpl : StructuredValueAssertions, IInMemorySinkAssertionsExtension
+public partial class StructuredValueAssertionsImpl : StructuredValueAssertions
 {
     private readonly string _propertyName;
     private readonly LogEventAssertionImpl _logEventAssertion;
@@ -18,6 +18,4 @@ public partial class StructuredValueAssertionsImpl : StructuredValueAssertions, 
             Subject.Properties.Single(p => p.Name == name).Value,
             name);
     }
-
-    public AssertionFramework AssertionFramework => AssertionExtensions.AssertionFramework;
 }
