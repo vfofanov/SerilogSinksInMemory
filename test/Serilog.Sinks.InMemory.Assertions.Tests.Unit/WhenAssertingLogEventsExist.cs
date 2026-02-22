@@ -117,4 +117,20 @@ public class WhenAssertingLogEventsExist
             .Throw<XunitException>()
             .WithMessage("Expected message \"Hello, World\" not to be logged, but it was found 3 times");
     }
+
+    [Fact]
+    public void GivenNoMessages_NotHaveMessageSucceeds()
+    {
+        InMemorySink.Instance
+            .Should()
+            .NotHaveMessage();
+    }
+
+    [Fact]
+    public void GivenNoMessages_NotHaveMessageWithTemplateSucceeds()
+    {
+        InMemorySink.Instance
+            .Should()
+            .NotHaveMessage("Some message that was never logged");
+    }
 }
