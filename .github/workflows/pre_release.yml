@@ -1,11 +1,23 @@
 name: pre-release
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      prerelease_suffix:
+        description: NuGet prerelease suffix without leading dash, for example beta.1 or rc.1
+        required: true
+        default: beta.1
+
+env:
+  PACKAGE_OUTPUT_DIRECTORY: ${{ github.workspace }}/packages
+  NUGET_SOURCE_URL: https://api.nuget.org/v3/index.json
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
     - uses: actions/checkout@v4
@@ -19,103 +31,97 @@ jobs:
       id: get_version
       uses: mavrosxristoforos/get-xml-info@1.0
       with:
-        xml-file: './Directory.Build.props'
+        xml-file: './version.props'
         xpath: '//Version'
 
-    - name: Create short version
-      id: shortversion
-      run: |
-        $full = "${{ steps.get_version.outputs.info }}"
-        $version = $full.Substring(0, $full.LastIndexOf("."))
-        "shortversion=$version-alpha" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
-      shell: pwsh
+    - name: Prerelease version
+      id: prerelease_version
+      run: echo "value=${{ steps.get_version.outputs.info }}-${{ inputs.prerelease_suffix }}" >> $GITHUB_OUTPUT
 
     - name: Restore dependencies
       run: dotnet restore SerilogSinksInMemory.slnx
 
     - name: Build
-      run: dotnet build -c Release -p:Version=${{ steps.shortversion.outputs.shortversion }} SerilogSinksInMemory.slnx
+      run: dotnet build -c Release -p:Version=${{ steps.prerelease_version.outputs.value }} SerilogSinksInMemory.slnx
 
     - name: Test
       run: dotnet test --solution SerilogSinksInMemory.slnx -c Release --no-build
 
-    - name: Create NuGet package for Serilog.Sinks.InMemory
-      run: dotnet pack ./src/Serilog.Sinks.InMemory/Serilog.Sinks.InMemory.csproj -c Release -o ./packages -p:Version=${{ steps.shortversion.outputs.shortversion }}
-
-    - name: Create NuGet package for Serilog.Sinks.InMemory.Assertions
-      run: dotnet pack ./src/Serilog.Sinks.InMemory.Assertions/Serilog.Sinks.InMemory.Assertions.csproj -c Release -o ./packages -p:Version=${{ steps.shortversion.outputs.shortversion }}
+    - name: Pack NuGet packages
+      run: |
+        dotnet pack ./src/Serilog.Sinks.InMemory/Serilog.Sinks.InMemory.csproj -c Release -o ${{ env.PACKAGE_OUTPUT_DIRECTORY }} --no-build -p:Version=${{ steps.prerelease_version.outputs.value }}
+        # Keep the assertions package build-enabled: its satellite assertion assemblies must be
+        # copied into the output before packing or the resulting .nupkg will be incomplete.
+        dotnet pack ./src/Serilog.Sinks.InMemory.Assertions/Serilog.Sinks.InMemory.Assertions.csproj -c Release -o ${{ env.PACKAGE_OUTPUT_DIRECTORY }} -p:Version=${{ steps.prerelease_version.outputs.value }}
 
     - name: Run integration tests for FluentAssertions 5
       working-directory: test/Serilog.Sinks.InMemory.Assertions.Tests.Integration.FluentAssertions5
       run: |
-        dotnet restore -p:Version=${{ steps.shortversion.outputs.shortversion }}
+        dotnet restore -p:Version=${{ steps.prerelease_version.outputs.value }}
         dotnet test --no-restore -c Release --project Serilog.Sinks.InMemory.Assertions.Tests.Integration.FluentAssertions5.csproj
 
     - name: Run integration tests for FluentAssertions 6
       working-directory: test/Serilog.Sinks.InMemory.Assertions.Tests.Integration.FluentAssertions6
       run: |
-        dotnet restore -p:Version=${{ steps.shortversion.outputs.shortversion }}
+        dotnet restore -p:Version=${{ steps.prerelease_version.outputs.value }}
         dotnet test --no-restore -c Release --project Serilog.Sinks.InMemory.Assertions.Tests.Integration.FluentAssertions6.csproj
 
     - name: Run integration tests for FluentAssertions 7
       working-directory: test/Serilog.Sinks.InMemory.Assertions.Tests.Integration.FluentAssertions7
       run: |
-        dotnet restore -p:Version=${{ steps.shortversion.outputs.shortversion }}
+        dotnet restore -p:Version=${{ steps.prerelease_version.outputs.value }}
         dotnet test --no-restore -c Release --project Serilog.Sinks.InMemory.Assertions.Tests.Integration.FluentAssertions7.csproj
 
     - name: Run integration tests for FluentAssertions 8
       working-directory: test/Serilog.Sinks.InMemory.Assertions.Tests.Integration.FluentAssertions8
       run: |
-        dotnet restore -p:Version=${{ steps.shortversion.outputs.shortversion }}
+        dotnet restore -p:Version=${{ steps.prerelease_version.outputs.value }}
         dotnet test --no-restore -c Release --project Serilog.Sinks.InMemory.Assertions.Tests.Integration.FluentAssertions8.csproj
 
     - name: Run integration tests for AwesomeAssertions 8
       working-directory: test/Serilog.Sinks.InMemory.Assertions.Tests.Integration.AwesomeAssertions8
       run: |
-        dotnet restore -p:Version=${{ steps.shortversion.outputs.shortversion }}
+        dotnet restore -p:Version=${{ steps.prerelease_version.outputs.value }}
         dotnet test --no-restore -c Release --project Serilog.Sinks.InMemory.Assertions.Tests.Integration.AwesomeAssertions8.csproj
 
     - name: Run integration tests for AwesomeAssertions 9
       working-directory: test/Serilog.Sinks.InMemory.Assertions.Tests.Integration.AwesomeAssertions9
       run: |
-        dotnet restore -p:Version=${{ steps.shortversion.outputs.shortversion }}
+        dotnet restore -p:Version=${{ steps.prerelease_version.outputs.value }}
         dotnet test --no-restore -c Release --project Serilog.Sinks.InMemory.Assertions.Tests.Integration.AwesomeAssertions9.csproj
 
     - name: Run integration tests for Shouldly 4.x
       working-directory: test/Serilog.Sinks.InMemory.Assertions.Tests.Integration.Shouldly4
       run: |
-        dotnet restore -p:Version=${{ steps.shortversion.outputs.shortversion }}
+        dotnet restore -p:Version=${{ steps.prerelease_version.outputs.value }}
         dotnet test --no-restore -c Release --project Serilog.Sinks.InMemory.Assertions.Tests.Integration.Shouldly4.csproj
 
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Create GitHub prerelease with NuGet assets
+      uses: softprops/action-gh-release@v2
       with:
-        tag_name: ${{ steps.get_version.outputs.info }}-alpha
-        release_name: ${{ steps.get_version.outputs.info }}-alpha
-        draft: false
+        tag_name: ${{ steps.prerelease_version.outputs.value }}
+        target_commitish: ${{ github.sha }}
+        name: ${{ steps.prerelease_version.outputs.value }}
         prerelease: true
-
-    - name: Upload sink NuGet package
-      id: upload-nuget-sink
-      uses: actions/upload-release-asset@v1
+        generate_release_notes: true
+        files: ${{ env.PACKAGE_OUTPUT_DIRECTORY }}/*.nupkg
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-        asset_path: ./packages/Serilog.Sinks.InMemory.${{ steps.shortversion.outputs.shortversion }}.nupkg
-        asset_name: Serilog.Sinks.InMemory.${{ steps.shortversion.outputs.shortversion }}.nupkg
-        asset_content_type: application/octet-stream
 
-    - name: Upload assertions NuGet package
-      id: upload-nuget-assertions
-      uses: actions/upload-release-asset@v1
+    - name: Resolve NuGet API key
+      id: nuget_api_key
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-        asset_path: ./packages/Serilog.Sinks.InMemory.Assertions.${{ steps.shortversion.outputs.shortversion }}.nupkg
-        asset_name: Serilog.Sinks.InMemory.Assertions.${{ steps.shortversion.outputs.shortversion }}.nupkg
-        asset_content_type: application/octet-stream
+        NUGET_ORG_API_KEY: ${{ secrets.NUGET_ORG_API_KEY }}
+        NUGET_TOKEN: ${{ secrets.NUGET_TOKEN }}
+      run: |
+        if [ -n "$NUGET_ORG_API_KEY" ]; then
+          echo "value=$NUGET_ORG_API_KEY" >> "$GITHUB_OUTPUT"
+        elif [ -n "$NUGET_TOKEN" ]; then
+          echo "value=$NUGET_TOKEN" >> "$GITHUB_OUTPUT"
+        else
+          echo "Neither NUGET_ORG_API_KEY nor NUGET_TOKEN is configured."
+          exit 1
+        fi
+
+    - name: Publish prerelease packages to NuGet.org
+      run: dotnet nuget push ${{ env.PACKAGE_OUTPUT_DIRECTORY }}/*.nupkg -k ${{ steps.nuget_api_key.outputs.value }} -s ${{ env.NUGET_SOURCE_URL }} --skip-duplicate --no-symbols

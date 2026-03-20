@@ -1,16 +1,7 @@
 <Project>
-  <PropertyGroup Condition="'$(IsPackable)'=='True'">
-    <PackageVersion>$(Version)$(VersionSuffix)</PackageVersion>
-    <PackageIcon>images\icon.png</PackageIcon>
-    <PackageIconUrl>https://serilog.net/images/serilog-sink-nuget.png</PackageIconUrl>
-    <PackageProjectUrl>https://github.com/sandermvanvliet/SerilogSinksInMemory/</PackageProjectUrl>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <RepositoryUrl>https://github.com/sandermvanvliet/SerilogSinksInMemory/</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-  </PropertyGroup>
+  <Import Project="$(MSBuildThisFileDirectory).msbuild\package.props" Condition="'$(IsPackable)'=='True'" />
 
-  <ItemGroup Condition="'$(IsTestsProject)'!='True'">
+  <ItemGroup Condition="'$(IsPackable)'=='True'">
     <None Include="..\..\asset\serilog-sink-nuget.png" Pack="true" Visible="false" PackagePath="images\icon.png" />
     <None Include="..\..\README.md" Pack="true" Visible="true" PackagePath="\" />
     <None Include="..\..\Changelog.md" Pack="true" Visible="true" PackagePath="\" />

@@ -1,12 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <IsPackable>true</IsPackable>
     <Title>Serilog in-memory sink assertion extensions</Title>
     <Description>Assertions extensions to use with the Serilog.Sinks.InMemory package</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Serilog" PrivateAssets="all"/>
+    <PackageReference Include="Serilog" PrivateAssets="all" />
+  </ItemGroup>
+
+  <!-- Filename must match PackageId: $(NuGetPackageIdPrefix).Serilog.Sinks.InMemory.Assertions.targets -->
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)build\Serilog.Sinks.InMemory.Assertions.buildTransitive.targets" Pack="true"
+          PackagePath="buildTransitive\$(NuGetPackageIdPrefix).Serilog.Sinks.InMemory.Assertions.targets" />
   </ItemGroup>
 
   <ItemGroup>

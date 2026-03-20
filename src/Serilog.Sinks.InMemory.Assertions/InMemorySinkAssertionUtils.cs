@@ -34,33 +34,33 @@ public static class InMemorySinkAssertionUtils
         // looking on disk because otherwise we might load FluentAssertions from disk
         // while Shouldly is already loaded into the AppDomain and that's the one we
         // should be using.
-        // That's also a guess but hey, if you mix and match assertion frameworks you
-        // can deal with the fall out.
-        if (IsFluentAssertionsAlreadyLoadedIntoDomain(out var fluentAssertionsAssembly))
-        {
-            assertionFramework = AssertionFrameworks.FluentAssertions; // "FluentAssertions"
-            majorVersion = fluentAssertionsAssembly.GetName().Version.Major;
-        }
-        else if (IsAwesomeAssertionsAlreadyLoadedIntoDomain(out var awesomeAssertionsAssembly))
+        // AwesomeAssertions ships as FluentAssertions.dll (v8) or AwesomeAssertions.dll (v9+);
+        // detect Awesome before FluentAssertions so the fork is not mistaken for upstream FA.
+        if (IsAwesomeAssertionsAlreadyLoadedIntoDomain(out var awesomeAssertionsAssembly))
         {
             assertionFramework = AssertionFrameworks.AwesomeAssertions;
-            majorVersion = awesomeAssertionsAssembly.GetName().Version.Major;
+            majorVersion = awesomeAssertionsAssembly.GetName().Version!.Major;
+        }
+        else if (IsFluentAssertionsAlreadyLoadedIntoDomain(out var fluentAssertionsAssembly))
+        {
+            assertionFramework = AssertionFrameworks.FluentAssertions; // "FluentAssertions"
+            majorVersion = fluentAssertionsAssembly.GetName().Version!.Major;
         }
         else if (IsShouldlyAlreadyLoadedIntoDomain(out var shouldlyAssembly))
         {
             assertionFramework = AssertionFrameworks.Shouldly;
-            majorVersion = shouldlyAssembly.GetName().Version.Major;
-        }
-        else if (IsFluentAssertionsAvailableOnDisk(assemblyLocation, out var fluentAssertionsOnDiskAssembly))
-        {
-            assertionFramework = AssertionFrameworks.FluentAssertions;
-            majorVersion = fluentAssertionsOnDiskAssembly.GetName().Version.Major;
+            majorVersion = shouldlyAssembly.GetName().Version!.Major;
         }
         else if (IsAwesomeAssertionsAvailableOnDisk(assemblyLocation,
                      out var awesomeAssertionsOnDiskAssembly))
         {
             assertionFramework = AssertionFrameworks.AwesomeAssertions;
-            majorVersion = awesomeAssertionsOnDiskAssembly.GetName().Version.Major;
+            majorVersion = awesomeAssertionsOnDiskAssembly.GetName().Version!.Major;
+        }
+        else if (IsFluentAssertionsAvailableOnDisk(assemblyLocation, out var fluentAssertionsOnDiskAssembly))
+        {
+            assertionFramework = AssertionFrameworks.FluentAssertions;
+            majorVersion = fluentAssertionsOnDiskAssembly.GetName().Version.Major;
         }
         else if (IsShouldlyAvailableOnDisk(assemblyLocation, out var shouldlyOnDiskAssembly))
         {
@@ -113,15 +113,20 @@ public static class InMemorySinkAssertionUtils
             .GetAssemblies()
             .FirstOrDefault(assembly =>
             {
-                if (assembly.GetName().Name.Equals("FluentAssertions"))
+                if (!assembly.GetName().Name!.Equals("FluentAssertions", StringComparison.Ordinal))
                 {
-                    var metadataAttributes = assembly.GetCustomAttributes<AssemblyMetadataAttribute>().ToArray();
-
-                    return !metadataAttributes.Any() ||
-                           metadataAttributes.Any(metadata => metadata.Value.Contains("FluentAssertions", StringComparison.OrdinalIgnoreCase));
+                    return false;
                 }
 
-                return false;
+                if (IsAwesomeAssertionsAssembly(assembly))
+                {
+                    return false;
+                }
+
+                var metadataAttributes = assembly.GetCustomAttributes<AssemblyMetadataAttribute>().ToArray();
+
+                return !metadataAttributes.Any() ||
+                       metadataAttributes.Any(metadata => metadata.Value.Contains("FluentAssertions", StringComparison.OrdinalIgnoreCase));
             });
 
         return fluentAssertionsAssembly != null;
@@ -133,12 +138,33 @@ public static class InMemorySinkAssertionUtils
         awesomeAssertionsAssembly = AppDomain
             .CurrentDomain
             .GetAssemblies()
-            .FirstOrDefault(assembly =>
-                (assembly.GetName().Name.Equals("FluentAssertions") || assembly.GetName().Name.Equals("AwesomeAssertions")) &&
-                assembly.GetCustomAttributes<AssemblyMetadataAttribute>()
-                    .Any(metadata => metadata.Value.Contains("AwesomeAssertions", StringComparison.OrdinalIgnoreCase)));
+            .FirstOrDefault(IsAwesomeAssertionsAssembly);
 
         return awesomeAssertionsAssembly != null;
+    }
+
+    private static bool IsAwesomeAssertionsAssembly(Assembly assembly)
+    {
+        var name = assembly.GetName().Name;
+        if (name.Equals("AwesomeAssertions", StringComparison.Ordinal))
+        {
+            return true;
+        }
+
+        if (!name.Equals("FluentAssertions", StringComparison.Ordinal))
+        {
+            return false;
+        }
+
+        if (assembly.GetCustomAttributes<AssemblyProductAttribute>()
+            .Any(product =>
+                product.Product.Equals("AwesomeAssertions", StringComparison.OrdinalIgnoreCase)))
+        {
+            return true;
+        }
+
+        return assembly.GetCustomAttributes<AssemblyMetadataAttribute>()
+            .Any(metadata => metadata.Value.Contains("AwesomeAssertions", StringComparison.OrdinalIgnoreCase));
     }
 
     private static bool IsShouldlyAlreadyLoadedIntoDomain(
@@ -156,11 +182,19 @@ public static class InMemorySinkAssertionUtils
         string assemblyLocation,
         [NotNullWhen(true)] out Assembly? assembly)
     {
-        var assemblyPath = Path.Combine(assemblyLocation, "FluentAssertions.dll");
-
-        if (File.Exists(assemblyPath))
+        foreach (var baseDir in GetAssertionProbeDirectories(assemblyLocation))
         {
+            var assemblyPath = Path.Combine(baseDir, "FluentAssertions.dll");
+            if (!File.Exists(assemblyPath))
+            {
+                continue;
+            }
+
             assembly = Assembly.LoadFile(assemblyPath);
+            if (IsAwesomeAssertionsAssembly(assembly))
+            {
+                continue;
+            }
 
             var metadataAttributes = assembly.GetCustomAttributes<AssemblyMetadataAttribute>().ToList();
 
@@ -179,22 +213,22 @@ public static class InMemorySinkAssertionUtils
         string assemblyLocation,
         [NotNullWhen(true)] out Assembly? assembly)
     {
-        var assemblyPath = Path.Combine(assemblyLocation, "AwesomeAssertions.dll");
-
-        if (File.Exists(assemblyPath))
+        foreach (var baseDir in GetAssertionProbeDirectories(assemblyLocation))
         {
-            assembly = Assembly.LoadFile(assemblyPath);
-
-            if (assembly.GetCustomAttributes<AssemblyProductAttribute>()
-                .Any(product =>
-                    product.Product.Equals("AwesomeAssertions", StringComparison.CurrentCultureIgnoreCase)))
+            foreach (var fileName in new[] { "AwesomeAssertions.dll", "FluentAssertions.dll" })
             {
-                return true;
-            }
+                var assemblyPath = Path.Combine(baseDir, fileName);
+                if (!File.Exists(assemblyPath))
+                {
+                    continue;
+                }
 
-            if (assembly.GetCustomAttributes<AssemblyMetadataAttribute>()
-                .Any(metadata => metadata.Value.Contains("AwesomeAssertions", StringComparison.OrdinalIgnoreCase)))
-            {
+                assembly = Assembly.LoadFile(assemblyPath);
+                if (!IsAwesomeAssertionsAssembly(assembly))
+                {
+                    continue;
+                }
+
                 return true;
             }
         }
@@ -207,15 +241,33 @@ public static class InMemorySinkAssertionUtils
         string assemblyLocation,
         [NotNullWhen(true)] out Assembly? assembly)
     {
-        var assemblyPath = Path.Combine(assemblyLocation, "Shouldly.dll");
-
-        if (File.Exists(assemblyPath))
+        foreach (var baseDir in GetAssertionProbeDirectories(assemblyLocation))
         {
-            assembly = Assembly.LoadFile(assemblyPath);
-            return true;
+            var assemblyPath = Path.Combine(baseDir, "Shouldly.dll");
+
+            if (File.Exists(assemblyPath))
+            {
+                assembly = Assembly.LoadFile(assemblyPath);
+                return true;
+            }
         }
 
         assembly = null;
         return false;
+    }
+
+    /// <summary>
+    /// NuGet consumers resolve assertion libraries next to the test assembly (BaseDirectory), not only
+    /// next to <see cref="Serilog.Sinks.InMemory.Assertions"/> in the package lib folder.
+    /// </summary>
+    private static IEnumerable<string> GetAssertionProbeDirectories(string packageLibDirectory)
+    {
+        yield return packageLibDirectory;
+
+        var baseDir = AppContext.BaseDirectory;
+        if (!string.IsNullOrEmpty(baseDir))
+        {
+            yield return baseDir;
+        }
     }
 }

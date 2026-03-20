@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <PropertyGroup>
+    <AssemblyTitle>$(MSBuildProjectName)</AssemblyTitle>
+    <Year>$([System.DateTime]::Now.Year)</Year>
+    <Authors>Sander van Vliet;DragoAnt</Authors>
+    <Product>Serilog</Product>
+  </PropertyGroup>
+
+  <!-- Shipped NuGet packages: $(NuGetPackageIdPrefix).<project file name without extension> -->
+  <PropertyGroup Condition="'$(MSBuildProjectName)'=='Serilog.Sinks.InMemory' Or '$(MSBuildProjectName)'=='Serilog.Sinks.InMemory.Assertions'">
+    <PackageId>$(NuGetPackageIdPrefix).$(MSBuildProjectName)</PackageId>
+  </PropertyGroup>
+</Project>

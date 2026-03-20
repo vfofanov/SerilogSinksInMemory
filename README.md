@@ -2,42 +2,48 @@
 
 In-memory sink for Serilog to use for testing with [FluentAssertions](https://fluentassertions.com/), [AwesomeAssertions](https://github.com/AwesomeAssertions/AwesomeAssertions) or [Shouldly](https://docs.shouldly.org/) support for easy-to-write assertions.
 
+This fork is maintained as **`DragoAnt.*` NuGet packages** (same namespaces and assembly names as upstream). **Upstream repository:** [serilog-contrib/SerilogSinksInMemory](https://github.com/serilog-contrib/SerilogSinksInMemory) (also: [sandermvanvliet/SerilogSinksInMemory](https://github.com/sandermvanvliet/SerilogSinksInMemory)).
+
 ## Build status
 
-[![build-and-test](https://github.com/serilog-contrib/SerilogSinksInMemory/actions/workflows/dotnet.yml/badge.svg)](https://github.com/serilog-contrib/SerilogSinksInMemory/actions/workflows/dotnet.yml)
-[![release](https://github.com/serilog-contrib/SerilogSinksInMemory/actions/workflows/release.yml/badge.svg)](https://github.com/serilog-contrib/SerilogSinksInMemory/actions/workflows/release.yml)
+[![build-and-test](https://github.com/vfofanov/SerilogSinksInMemory/actions/workflows/dotnet.yml/badge.svg)](https://github.com/vfofanov/SerilogSinksInMemory/actions/workflows/dotnet.yml)
+[![release](https://github.com/vfofanov/SerilogSinksInMemory/actions/workflows/release.yml/badge.svg)](https://github.com/vfofanov/SerilogSinksInMemory/actions/workflows/release.yml)
 
-[![NuGet Serilog.Sinks.InMemory](https://buildstats.info/nuget/Serilog.Sinks.InMemory)](https://www.nuget.org/packages/Serilog.Sinks.InMemory/)
-[![NuGet Serilog.Sinks.InMemory.Assertions](https://buildstats.info/nuget/Serilog.Sinks.InMemory.Assertions)](https://www.nuget.org/packages/Serilog.Sinks.InMemory.Assertions/)
+[![NuGet DragoAnt.Serilog.Sinks.InMemory](https://buildstats.info/nuget/DragoAnt.Serilog.Sinks.InMemory)](https://www.nuget.org/packages/DragoAnt.Serilog.Sinks.InMemory/)
+[![NuGet DragoAnt.Serilog.Sinks.InMemory.Assertions](https://buildstats.info/nuget/DragoAnt.Serilog.Sinks.InMemory.Assertions)](https://www.nuget.org/packages/DragoAnt.Serilog.Sinks.InMemory.Assertions/)
+
+## Maintainers
+
+Stable releases and beta/prerelease publishing through GitHub Actions are documented in [RELEASING.md](RELEASING.md).
 
 ## Usage
 
-To just use the sink, add the `Serilog.Sinks.InMemory` NuGet package:
+To just use the sink, add the `DragoAnt.Serilog.Sinks.InMemory` NuGet package:
 
 `dotnet` CLI:
 
 ```bash
-dotnet add package Serilog.Sinks.InMemory
+dotnet add package DragoAnt.Serilog.Sinks.InMemory
 ```
 
 PowerShell:
 
 ```PowerShell
-Install-Package Serilog.Sinks.InMemory
+Install-Package DragoAnt.Serilog.Sinks.InMemory
 ```
 
-But it's better with assertions so you'll also want to add the `Serilog.Sinks.InMemory.Assertions` NuGet package:
+But it's better with assertions so you'll also want to add the `DragoAnt.Serilog.Sinks.InMemory.Assertions` NuGet package:
 
 `dotnet` CLI:
 
 ```bash
-dotnet add package Serilog.Sinks.InMemory.Assertions
+dotnet add package DragoAnt.Serilog.Sinks.InMemory.Assertions
 ```
 
 PowerShell:
 
 ```PowerShell
-Install-Package Serilog.Sinks.InMemory.Assertions
+Install-Package DragoAnt.Serilog.Sinks.InMemory.Assertions
 ```
 
 ## Example

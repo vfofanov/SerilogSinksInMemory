@@ -14,8 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Serilog.Sinks.InMemory" VersionOverride="$(Version)" />
-    <PackageReference Include="Serilog.Sinks.InMemory.Assertions" VersionOverride="$(Version)" />
+    <PackageReference Include="$(NuGetPackageIdPrefix).Serilog.Sinks.InMemory" VersionOverride="$(Version)" />
+    <PackageReference Include="$(NuGetPackageIdPrefix).Serilog.Sinks.InMemory.Assertions" VersionOverride="$(Version)" />
   </ItemGroup>
 
   <ItemGroup>

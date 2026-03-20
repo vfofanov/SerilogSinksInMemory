@@ -1,4 +1,12 @@
-﻿# Changelog
+# Changelog
+
+## 3.0.0
+
+- Fork packages published as `DragoAnt.Serilog.Sinks.InMemory` and `DragoAnt.Serilog.Sinks.InMemory.Assertions` (namespaces and assembly names unchanged). Repository metadata points to [vfofanov/SerilogSinksInMemory](https://github.com/vfofanov/SerilogSinksInMemory); upstream remains [serilog-contrib/SerilogSinksInMemory](https://github.com/serilog-contrib/SerilogSinksInMemory).
+- The default `DragoAnt` prefix is configurable via **`NuGetPackageIdPrefix`** in `Directory.Build.props` (used for `PackageId`, integration-test `PackageReference` IDs, and the packed `buildTransitive\$(NuGetPackageIdPrefix).Serilog.Sinks.InMemory.Assertions.targets` path).
+- The assertions package includes `buildTransitive/$(NuGetPackageIdPrefix).Serilog.Sinks.InMemory.Assertions.targets` (packaged from `build/Serilog.Sinks.InMemory.Assertions.buildTransitive.targets`) so consumers get compile references to all shipped assemblies under `lib/netstandard2.0` (not only the primary assembly).
+- Improved assertion-framework detection for NuGet consumers: prefer **AwesomeAssertions** over upstream **FluentAssertions** when both could apply (AwesomeAssertions 8 uses `FluentAssertions.dll`), and probe `AppContext.BaseDirectory` when resolving assertion assemblies on disk.
+- GitHub Actions now supports both tag-driven stable releases and manual prerelease publishing to GitHub Releases and NuGet.org; see `RELEASING.md` for the maintainer workflow.
 
 ## 2.0.0.0
 
