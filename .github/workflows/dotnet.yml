@@ -17,12 +17,21 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           global-json-file: global.json
+
+      - name: Restore dependencies
+        run: dotnet restore SerilogSinksInMemory.slnx
+
+      - name: Build
+        run: dotnet build -c Release SerilogSinksInMemory.slnx
+
       - name: Unit tests
-        run: dotnet test --solution SerilogSinksInMemory.slnx -c Release
+        run: dotnet test --solution SerilogSinksInMemory.slnx -c Release --no-build
 
       - name: Create local packages
         run: |
-          dotnet pack -c Release -o packages src/Serilog.Sinks.InMemory/Serilog.Sinks.InMemory.csproj
+          dotnet pack -c Release -o packages --no-build src/Serilog.Sinks.InMemory/Serilog.Sinks.InMemory.csproj
+          # Keep the assertions package build-enabled: its satellite assertion assemblies must be
+          # copied into the output before packing or the resulting .nupkg will be incomplete.
           dotnet pack -c Release -o packages src/Serilog.Sinks.InMemory.Assertions/Serilog.Sinks.InMemory.Assertions.csproj
 
       - name: Get the version
