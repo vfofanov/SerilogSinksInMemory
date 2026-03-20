@@ -14,7 +14,7 @@ public partial class LogEventPropertyValueAssertionsImpl : LogEventPropertyValue
                     typeof(TValue).Name,
                     scalarValue.Value?.GetType().Name));
 
-            return (TValue)scalarValue.Value;
+            return (TValue)scalarValue.Value!;
         }
 
         throw new Exception(
@@ -35,7 +35,7 @@ public partial class LogEventPropertyValueAssertionsImpl : LogEventPropertyValue
         return _logEventAssertion;
     }
 
-    private object GetValueFromProperty(LogEventPropertyValue instance)
+    private object? GetValueFromProperty(LogEventPropertyValue instance)
         => instance switch
         {
             ScalarValue scalarValue => scalarValue.Value,
@@ -50,6 +50,6 @@ public partial class LogEventPropertyValueAssertionsImpl : LogEventPropertyValue
                 _propertyName),
             because, becauseArgs);
 
-        return _logEventAssertion.CreateStructuredValueAssertions(Subject as StructureValue, _propertyName);
+        return _logEventAssertion.CreateStructuredValueAssertions((StructureValue)Subject, _propertyName);
     }
 }

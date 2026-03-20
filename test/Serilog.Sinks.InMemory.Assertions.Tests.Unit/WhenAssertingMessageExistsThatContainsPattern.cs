@@ -1,4 +1,4 @@
-﻿namespace Serilog.Sinks.InMemory.AssertionsTests;
+namespace Serilog.Sinks.InMemory.AssertionsTests;
 
 public class WhenAssertingMessageExistsThatContainsPattern
 {
@@ -31,7 +31,7 @@ public class WhenAssertingMessageExistsThatContainsPattern
 
         action
             .Should()
-            .Throw<XunitException>()
+            .Throw<Exception>()
             .WithMessage("Expected a message with pattern \"NOT MATCHING\" to be logged");
     }
 
@@ -61,7 +61,7 @@ public class WhenAssertingMessageExistsThatContainsPattern
 
         action
             .Should()
-            .Throw<XunitException>()
+            .Throw<Exception>()
             .WithMessage("Expected no messages to be logged, but found 3 messages");
     }
 

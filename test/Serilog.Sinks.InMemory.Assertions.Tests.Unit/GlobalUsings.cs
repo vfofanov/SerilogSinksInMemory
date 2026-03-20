@@ -1,4 +1,4 @@
-﻿global using System;
+global using System;
 #if AWESOMEASSERTIONS_9
 global using AwesomeAssertions;
 #elif SHOULDLY_4
@@ -9,4 +9,5 @@ global using FluentAssertions;
 global using Serilog.Events;
 global using Xunit;
 global using Xunit.Sdk;
+global using Serilog.Sinks.InMemory.Assertions;
 global using InMemorySinkAssertions = Serilog.Sinks.InMemory.Assertions.InMemorySinkAssertions;

@@ -1,0 +1,41 @@
+<Project>
+  <PropertyGroup Condition="'$(IsPackable)'=='True'">
+    <PackageVersion>$(Version)$(VersionSuffix)</PackageVersion>
+    <PackageIcon>images\icon.png</PackageIcon>
+    <PackageIconUrl>https://serilog.net/images/serilog-sink-nuget.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/sandermvanvliet/SerilogSinksInMemory/</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/sandermvanvliet/SerilogSinksInMemory/</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(IsTestsProject)'!='True'">
+    <None Include="..\..\asset\serilog-sink-nuget.png" Pack="true" Visible="false" PackagePath="images\icon.png" />
+    <None Include="..\..\README.md" Pack="true" Visible="true" PackagePath="\" />
+    <None Include="..\..\Changelog.md" Pack="true" Visible="true" PackagePath="\" />
+  </ItemGroup>
+
+  <PropertyGroup Condition="'$(IsTestsProject)'=='True'">
+    <TestingPlatformDotnetTestSupport Condition="'$(TestingPlatformDotnetTestSupport)'==''">true</TestingPlatformDotnetTestSupport>
+    <ExcludeFromCodeCoverage Condition="'$(ExcludeFromCodeCoverage)'==''">true</ExcludeFromCodeCoverage>
+    <OutputType>Exe</OutputType>
+    <XunitRunnerConfigFileName Condition="'$(XunitRunnerConfigFileName)'==''">xunit.runner.json</XunitRunnerConfigFileName>
+    <XunitTestConfigFileName Condition="'$(XunitTestConfigFileName)'==''">testconfig.json</XunitTestConfigFileName>
+    <UseMicrosoftTestingPlatformRunner Condition="'$(EnableMicrosoftTestingPlatform)'=='true'">true</UseMicrosoftTestingPlatformRunner>
+  </PropertyGroup>
+
+  <!-- xUnit v3 + Microsoft Testing Platform: shared packages for runnable test projects -->
+  <ItemGroup Condition="'$(IsTestsProject)'=='True'">
+    <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" />
+    <PackageReference Include="Microsoft.Testing.Extensions.TrxReport" />
+    <PackageReference Include="xunit.v3.mtp-v2" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(IsTestsProject)'=='True'">
+    <Content Include="$(XunitRunnerConfigFileName)" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="$(XunitTestConfigFileName)" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <Import Project="$(MSBuildThisFileDirectory)build\xunit.v3.routine.targets" />
+</Project>

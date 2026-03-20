@@ -1,6 +1,4 @@
-﻿using Serilog.Sinks.InMemory.Assertions;
-
-namespace Serilog.Sinks.InMemory.AssertionsTests;
+﻿namespace Serilog.Sinks.InMemory.AssertionsTests;
 
 public static class TestInMemorySinkAssertionExtensions
 {

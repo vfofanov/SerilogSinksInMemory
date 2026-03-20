@@ -27,7 +27,7 @@ public partial class LogEventsPropertyAssertionImpl : LogEventsPropertyAssertion
         return _logEventsAssertions;
     }
 
-    private object GetValueFromProperty(LogEventPropertyValue instance)
+    private object? GetValueFromProperty(LogEventPropertyValue instance)
         => instance switch
         {
             ScalarValue scalarValue => scalarValue.Value,

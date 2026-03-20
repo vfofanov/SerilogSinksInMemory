@@ -1,4 +1,4 @@
-﻿namespace Serilog.Sinks.InMemory.AssertionsTests;
+namespace Serilog.Sinks.InMemory.AssertionsTests;
 
 public class WhenAssertingStructuredLogPropertyExists
 {
@@ -71,7 +71,7 @@ public class WhenAssertingStructuredLogPropertyExists
 
         action
             .Should()
-            .Throw<XunitException>()
+            .Throw<Exception>()
             .WithMessage("Expected message \"Hello {NotDestructured}\" to have a property \"NotDestructured\" that holds a destructured object but found a scalar value");
     }
 }

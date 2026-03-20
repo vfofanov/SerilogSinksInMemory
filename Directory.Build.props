@@ -1,9 +1,28 @@
 <Project>
-	<PropertyGroup>
-		<Version>2.0.0.0</Version>
-		<Authors>Sander van Vliet</Authors>
-		<Company>Codenizer BV</Company>
-		<Copyright>2025 Sander van Vliet</Copyright>
-		<LangVersion>latest</LangVersion>
-	</PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>2.0.0.0</Version>
+    <IsPackable>false</IsPackable>
+    <LangVersion>latest</LangVersion>
+
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    
+    <Authors>Sander van Vliet;DragoAnt</Authors>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <IsTestsProject Condition="'$(IsTestsProject)'==''">$([System.String]::Copy('$(MSBuildProjectName)').Contains('.Tests.'))</IsTestsProject>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(IsTestsProject)'=='True'">
+    <TargetFramework></TargetFramework>
+    <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
+    <IsPackable>false</IsPackable>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <EnableMicrosoftTestingPlatform>true</EnableMicrosoftTestingPlatform>
+    <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
+    <GenerateTestingPlatformEntryPoint>true</GenerateTestingPlatformEntryPoint>
+  </PropertyGroup>
 </Project>

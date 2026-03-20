@@ -1,0 +1,6 @@
+<Project>
+  <PropertyGroup>
+    <!-- For solution restore, MSBuild does not always honor properties from Directory.Build.props. -->
+    <RestoreUseStaticGraphEvaluation>true</RestoreUseStaticGraphEvaluation>
+  </PropertyGroup>
+</Project>

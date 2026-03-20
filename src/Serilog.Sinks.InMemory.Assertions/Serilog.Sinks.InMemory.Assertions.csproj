@@ -1,104 +1,84 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<TargetFramework>netstandard2.1</TargetFramework>
-	</PropertyGroup>
+  <PropertyGroup>
+    <Title>Serilog in-memory sink assertion extensions</Title>
+    <Description>Assertions extensions to use with the Serilog.Sinks.InMemory package</Description>
+  </PropertyGroup>
 
-	<PropertyGroup>
-		<IsPackable>true</IsPackable>
-		<Title>Serilog in-memory sink assertion extensions</Title>
-		<Description>FluentAssertions extensions to use with the Serilog.Sinks.InMemory package</Description>
-		<Copyright>2025 Sander van Vliet</Copyright>
-		<Authors>Sander van Vliet</Authors>
-		<PackageProjectUrl>https://github.com/sandermvanvliet/SerilogSinksInMemory/</PackageProjectUrl>
-		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<RepositoryUrl>https://github.com/sandermvanvliet/SerilogSinksInMemory/</RepositoryUrl>
-		<RepositoryType>git</RepositoryType>
-	</PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Serilog" PrivateAssets="all"/>
+  </ItemGroup>
 
-	<PropertyGroup>
-		<PackageVersion>$(Version)$(VersionSuffix)</PackageVersion>
-	</PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Serilog.Sinks.InMemory\Serilog.Sinks.InMemory.csproj" PrivateAssets="all" />
 
-	<ItemGroup>
-		<PackageReference Include="Serilog.Sinks.InMemory" Version="0.*">
-			<PrivateAssets>all</PrivateAssets>
-		</PackageReference>
-		<PackageReference Include="Serilog" Version="4.*">
-			<PrivateAssets>all</PrivateAssets>
-		</PackageReference>
-	</ItemGroup>
+    <!-- 
+    Some trickery involved with this ProjectReference because by default dotnet pack will
+    turn this into a transitive PackageReference but that won't work because the abstractions
+    aren't packaged as a NuGet package...
+    -->
+    <ProjectReference Include="..\Serilog.Sinks.InMemory.Assertions.Abstractions\Serilog.Sinks.InMemory.Assertions.Abstractions.csproj">
+      <ReferenceOutputAssembly>True</ReferenceOutputAssembly>
+      <Package>true</Package> <!-- This ensures it ends up in the NuGet package -->
+      <OutputItemType>Content</OutputItemType> <!-- Pretend this is a content item -->
+      <PackagePath>lib/$(TargetFramework)</PackagePath> <!-- This controls the location in the package, without it this file would end up in content/ -->
+      <ExcludeAssets>all</ExcludeAssets> <!-- This ensures that this reference isn't treated as a transitive dependency -->
+      <CopyToOuptutDirectory>Always</CopyToOuptutDirectory>
+    </ProjectReference>
 
-	<ItemGroup>
-		<ProjectReference Include="..\Serilog.Sinks.InMemory\Serilog.Sinks.InMemory.csproj" />
-		
-		<!-- 
-		Some trickery involved with this ProjectReference because by default dotnet pack will
-		turn this into a transitive PackageReference but that won't work because the abstractions
-		aren't packaged as a NuGet package...
-		-->
-		<ProjectReference Include="..\Serilog.Sinks.InMemory.Assertions.Abstractions\Serilog.Sinks.InMemory.Assertions.Abstractions.csproj">
-			<ReferenceOutputAssembly>True</ReferenceOutputAssembly>
-			<Package>true</Package> <!-- This ensures it ends up in the NuGet package -->
-			<OutputItemType>Content</OutputItemType> <!-- Pretend this is a content item -->
-			<PackagePath>lib/$(TargetFramework)</PackagePath> <!-- This controls the location in the package, without it this file would end up in content/ -->
-			<ExcludeAssets>all</ExcludeAssets> <!-- This ensures that this reference isn't treated as a transitive dependency -->
-			<CopyToOuptutDirectory>Always</CopyToOuptutDirectory>
-		</ProjectReference>
-		
-		<!-- 
-		Reference the projects but never their outputs so that we ensure they're compiled 
-		before this project and copied to the output directory but won't ever be "referenced" 
-		for compilation in the project itself.
-		-->
-		<ProjectReference Include="..\Serilog.Sinks.InMemory.FluentAssertions5\Serilog.Sinks.InMemory.FluentAssertions5.csproj">
-			<ReferenceOutputAssembly>False</ReferenceOutputAssembly> <!-- This prevents it being actually referenced -->
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory> <!-- This ensures the assembly is copied -->  
-			<Package>true</Package> <!-- This ensures it ends up in the NuGet package -->
-			<OutputItemType>Content</OutputItemType> <!-- Pretend this is a content item -->
-			<PackagePath>lib/$(TargetFramework)</PackagePath> <!-- This controls the location in the package, without it this file would end up in content/ -->
-		</ProjectReference>
-		<ProjectReference Include="..\Serilog.Sinks.InMemory.FluentAssertions6\Serilog.Sinks.InMemory.FluentAssertions6.csproj">
-			<ReferenceOutputAssembly>False</ReferenceOutputAssembly>
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-			<Package>true</Package>
-			<OutputItemType>Content</OutputItemType>
-			<PackagePath>lib/$(TargetFramework)</PackagePath>
-		</ProjectReference>
-		<ProjectReference Include="..\Serilog.Sinks.InMemory.FluentAssertions7\Serilog.Sinks.InMemory.FluentAssertions7.csproj">
-			<ReferenceOutputAssembly>False</ReferenceOutputAssembly>
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-			<Package>true</Package>
-			<OutputItemType>Content</OutputItemType>
-			<PackagePath>lib/$(TargetFramework)</PackagePath>
-		</ProjectReference>
-		<ProjectReference Include="..\Serilog.Sinks.InMemory.FluentAssertions8\Serilog.Sinks.InMemory.FluentAssertions8.csproj">
-			<ReferenceOutputAssembly>False</ReferenceOutputAssembly>
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-			<Package>true</Package>
-			<OutputItemType>Content</OutputItemType>
-			<PackagePath>lib/$(TargetFramework)</PackagePath>
-		</ProjectReference>
-		<ProjectReference Include="..\Serilog.Sinks.InMemory.AwesomeAssertions8\Serilog.Sinks.InMemory.AwesomeAssertions8.csproj">
-			<ReferenceOutputAssembly>False</ReferenceOutputAssembly>
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-			<Package>true</Package>
-			<OutputItemType>Content</OutputItemType>
-			<PackagePath>lib/$(TargetFramework)</PackagePath>
-		</ProjectReference>
-		<ProjectReference Include="..\Serilog.Sinks.InMemory.AwesomeAssertions9\Serilog.Sinks.InMemory.AwesomeAssertions9.csproj">
-			<ReferenceOutputAssembly>False</ReferenceOutputAssembly>
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-			<Package>true</Package>
-			<OutputItemType>Content</OutputItemType>
-			<PackagePath>lib/$(TargetFramework)</PackagePath>
-		</ProjectReference>
-		<ProjectReference Include="..\Serilog.Sinks.InMemory.Shouldly4\Serilog.Sinks.InMemory.Shouldly4.csproj">
-			<ReferenceOutputAssembly>False</ReferenceOutputAssembly>
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-			<Package>true</Package>
-			<OutputItemType>Content</OutputItemType>
-			<PackagePath>lib/$(TargetFramework)</PackagePath>
-		</ProjectReference>
-	</ItemGroup>
+    <!-- 
+    Reference the projects but never their outputs so that we ensure they're compiled 
+    before this project and copied to the output directory but won't ever be "referenced" 
+    for compilation in the project itself.
+    -->
+    <ProjectReference Include="..\Serilog.Sinks.InMemory.FluentAssertions5\Serilog.Sinks.InMemory.FluentAssertions5.csproj">
+      <ReferenceOutputAssembly>False</ReferenceOutputAssembly> <!-- This prevents it being actually referenced -->
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory> <!-- This ensures the assembly is copied -->
+      <Package>true</Package> <!-- This ensures it ends up in the NuGet package -->
+      <OutputItemType>Content</OutputItemType> <!-- Pretend this is a content item -->
+      <PackagePath>lib/$(TargetFramework)</PackagePath> <!-- This controls the location in the package, without it this file would end up in content/ -->
+    </ProjectReference>
+    <ProjectReference Include="..\Serilog.Sinks.InMemory.FluentAssertions6\Serilog.Sinks.InMemory.FluentAssertions6.csproj">
+      <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Package>true</Package>
+      <OutputItemType>Content</OutputItemType>
+      <PackagePath>lib/$(TargetFramework)</PackagePath>
+    </ProjectReference>
+    <ProjectReference Include="..\Serilog.Sinks.InMemory.FluentAssertions7\Serilog.Sinks.InMemory.FluentAssertions7.csproj">
+      <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Package>true</Package>
+      <OutputItemType>Content</OutputItemType>
+      <PackagePath>lib/$(TargetFramework)</PackagePath>
+    </ProjectReference>
+    <ProjectReference Include="..\Serilog.Sinks.InMemory.FluentAssertions8\Serilog.Sinks.InMemory.FluentAssertions8.csproj">
+      <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Package>true</Package>
+      <OutputItemType>Content</OutputItemType>
+      <PackagePath>lib/$(TargetFramework)</PackagePath>
+    </ProjectReference>
+    <ProjectReference Include="..\Serilog.Sinks.InMemory.AwesomeAssertions8\Serilog.Sinks.InMemory.AwesomeAssertions8.csproj">
+      <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Package>true</Package>
+      <OutputItemType>Content</OutputItemType>
+      <PackagePath>lib/$(TargetFramework)</PackagePath>
+    </ProjectReference>
+    <ProjectReference Include="..\Serilog.Sinks.InMemory.AwesomeAssertions9\Serilog.Sinks.InMemory.AwesomeAssertions9.csproj">
+      <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Package>true</Package>
+      <OutputItemType>Content</OutputItemType>
+      <PackagePath>lib/$(TargetFramework)</PackagePath>
+    </ProjectReference>
+    <ProjectReference Include="..\Serilog.Sinks.InMemory.Shouldly4\Serilog.Sinks.InMemory.Shouldly4.csproj">
+      <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Package>true</Package>
+      <OutputItemType>Content</OutputItemType>
+      <PackagePath>lib/$(TargetFramework)</PackagePath>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

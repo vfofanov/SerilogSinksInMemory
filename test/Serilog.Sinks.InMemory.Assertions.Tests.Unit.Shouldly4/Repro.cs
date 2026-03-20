@@ -22,21 +22,21 @@ public class Repro
 
 public static class Extension
 {
-    public static void HaveErrorMessageWithException<T>(this InMemorySinkAssertions assertion, string messageTemplate, string innerMessage = null)
+    public static void HaveErrorMessageWithException<T>(this InMemorySinkAssertions assertion, string messageTemplate, string? innerMessage = null)
     {
         if (innerMessage == null)
         {
             assertion.HaveMessage(messageTemplate)
                 .WithLevel(LogEventLevel.Error)
                 .Appearing().Once()
-                .Match(o => o.Exception.GetType() == typeof(T));
+                .Match(o => o.Exception?.GetType() == typeof(T));
         }
 
         assertion.HaveMessage(messageTemplate)
             .WithLevel(LogEventLevel.Error)
             .Appearing().Once()
-            .Match(o => o.Exception.GetType() == typeof(T) &&
-                    o.Exception.Message.Contains(innerMessage)
+            .Match(o => o.Exception?.GetType() == typeof(T) &&
+                    o.Exception.Message.Contains(innerMessage!)
             );
     }
 }

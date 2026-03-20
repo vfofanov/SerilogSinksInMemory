@@ -1,0 +1,56 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/.slnItems/">
+    <File Path="build/xunit.v3.routine.targets" />
+    <File Path="Changelog.md" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Build.targets" />
+    <File Path="Directory.Packages.props" />
+    <File Path="Directory.Solution.props" />
+    <File Path="global.json" />
+    <File Path="LICENSE" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/Serilog.Sinks.InMemory.Assertions.Abstractions/Serilog.Sinks.InMemory.Assertions.Abstractions.csproj" />
+    <Project Path="src/Serilog.Sinks.InMemory.Assertions/Serilog.Sinks.InMemory.Assertions.csproj">
+      <BuildDependency Project="src/Serilog.Sinks.InMemory.FluentAssertions5/Serilog.Sinks.InMemory.FluentAssertions5.csproj" />
+      <BuildDependency Project="src/Serilog.Sinks.InMemory.FluentAssertions6/Serilog.Sinks.InMemory.FluentAssertions6.csproj" />
+      <BuildDependency Project="src/Serilog.Sinks.InMemory.FluentAssertions8/Serilog.Sinks.InMemory.FluentAssertions8.csproj" />
+    </Project>
+    <Project Path="src/Serilog.Sinks.InMemory.AwesomeAssertions8/Serilog.Sinks.InMemory.AwesomeAssertions8.csproj" />
+    <Project Path="src/Serilog.Sinks.InMemory.AwesomeAssertions9/Serilog.Sinks.InMemory.AwesomeAssertions9.csproj" />
+    <Project Path="src/Serilog.Sinks.InMemory.FluentAssertions5/Serilog.Sinks.InMemory.FluentAssertions5.csproj" />
+    <Project Path="src/Serilog.Sinks.InMemory.FluentAssertions6/Serilog.Sinks.InMemory.FluentAssertions6.csproj" />
+    <Project Path="src/Serilog.Sinks.InMemory.FluentAssertions7/Serilog.Sinks.InMemory.FluentAssertions7.csproj" />
+    <Project Path="src/Serilog.Sinks.InMemory.FluentAssertions8/Serilog.Sinks.InMemory.FluentAssertions8.csproj" />
+    <Project Path="src/Serilog.Sinks.InMemory.Shouldly4/Serilog.Sinks.InMemory.Shouldly4.csproj" />
+    <Project Path="src/Serilog.Sinks.InMemory/Serilog.Sinks.InMemory.csproj" />
+  </Folder>
+  <Folder Name="/test/">
+    <Project Path="test/Serilog.Sinks.InMemory.Assertions.Tests.Unit.AwesomeAssertions8/Serilog.Sinks.InMemory.Assertions.Tests.Unit.AwesomeAssertions8.csproj" />
+    <Project Path="test/Serilog.Sinks.InMemory.Assertions.Tests.Unit.AwesomeAssertions9/Serilog.Sinks.InMemory.Assertions.Tests.Unit.AwesomeAssertions9.csproj" />
+    <Project Path="test/Serilog.Sinks.InMemory.Assertions.Tests.Unit.FluentAssertions5/Serilog.Sinks.InMemory.Assertions.Tests.Unit.FluentAssertions5.csproj" />
+    <Project Path="test/Serilog.Sinks.InMemory.Assertions.Tests.Unit.FluentAssertions6/Serilog.Sinks.InMemory.Assertions.Tests.Unit.FluentAssertions6.csproj" />
+    <Project Path="test/Serilog.Sinks.InMemory.Assertions.Tests.Unit.FluentAssertions7/Serilog.Sinks.InMemory.Assertions.Tests.Unit.FluentAssertions7.csproj" />
+    <Project Path="test/Serilog.Sinks.InMemory.Assertions.Tests.Unit.FluentAssertions8/Serilog.Sinks.InMemory.Assertions.Tests.Unit.FluentAssertions8.csproj" />
+    <Project Path="test/Serilog.Sinks.InMemory.Assertions.Tests.Unit.Shouldly4/Serilog.Sinks.InMemory.Assertions.Tests.Unit.Shouldly4.csproj" />
+    <Project Path="test/Serilog.Sinks.InMemory.Tests.Unit/Serilog.Sinks.InMemory.Tests.Unit.csproj" />
+  </Folder>
+  <Folder Name="/test/Serilog.Sinks.InMemory.Assertions.Tests.Unit/">
+    <File Path="test/Serilog.Sinks.InMemory.Assertions.Tests.Unit/GlobalUsings.cs" />
+    <File Path="test/Serilog.Sinks.InMemory.Assertions.Tests.Unit/Repro.cs" />
+    <File Path="test/Serilog.Sinks.InMemory.Assertions.Tests.Unit/TestInMemorySinkAssertionExtensions.cs" />
+    <File Path="test/Serilog.Sinks.InMemory.Assertions.Tests.Unit/WhenAssertingAndSInkIsWrittenTo.cs" />
+    <File Path="test/Serilog.Sinks.InMemory.Assertions.Tests.Unit/WhenAssertingLogEventHasLevel.cs" />
+    <File Path="test/Serilog.Sinks.InMemory.Assertions.Tests.Unit/WhenAssertingLogEventsExist.cs" />
+    <File Path="test/Serilog.Sinks.InMemory.Assertions.Tests.Unit/WhenAssertingMessageExistsThatContainsPattern.cs" />
+    <File Path="test/Serilog.Sinks.InMemory.Assertions.Tests.Unit/WhenAssertingPropertyValuesOnMultipleMessages.cs" />
+    <File Path="test/Serilog.Sinks.InMemory.Assertions.Tests.Unit/WhenAssertingScalarLogPropertyExists.cs" />
+    <File Path="test/Serilog.Sinks.InMemory.Assertions.Tests.Unit/WhenAssertingStructuredLogPropertyExists.cs" />
+  </Folder>
+</Solution>

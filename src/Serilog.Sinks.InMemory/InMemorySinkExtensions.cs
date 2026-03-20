@@ -36,7 +36,7 @@ namespace Serilog.Sinks.InMemory
         /// <returns>Configuration object allowing method chaining.</returns>
         public static LoggerConfiguration InMemory(
             this LoggerSinkConfiguration sinkConfiguration,
-            InMemorySink sink,
+            InMemorySink? sink,
             LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
             LoggingLevelSwitch? levelSwitch = null)
         {

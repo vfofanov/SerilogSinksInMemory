@@ -38,7 +38,7 @@ public class WhenAssertingWithPredicate
 
         action
             .Should()
-            .Throw<XunitException>()
+            .Throw<Exception>()
             .WithMessage("*message containing '404'*");
     }
 
@@ -55,7 +55,7 @@ public class WhenAssertingWithPredicate
 
         action
             .Should()
-            .Throw<XunitException>();
+            .Throw<Exception>();
     }
 
     [Fact]

@@ -20,7 +20,7 @@ public class WhenAssertingLogEventsExist
 
         action
             .Should()
-            .Throw<XunitException>()
+            .Throw<Exception>()
             .WithMessage("Expected message \"Hello, World\" to be logged");
     }
 
@@ -49,7 +49,7 @@ public class WhenAssertingLogEventsExist
 
         action
             .Should()
-            .Throw<XunitException>()
+            .Throw<Exception>()
             .WithMessage("Expected message \"Hello, World\" to appear exactly once, but it was found 4 times");
     }
 
@@ -82,7 +82,7 @@ public class WhenAssertingLogEventsExist
 
         action
             .Should()
-            .Throw<XunitException>()
+            .Throw<Exception>()
             .WithMessage("Expected message \"Hello, World\" to appear 5 times, but it was found 4 times");
     }
 
@@ -97,7 +97,7 @@ public class WhenAssertingLogEventsExist
 
         action
             .Should()
-            .Throw<XunitException>()
+            .Throw<Exception>()
             .WithMessage("Expected message \"Hello, World\" not to be logged, but it was found once");
     }
 
@@ -114,7 +114,7 @@ public class WhenAssertingLogEventsExist
 
         action
             .Should()
-            .Throw<XunitException>()
+            .Throw<Exception>()
             .WithMessage("Expected message \"Hello, World\" not to be logged, but it was found 3 times");
     }
 

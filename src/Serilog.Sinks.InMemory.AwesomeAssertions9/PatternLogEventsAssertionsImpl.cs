@@ -3,7 +3,7 @@
 partial class PatternLogEventsAssertionsImpl
 {
     public PatternLogEventsAssertionsImpl(IReadOnlyCollection<LogEvent> subjectLogEvents, AssertionChain assertionChain)
-        : base(null, subjectLogEvents, assertionChain)
+        : base(string.Empty, subjectLogEvents, assertionChain)
     {
     }
 }

@@ -25,7 +25,7 @@ public class WhenAssertingLogEventHasLevel
 
         action
             .Should()
-            .Throw<XunitException>()
+            .Throw<Exception>()
             .WithMessage("Expected message \"Hello, world!\" to have level \"Warning\", but it is \"Information\"");
     }
 
@@ -73,7 +73,7 @@ public class WhenAssertingLogEventHasLevel
 
         action
             .Should()
-            .Throw<XunitException>()
+            .Throw<Exception>()
             .WithMessage("Expected instances of log message \"Hello, world!\" to have level \"Information\", but found 3 with level \"Warning\"");
     }
 }

@@ -1,0 +1,24 @@
+<Project>
+
+  <Target Name="CreateXUnitRunnerJson" BeforeTargets="BeforeBuild" Condition="'$(IsTestsProject)'=='True' And !Exists('$(XunitRunnerConfigFileName)')">
+    <PropertyGroup>
+      <XunitRunnerJson>{
+    "$schema": "https://xunit.net/schema/current/xunit.runner.schema.json"
+}
+      </XunitRunnerJson>
+    </PropertyGroup>
+    <WriteLinesToFile File="$(XunitRunnerConfigFileName)" Overwrite="true" Lines="$(XunitRunnerJson)" />
+  </Target>
+
+  <Target Name="CreateXUnitTestConfigJson" BeforeTargets="BeforeBuild" Condition="'$(IsTestsProject)'=='True' And !Exists('$(XunitTestConfigFileName)')">
+    <PropertyGroup>
+      <XunitTestConfigJson>{
+    "$schema": "https://xunit.net/schema/current/testconfig.schema.json",
+    "diagnosticMessages": false
+}
+      </XunitTestConfigJson>
+    </PropertyGroup>
+    <WriteLinesToFile File="$(XunitTestConfigFileName)" Overwrite="true" Lines="$(XunitTestConfigJson)" />
+  </Target>
+
+</Project>

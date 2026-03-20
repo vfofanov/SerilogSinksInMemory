@@ -1,4 +1,4 @@
-﻿using Serilog.Context;
+using Serilog.Context;
 
 namespace Serilog.Sinks.InMemory.AssertionsTests;
 
@@ -39,7 +39,7 @@ public class WhenAssertingScalarLogPropertyExists
 
         action
             .Should()
-            .Throw<XunitException>()
+            .Throw<Exception>()
             .WithMessage("Expected message \"Hello {name}\" to have a property \"something else\" but it wasn't found");
     }
 
@@ -70,7 +70,7 @@ public class WhenAssertingScalarLogPropertyExists
 
         action
             .Should()
-            .Throw<XunitException>()
+            .Throw<Exception>()
             .WithMessage("Expected property \"name\" to have value \"BLABLABLA\" but found \"World\"");
     }
 
@@ -101,7 +101,7 @@ public class WhenAssertingScalarLogPropertyExists
 
         action
             .Should()
-            .Throw<XunitException>()
+            .Throw<Exception>()
             .WithMessage("Expected property \"number\" to have value 2 but found 5");
     }
 

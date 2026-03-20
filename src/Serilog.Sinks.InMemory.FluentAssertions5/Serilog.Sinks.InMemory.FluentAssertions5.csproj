@@ -1,7 +1,6 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
     <RootNamespace>Serilog.Sinks.InMemory.AssertionsFrameworkExtension</RootNamespace>
   </PropertyGroup>
 
@@ -23,10 +22,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentAssertions" Version="5.*">
+    <PackageReference Include="FluentAssertions" VersionOverride="5.*">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Serilog" Version="4.*">
+    <PackageReference Include="Serilog" VersionOverride="4.*">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
