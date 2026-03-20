@@ -21,7 +21,7 @@ public partial class LogEventPropertyValueAssertionsImpl : LogEventPropertyValue
             $"Expected property value to be of type {typeof(TValue).Name} but the property value is not a scalar and I don't know how to handle that");
     }
 
-    public LogEventAssertion WithValue(object value, string because = "", params object[] becauseArgs)
+    public LogEventAssertion WithValue(object? value, string because = "", params object[] becauseArgs)
     {
         var actualValue = GetValueFromProperty(Subject);
 

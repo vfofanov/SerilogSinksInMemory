@@ -5,7 +5,7 @@ public partial class LogEventsPropertyAssertionImpl : LogEventsPropertyAssertion
     private readonly string _propertyName;
     private readonly LogEventsAssertions _logEventsAssertions;
 
-    public LogEventsAssertions WithValues(params object[] values)
+    public LogEventsAssertions WithValues(params object?[] values)
     {
         Assert(Subject.Count == values.Length,
             $"Can't assert property values because {values.Length} values were provided while only {Subject.Count} messages were expected");

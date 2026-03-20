@@ -6,5 +6,5 @@ public interface LogEventPropertyValueAssertions: ISubjectAssertions<LogEventPro
 {
     TValue WhichValue<TValue>();
     StructuredValueAssertions HavingADestructuredObject(string because = "", params object[] becauseArgs);
-    LogEventAssertion WithValue(object value, string because = "", params object[] becauseArgs);
+    LogEventAssertion WithValue(object? value, string because = "", params object[] becauseArgs);
 }
