@@ -26,10 +26,7 @@
     <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
     <IsPackable>false</IsPackable>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <!-- Avoid platform-specific apphost generation; dotnet test runs these MTP test apps from the DLL. -->
-    <UseAppHost>false</UseAppHost>
     <EnableMicrosoftTestingPlatform>true</EnableMicrosoftTestingPlatform>
     <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
-    <GenerateTestingPlatformEntryPoint>true</GenerateTestingPlatformEntryPoint>
   </PropertyGroup>
 </Project>

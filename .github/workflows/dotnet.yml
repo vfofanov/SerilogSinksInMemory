@@ -22,7 +22,7 @@ jobs:
         run: dotnet restore SerilogSinksInMemory.slnx
 
       - name: Build
-        run: dotnet build -c Release SerilogSinksInMemory.slnx
+        run: dotnet build -c Release --no-restore SerilogSinksInMemory.slnx
 
       - name: Unit tests
         run: dotnet test --solution SerilogSinksInMemory.slnx -c Release --no-build

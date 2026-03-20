@@ -42,7 +42,7 @@ jobs:
       run: dotnet restore SerilogSinksInMemory.slnx
 
     - name: Build
-      run: dotnet build -c Release -p:Version=${{ steps.prerelease_version.outputs.value }} SerilogSinksInMemory.slnx
+      run: dotnet build -c Release --no-restore -p:Version=${{ steps.prerelease_version.outputs.value }} SerilogSinksInMemory.slnx
 
     - name: Test
       run: dotnet test --solution SerilogSinksInMemory.slnx -c Release --no-build
