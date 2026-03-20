@@ -16,35 +16,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\Serilog.Sinks.InMemory.Assertions.Tests.Unit\GlobalUsings.cs">
-      <Link>GlobalUsings.cs</Link>
-    </Compile>
-    <Compile Include="..\Serilog.Sinks.InMemory.Assertions.Tests.Unit\TestInMemorySinkAssertionExtensions.cs">
-      <Link>TestInMemorySinkAssertionExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Serilog.Sinks.InMemory.Assertions.Tests.Unit.Shouldly4\Repro.cs">
-      <Link>Repro.cs</Link>
-    </Compile>
-    <Compile Include="..\Serilog.Sinks.InMemory.Assertions.Tests.Unit.Shouldly4\WhenAssertingAndSInkIsWrittenTo.cs">
-      <Link>WhenAssertingAndSInkIsWrittenTo.cs</Link>
-    </Compile>
-    <Compile Include="..\Serilog.Sinks.InMemory.Assertions.Tests.Unit.Shouldly4\WhenAssertingLogEventHasLevel.cs">
-      <Link>WhenAssertingLogEventHasLevel.cs</Link>
-    </Compile>
-    <Compile Include="..\Serilog.Sinks.InMemory.Assertions.Tests.Unit.Shouldly4\WhenAssertingLogEventsExist.cs">
-      <Link>WhenAssertingLogEventsExist.cs</Link>
-    </Compile>
-    <Compile Include="..\Serilog.Sinks.InMemory.Assertions.Tests.Unit.Shouldly4\WhenAssertingMessageExistsThatContainsPattern.cs">
-      <Link>WhenAssertingMessageExistsThatContainsPattern.cs</Link>
-    </Compile>
-    <Compile Include="..\Serilog.Sinks.InMemory.Assertions.Tests.Unit.Shouldly4\WhenAssertingPropertyValuesOnMultipleMessages.cs">
-      <Link>WhenAssertingPropertyValuesOnMultipleMessages.cs</Link>
-    </Compile>
-    <Compile Include="..\Serilog.Sinks.InMemory.Assertions.Tests.Unit.Shouldly4\WhenAssertingScalarLogPropertyExists.cs">
-      <Link>WhenAssertingScalarLogPropertyExists.cs</Link>
-    </Compile>
-    <Compile Include="..\Serilog.Sinks.InMemory.Assertions.Tests.Unit.Shouldly4\WhenAssertingStructuredLogPropertyExists.cs">
-      <Link>WhenAssertingStructuredLogPropertyExists.cs</Link>
+    <Compile Include="..\Serilog.Sinks.InMemory.Assertions.Tests.Unit\GlobalUsings.cs;..\Serilog.Sinks.InMemory.Assertions.Tests.Unit\TestInMemorySinkAssertionExtensions.cs;..\Serilog.Sinks.InMemory.Assertions.Tests.Unit.Shouldly4\**\*.cs"
+             Exclude="..\Serilog.Sinks.InMemory.Assertions.Tests.Unit.Shouldly4\bin\**\*.cs;..\Serilog.Sinks.InMemory.Assertions.Tests.Unit.Shouldly4\obj\**\*.cs">
+      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
     </Compile>
   </ItemGroup>
 </Project>
