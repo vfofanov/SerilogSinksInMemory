@@ -2,7 +2,8 @@
 
 In-memory sink for Serilog to use for testing with [FluentAssertions](https://fluentassertions.com/), [AwesomeAssertions](https://github.com/AwesomeAssertions/AwesomeAssertions) or [Shouldly](https://docs.shouldly.org/) support for easy-to-write assertions.
 
-This fork is maintained as **`DragoAnt.*` NuGet packages** (same namespaces and assembly names as upstream). **Upstream repository:** [serilog-contrib/SerilogSinksInMemory](https://github.com/serilog-contrib/SerilogSinksInMemory) (also: [sandermvanvliet/SerilogSinksInMemory](https://github.com/sandermvanvliet/SerilogSinksInMemory)).
+This repository was forked from the original upstream project at [serilog-contrib/SerilogSinksInMemory](https://github.com/serilog-contrib/SerilogSinksInMemory) (earlier hosted at [sandermvanvliet/SerilogSinksInMemory](https://github.com/sandermvanvliet/SerilogSinksInMemory)).
+It is maintained here as **`DragoAnt.*` NuGet packages** while keeping the same `Serilog.Sinks.InMemory*` namespaces and assembly names as upstream.
 
 ## Build status
 
@@ -15,6 +16,18 @@ This fork is maintained as **`DragoAnt.*` NuGet packages** (same namespaces and 
 ## Maintainers
 
 Stable releases and beta/prerelease publishing through GitHub Actions are documented in [RELEASING.md](RELEASING.md).
+
+## Public differences from `2.0.0.0`
+
+Compared with tag `2.0.0.0`, this fork currently differs in the following user-visible ways:
+
+- NuGet package IDs are `DragoAnt.Serilog.Sinks.InMemory` and `DragoAnt.Serilog.Sinks.InMemory.Assertions`. Namespaces and assembly names remain `Serilog.Sinks.InMemory*`.
+- Packages now target `netstandard2.0` instead of `netstandard2.1`, widening compatibility for older test projects.
+- `WriteTo.InMemory(outputTemplate: ...)` is no longer part of the public API. Use `WriteTo.InMemory()` for the default singleton sink, or `WriteTo.InMemory(sink, ...)` to write into an explicit `InMemorySink` instance.
+- The sink and assertions APIs now support predicate-based filtering via `InMemorySink.Snapshot(Func<LogEvent, bool>)`, `HaveMessage(Func<LogEvent, bool>, ...)`, and `NotHaveMessage(Func<LogEvent, bool>, ...)`.
+- `InMemorySink` now uses a debugger proxy so watch windows show a friendlier view of each log event, including rendered message, template, level, properties, exception, and the original `LogEvent`.
+- Assertion abstractions now expose `Subject`, and top-level assertion types provide `ToAssertion()` helpers for building custom assertion extensions in a framework-agnostic way.
+- NuGet consumption of the assertions package is more reliable: packaged assertion adapters are exposed transitively, framework detection probes `AppContext.BaseDirectory`, and `AwesomeAssertions` is preferred when both it and `FluentAssertions` could otherwise match.
 
 ## Usage
 
@@ -209,6 +222,21 @@ which matches on log messages:
 - `some pattern in a message`
 - `this is some pattern in a message`
 
+### Asserting messages with a predicate
+
+When matching by template or substring is not enough, you can assert using an arbitrary `Func<LogEvent, bool>` predicate:
+
+```csharp
+InMemorySink.Instance
+    .Should()
+    .HaveMessage(
+        logEvent => logEvent.MessageTemplate.Text.Contains("404"),
+        "message containing '404'")
+    .Appearing().Once();
+```
+
+The inverse is also available through `NotHaveMessage(predicate, description)`.
+
 ### Asserting messages have been logged at all (or not!)
 
 When you want to assert that a message has been logged but don't care about what message you can do that with `HaveMessage` and `Appearing`:
@@ -328,6 +356,31 @@ InMemorySink.Instance
 
 When the property `SomeObject` doesn't hold a destructured object the assertion will fail with the message: `"Expected message "Hello {NotDestructured}" to have a property "NotDestructured" that holds a destructured object but found a scalar value"`
 
+### Building custom assertion extensions
+
+All assertion abstraction interfaces expose a `Subject` property. In addition, `InMemorySinkAssertions`, `LogEventsAssertions`, and `PatternLogEventsAssertions` provide `ToAssertion()` so extension authors can reuse the package's framework-aware failure handling.
+
+```csharp
+public static class CustomLogEventAssertions
+{
+    public static LogEventsAssertions HaveAtLeast(
+        this LogEventsAssertions assertions,
+        int count)
+    {
+        var extension = assertions.ToAssertion();
+
+        extension.Assert(
+            extension.Assertions.Subject.Count >= count,
+            new FailMessage(
+                "Expected at least {0} matching log events, but found {1}.",
+                count,
+                extension.Assertions.Subject.Count));
+
+        return extension.Assertions;
+    }
+}
+```
+
 ## Clearing log events between tests
 
 Depending on your test framework and test setup you may want to ensure that the log events captured by the `InMemorySink` are cleared so tests
@@ -388,17 +441,29 @@ var logger = new LoggerConfiguration()
     .CreateLogger();
 ```
 
-### Output templates
+### Using an explicit sink instance
 
-Text-based sinks use output templates to control formatting. this can be modified through the outputTemplate parameter:
+By default `WriteTo.InMemory()` uses `InMemorySink.Instance`. When you want to isolate a specific sink instance, pass it explicitly:
 
 ```csharp
+var sink = new InMemorySink();
 var logger = new LoggerConfiguration()
-    .WriteTo.InMemory(outputTemplate: "{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}")
+    .WriteTo.InMemory(sink)
     .CreateLogger();
 ```
 
-The default template, shown in the example above, uses built-in properties like `Timestamp` and `Level`. Refer to the [offcial documentation](https://github.com/serilog/serilog/wiki/Configuration-Basics#output-templates) for further configuration and explanation of these properties.
+### Snapshots
+
+`Snapshot()` creates a read-only copy of the current events so later writes do not affect the assertion target.
+You can also filter while taking the snapshot:
+
+```csharp
+var errorsOnly = sink.Snapshot(logEvent => logEvent.Level >= LogEventLevel.Error);
+```
+
+### Debugger experience
+
+When inspecting `InMemorySink` in a debugger, a debugger proxy presents the captured events as an easy-to-read list with rendered message, template, level, properties, exception, and the original `LogEvent`.
 
 ### Minimum level
 
