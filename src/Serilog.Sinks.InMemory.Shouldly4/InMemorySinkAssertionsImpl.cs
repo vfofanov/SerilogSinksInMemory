@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Serilog.Sinks.InMemory.AssertionsFrameworkExtension;
+﻿namespace Serilog.Sinks.InMemory.AssertionsFrameworkExtension;
 
 [ShouldlyMethods]
 partial class InMemorySinkAssertionsImpl : BaseShouldlyAssertions<InMemorySink>

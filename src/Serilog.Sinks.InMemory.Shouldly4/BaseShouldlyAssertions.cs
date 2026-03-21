@@ -1,5 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
-
 namespace Serilog.Sinks.InMemory.AssertionsFrameworkExtension;
 
 public abstract class BaseShouldlyAssertions<T> : ISubjectAssertions<T>

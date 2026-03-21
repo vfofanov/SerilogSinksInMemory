@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Serilog.Events;
+﻿using Serilog.Events;
 
 namespace Serilog.Sinks.InMemory.Assertions;
 

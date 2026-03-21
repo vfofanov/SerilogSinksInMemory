@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Serilog.Sinks.InMemory.Assertions;
+﻿namespace Serilog.Sinks.InMemory.Assertions;
 
 public static class InMemorySinkAssertionExtensions
 {

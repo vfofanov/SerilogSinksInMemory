@@ -1,11 +1,5 @@
-﻿#nullable enable
-
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading;
 using Serilog.Core;
 using Serilog.Events;
 

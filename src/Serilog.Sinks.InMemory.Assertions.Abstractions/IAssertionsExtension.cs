@@ -1,4 +1,3 @@
-#nullable enable
 namespace Serilog.Sinks.InMemory.Assertions;
 
 public interface IAssertionsExtension

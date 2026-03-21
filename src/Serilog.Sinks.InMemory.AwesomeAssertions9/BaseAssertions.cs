@@ -1,4 +1,3 @@
-#nullable enable
 namespace Serilog.Sinks.InMemory.AssertionsFrameworkExtension;
 
 public abstract class BaseAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<TSubject, TAssertions>, IAssertionsExtension

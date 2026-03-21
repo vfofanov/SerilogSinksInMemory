@@ -1,7 +1,6 @@
 // ReSharper disable CoVariantArrayConversion
 
 using System.Collections;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Serilog.Sinks.InMemory.AssertionsFrameworkExtension;
 
