@@ -9,7 +9,8 @@ namespace Serilog.Sinks.InMemory
     /// </summary>
     internal class InMemorySinkSnapshot : InMemorySink
     {
-        public InMemorySinkSnapshot(List<LogEvent> logEvents) : base(logEvents)
+        public InMemorySinkSnapshot(List<LogEvent> logEvents)
+            : base(logEvents)
         {
         }
 

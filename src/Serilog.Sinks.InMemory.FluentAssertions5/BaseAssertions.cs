@@ -10,6 +10,7 @@ public abstract class BaseAssertions<TSubject, TAssertions> : ReferenceTypeAsser
     }
 
     public AssertionFramework AssertionFramework => AssertionExtensions.AssertionFramework;
+
     public void Assert(bool condition, FailMessage failureMessage, string because = "", params object[] becauseArgs)
         => failureMessage.Assert(condition, because: because, becauseArgs: becauseArgs);
 }

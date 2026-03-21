@@ -31,6 +31,6 @@ public static class TestInMemorySinkAssertionExtensions
 #endif
     }
 
-    public static InMemorySinkAssertions Should(this InMemorySink instance) 
+    public static InMemorySinkAssertions Should(this InMemorySink instance)
         => AssertionsFactory.CreateInMemorySinkAssertionsFromSnapshot(instance);
 }

@@ -24,5 +24,8 @@
     <Compile Include="..\Serilog.Sinks.InMemory.Assertions.Tests.Unit\TestInMemorySinkAssertionExtensions.cs">
       <Link>TestInMemorySinkAssertionExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\Serilog.Sinks.InMemory.Assertions.Tests.Unit\WhenCreatingAssertionsWithFactory.cs">
+      <Link>WhenCreatingAssertionsWithFactory.cs</Link>
+    </Compile>
   </ItemGroup>
 </Project>

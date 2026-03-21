@@ -149,13 +149,12 @@ public class WhenAssertingScalarLogPropertyExists
             .WhichValue<int>()
             .Should()
 #if FLUENTASSERTIONS_8
-                .BeLessThanOrEqualTo(10);
+            .BeLessThanOrEqualTo(10);
 #elif AWESOMEASSERTIONS_8 || AWESOMEASSERTIONS_9
             .BeLessThanOrEqualTo(10);
 #else
-                .BeLessOrEqualTo(10);
+            .BeLessOrEqualTo(10);
 #endif
-
     }
 
     [Fact]

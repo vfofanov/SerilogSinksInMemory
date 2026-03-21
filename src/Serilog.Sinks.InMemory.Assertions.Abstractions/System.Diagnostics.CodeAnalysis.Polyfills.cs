@@ -2,6 +2,7 @@
 // Shapes aligned with:
 // - https://github.com/dotnet/runtime/blob/main/src/libraries/System.Private.CoreLib/src/System/Diagnostics/CodeAnalysis/NullableAttributes.cs
 // - https://github.com/dotnet/runtime/blob/main/src/libraries/System.Private.CoreLib/src/System/Diagnostics/CodeAnalysis/UnscopedRefAttribute.cs
+
 #if NETSTANDARD2_0 && !NETSTANDARD2_1
 
 namespace System.Diagnostics.CodeAnalysis;

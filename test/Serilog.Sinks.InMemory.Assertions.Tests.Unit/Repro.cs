@@ -12,7 +12,7 @@ public class Repro
         logger.Error(
             new ArgumentException("Account name cannot be longer than 100 characters"),
             "An invalid argument was encountered while processing message with ID {MessageId}", "some-message-id");
-        
+
         InMemorySink.Instance.Should()
             .HaveErrorMessageWithException<ArgumentException>(
                 "An invalid argument was encountered while processing message with ID {MessageId}",

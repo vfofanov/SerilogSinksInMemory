@@ -2,7 +2,7 @@ namespace Serilog.Sinks.InMemory.AssertionsFrameworkExtension;
 
 internal static class AssertionExtensions
 {
-    public static readonly AssertionFramework AssertionFramework = 
+    public static readonly AssertionFramework AssertionFramework =
         new(AssertionFrameworks.AwesomeAssertions, new Version(8, 0));
 
     public static void Assert(
@@ -27,8 +27,8 @@ internal static class AssertionExtensions
 
     public static PatternLogEventsAssertions CreatePatternLogEventsAssertions<TSubject, TAssertions>(
         this ReferenceTypeAssertions<TSubject, TAssertions> parent,
-        IReadOnlyCollection<LogEvent> logEvents) 
-        where TAssertions : BaseAssertions<TSubject, TAssertions> 
+        IReadOnlyCollection<LogEvent> logEvents)
+        where TAssertions : BaseAssertions<TSubject, TAssertions>
         => new PatternLogEventsAssertionsImpl(logEvents, parent.CurrentAssertionChain);
 
     public static StructuredValueAssertions CreateStructuredValueAssertions(
@@ -44,8 +44,10 @@ internal static class AssertionExtensions
         => new LogEventPropertyValueAssertionsImpl(parent, logEventPropertyValue, name);
 
     public static LogEventAssertion CreateLogEventAssertion<TSubject, TAssertions>(
-        this ReferenceTypeAssertions<TSubject, TAssertions> parent, string messageTemplate, LogEvent logEvent) 
-        where TAssertions : BaseAssertions<TSubject, TAssertions> 
+        this ReferenceTypeAssertions<TSubject, TAssertions> parent,
+        string messageTemplate,
+        LogEvent logEvent)
+        where TAssertions : BaseAssertions<TSubject, TAssertions>
         => new LogEventAssertionImpl(messageTemplate, logEvent, parent.CurrentAssertionChain);
 
     public static LogEventsPropertyAssertion CreateLogEventsPropertyAssertion(
