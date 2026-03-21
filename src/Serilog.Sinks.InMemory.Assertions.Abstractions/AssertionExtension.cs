@@ -1,22 +1,17 @@
 #nullable enable
 namespace Serilog.Sinks.InMemory.Assertions;
 
-public readonly struct AssertionExtension<T>
+public readonly struct AssertionExtension
 {
-    private readonly IInMemorySinkAssertionsExtension _extension;
+    private readonly IAssertionsExtension _extension;
 
-    public AssertionExtension(T assertions, IInMemorySinkAssertionsExtension extension)
+    public AssertionExtension(IAssertionsExtension extension)
     {
         _extension = extension;
-        Assertions = assertions;
     }
-
-    public T Assertions { get; }
 
     public AssertionFramework AssertionFramework => _extension.AssertionFramework;
 
-    public void Assert(bool condition, FailMessage failureMessage, string because = "", params object[] becauseArgs)
-    {
-        _extension.Assert(condition, failureMessage, because, becauseArgs);
-    }
+    public void Assert(bool condition, FailMessage failureMessage, string because = "", params object[] becauseArgs) 
+        => _extension.Assert(condition, failureMessage, because, becauseArgs);
 }

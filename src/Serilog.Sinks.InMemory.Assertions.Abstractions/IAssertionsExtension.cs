@@ -1,7 +1,7 @@
 #nullable enable
 namespace Serilog.Sinks.InMemory.Assertions;
 
-public interface IInMemorySinkAssertionsExtension
+public interface IAssertionsExtension
 {
     void Assert(
         bool condition,

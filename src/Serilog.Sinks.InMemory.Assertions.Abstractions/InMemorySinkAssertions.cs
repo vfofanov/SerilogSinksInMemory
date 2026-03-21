@@ -1,11 +1,8 @@
-﻿#nullable enable
-
-using System;
-using Serilog.Events;
+﻿using Serilog.Events;
 
 namespace Serilog.Sinks.InMemory.Assertions
 {
-    public interface InMemorySinkAssertions : ISubjectAssertions<InMemorySink>
+    public interface InMemorySinkAssertions : IAssertionsExtension, ISubjectAssertions<InMemorySink>
     {
         LogEventsAssertions HaveMessage(
             Func<LogEvent, bool> predicate,

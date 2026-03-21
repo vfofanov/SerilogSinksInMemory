@@ -1,6 +1,6 @@
 ﻿namespace Serilog.Sinks.InMemory.AssertionsFrameworkExtension;
 
-public partial class LogEventAssertionImpl : LogEventAssertion, IInMemorySinkAssertionsExtension
+public partial class LogEventAssertionImpl : LogEventAssertion, IAssertionsExtension
 {
     private readonly string _messageTemplate;
 

@@ -1,6 +1,3 @@
-#nullable enable
-using System;
-
 namespace Serilog.Sinks.InMemory.Assertions;
 
 public readonly struct AssertionFramework

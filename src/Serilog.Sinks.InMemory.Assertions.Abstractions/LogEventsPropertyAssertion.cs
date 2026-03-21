@@ -3,7 +3,7 @@ using Serilog.Events;
 
 namespace Serilog.Sinks.InMemory.Assertions;
 
-public interface LogEventsPropertyAssertion : ISubjectAssertions<IReadOnlyCollection<LogEvent>>
+public interface LogEventsPropertyAssertion :IAssertionsExtension, ISubjectAssertions<IReadOnlyCollection<LogEvent>>
 {
     LogEventsAssertions WithValues(params object?[] values);
 }
