@@ -1,8 +1,9 @@
-﻿using Serilog.Events;
+using DragoAnt.Assertions;
+using Serilog.Events;
 
 namespace Serilog.Sinks.InMemory.Assertions;
 
-public interface LogEventsPropertyAssertion :IAssertionsExtension, ISubjectAssertions<IReadOnlyCollection<LogEvent>>
+public interface LogEventsPropertyAssertion : IAssertionsExtension, ISubjectAssertions<IReadOnlyCollection<LogEvent>>
 {
     LogEventsAssertions WithValues(params object?[] values);
 }

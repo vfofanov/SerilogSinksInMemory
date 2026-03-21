@@ -48,11 +48,7 @@ jobs:
         run: dotnet test --solution SerilogSinksInMemory.slnx -c Release --no-build
 
       - name: Pack NuGet packages
-        run: |
-          dotnet pack ./src/Serilog.Sinks.InMemory/Serilog.Sinks.InMemory.csproj -c Release -o ${{ env.PACKAGE_OUTPUT_DIRECTORY }} --no-build -p:Version=${{ steps.get_version.outputs.info }}
-          # Keep the assertions package build-enabled: its satellite assertion assemblies must be
-          # copied into the output before packing or the resulting .nupkg will be incomplete.
-          dotnet pack ./src/Serilog.Sinks.InMemory.Assertions/Serilog.Sinks.InMemory.Assertions.csproj -c Release -o ${{ env.PACKAGE_OUTPUT_DIRECTORY }} -p:Version=${{ steps.get_version.outputs.info }}
+        run: dotnet pack -c Release -o ${{ env.PACKAGE_OUTPUT_DIRECTORY }} --no-build -p:Version=${{ steps.get_version.outputs.info }} SerilogSinksInMemory.slnx
 
       - name: Run integration tests for FluentAssertions 5
         working-directory: test/Serilog.Sinks.InMemory.Assertions.Tests.Integration.FluentAssertions5

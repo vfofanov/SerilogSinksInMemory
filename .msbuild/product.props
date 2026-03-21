@@ -12,4 +12,9 @@
   <PropertyGroup Condition="'$(MSBuildProjectName)'=='Serilog.Sinks.InMemory' Or '$(MSBuildProjectName)'=='Serilog.Sinks.InMemory.Assertions'">
     <PackageId>$(NuGetPackageIdPrefix).$(MSBuildProjectName)</PackageId>
   </PropertyGroup>
+
+  <!-- Standalone DragoAnt packages use fixed IDs without prefix -->
+  <PropertyGroup Condition="$([System.String]::Copy('$(MSBuildProjectName)').StartsWith('DragoAnt.'))">
+    <PackageId>$(MSBuildProjectName)</PackageId>
+  </PropertyGroup>
 </Project>

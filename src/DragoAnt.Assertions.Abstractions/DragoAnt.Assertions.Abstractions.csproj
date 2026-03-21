@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>DragoAnt.Assertions</RootNamespace>
+    <IsPackable>true</IsPackable>
+    <PackageId>DragoAnt.Assertions.Abstractions</PackageId>
+    <Title>Assertion framework abstractions</Title>
+    <Description>Framework-agnostic assertion abstractions and contracts</Description>
+  </PropertyGroup>
+</Project>

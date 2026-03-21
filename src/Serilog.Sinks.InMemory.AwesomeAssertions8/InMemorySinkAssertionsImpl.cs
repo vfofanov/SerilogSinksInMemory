@@ -1,11 +1,11 @@
-﻿namespace Serilog.Sinks.InMemory.AssertionsFrameworkExtension;
+namespace Serilog.Sinks.InMemory.AssertionsFrameworkExtension;
 
-partial class InMemorySinkAssertionsImpl : BaseAssertions<InMemorySink, InMemorySinkAssertionsImpl>
+partial class LogEventsSourceAssertionsImpl : BaseAssertions<IReadOnlyCollection<LogEvent>, LogEventsSourceAssertionsImpl>
 {
-    public InMemorySinkAssertionsImpl(InMemorySink snapshotInstance)
-        : base(snapshotInstance, AssertionChain.GetOrCreate())
+    public LogEventsSourceAssertionsImpl(IReadOnlyCollection<LogEvent> logEvents)
+        : base(logEvents, AssertionChain.GetOrCreate())
     {
     }
 
-    protected override string Identifier => nameof(InMemorySink);
+    protected override string Identifier => "log events source";
 }

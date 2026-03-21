@@ -1,4 +1,4 @@
-namespace Serilog.Sinks.InMemory.Assertions;
+namespace DragoAnt.Assertions;
 
 public readonly struct AssertionExtension
 {
@@ -11,6 +11,6 @@ public readonly struct AssertionExtension
 
     public AssertionFramework AssertionFramework => _extension.AssertionFramework;
 
-    public void Assert(bool condition, FailMessage failureMessage, string because = "", params object[] becauseArgs) 
+    public void Assert(bool condition, FailMessage failureMessage, string because = "", params object[] becauseArgs)
         => _extension.Assert(condition, failureMessage, because, becauseArgs);
 }

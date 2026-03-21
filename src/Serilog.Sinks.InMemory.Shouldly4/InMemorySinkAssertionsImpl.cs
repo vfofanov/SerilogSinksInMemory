@@ -1,10 +1,10 @@
-﻿namespace Serilog.Sinks.InMemory.AssertionsFrameworkExtension;
+namespace Serilog.Sinks.InMemory.AssertionsFrameworkExtension;
 
 [ShouldlyMethods]
-partial class InMemorySinkAssertionsImpl : BaseShouldlyAssertions<InMemorySink>
+partial class LogEventsSourceAssertionsImpl : BaseShouldlyAssertions<IReadOnlyCollection<LogEvent>>
 {
-    public InMemorySinkAssertionsImpl(InMemorySink snapshotInstance)
-        : base(snapshotInstance)
+    public LogEventsSourceAssertionsImpl(IReadOnlyCollection<LogEvent> logEvents)
+        : base(logEvents)
     {
     }
 }

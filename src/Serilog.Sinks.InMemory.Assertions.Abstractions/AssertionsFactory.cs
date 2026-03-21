@@ -1,11 +1,11 @@
+using DragoAnt.Assertions;
 using Serilog.Events;
 
 namespace Serilog.Sinks.InMemory.Assertions;
 
-public interface InMemorySinkAssertionsFactory
+public interface AssertionsFactory : IAssertionsFactory
 {
-    AssertionFramework AssertionFramework { get; }
-    InMemorySinkAssertions CreateInMemorySinkAssertions(InMemorySink snapshotInstance);
+    LogEventsSourceAssertions CreateLogEventsSourceAssertions(IReadOnlyCollection<LogEvent> logEvents);
     LogEventsAssertions CreateLogEventsAssertions(string messageTemplate, IReadOnlyCollection<LogEvent> logEvents);
     PatternLogEventsAssertions CreatePatternLogEventsAssertions(IReadOnlyCollection<LogEvent> logEvents);
     LogEventAssertion CreateLogEventAssertion(string messageTemplate, LogEvent logEvent);

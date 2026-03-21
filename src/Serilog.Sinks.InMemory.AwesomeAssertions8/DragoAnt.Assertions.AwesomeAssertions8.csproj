@@ -1,15 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <RootNamespace>Serilog.Sinks.InMemory.AssertionsFrameworkExtension</RootNamespace>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="AwesomeAssertions" VersionOverride="8.*" PrivateAssets="all" />
     <PackageReference Include="Serilog" VersionOverride="4.*" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DragoAnt.Assertions.Abstractions\DragoAnt.Assertions.Abstractions.csproj" />
     <ProjectReference Include="..\Serilog.Sinks.InMemory.Assertions.Abstractions\Serilog.Sinks.InMemory.Assertions.Abstractions.csproj" />
-    <ProjectReference Include="..\Serilog.Sinks.InMemory\Serilog.Sinks.InMemory.csproj" />
   </ItemGroup>
-
 </Project>

@@ -1,9 +1,9 @@
-namespace Serilog.Sinks.InMemory.Assertions;
+namespace DragoAnt.Assertions;
 
 /// <summary>
-/// InMemory logger assertion extensibility extension.
+/// Assertion extensibility extension.
 /// </summary>
-public static class InMemorySinkAssertionsExtensions
+public static class AssertionsExtensions
 {
     public static AssertionExtension ToAssertion(
         this IAssertionsExtension assertions) =>

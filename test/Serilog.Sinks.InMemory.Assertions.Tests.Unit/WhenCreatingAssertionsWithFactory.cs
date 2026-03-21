@@ -101,6 +101,39 @@ public class WhenCreatingAssertionsWithFactory
         Assert.Same(logEventsAssertions, assertions.WithValues("Alice", "Bob"));
     }
 
+    [Fact]
+    public void GivenSnapshotInstance_CreateInMemorySinkAssertionsPreservesSnapshotSubject()
+    {
+        using var inMemorySink = new InMemorySink();
+        var logger = CreateLogger(inMemorySink);
+        logger.Information("Hello");
+
+        var snapshot = inMemorySink.Snapshot();
+        var assertions = InMemorySinkAssertionExtensions.AssertionsFactory.CreateInMemorySinkAssertions(snapshot);
+
+        assertions
+            .HaveMessage("Hello")
+            .Appearing()
+            .Times(1);
+    }
+
+    [Fact]
+    public void GivenMutableSink_CreateInMemorySinkAssertionsFromSnapshotKeepsStableView()
+    {
+        using var inMemorySink = new InMemorySink();
+        var logger = CreateLogger(inMemorySink);
+
+        logger.Information("Hello");
+        var assertions = InMemorySinkAssertionExtensions.AssertionsFactory.CreateInMemorySinkAssertionsFromSnapshot(inMemorySink);
+
+        logger.Information("Hello");
+
+        assertions
+            .HaveMessage("Hello")
+            .Appearing()
+            .Times(1);
+    }
+
     private static ILogger CreateLogger(InMemorySink inMemorySink) =>
         new LoggerConfiguration()
             .WriteTo.Sink(inMemorySink)

@@ -1,4 +1,4 @@
-﻿namespace Serilog.Sinks.InMemory.Assertions;
+namespace Serilog.Sinks.InMemory.Assertions;
 
 public static class InMemorySinkAssertionExtensions
 {
@@ -6,8 +6,10 @@ public static class InMemorySinkAssertionExtensions
 
     static InMemorySinkAssertionExtensions()
     {
-        var (assertionFramework, majorVersion, assemblyLocation) = InMemorySinkAssertionUtils.GetAssertionsFramework();
-        AssertionsFactory = InMemorySinkAssertionUtils.CreateMemorySinkAssertionsFactory(assertionFramework, majorVersion, assemblyLocation);
+        var assertionsFactory = DragoAnt.Assertions.AssertionUtils.CreateAssertionsFactory() as AssertionsFactory
+            ?? throw new InvalidOperationException("Unable to load assertions factory");
+
+        AssertionsFactory = new InMemorySinkAssertionsFactoryBridge(assertionsFactory);
     }
 
     public static InMemorySinkAssertions Should(this InMemorySink instance)

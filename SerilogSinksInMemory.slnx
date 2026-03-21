@@ -20,19 +20,19 @@
   </Folder>
   <Folder Name="/src/">
     <Project Path="src/Serilog.Sinks.InMemory.Assertions.Abstractions/Serilog.Sinks.InMemory.Assertions.Abstractions.csproj" />
-    <Project Path="src/Serilog.Sinks.InMemory.Assertions/Serilog.Sinks.InMemory.Assertions.csproj">
-      <BuildDependency Project="src/Serilog.Sinks.InMemory.FluentAssertions5/Serilog.Sinks.InMemory.FluentAssertions5.csproj" />
-      <BuildDependency Project="src/Serilog.Sinks.InMemory.FluentAssertions6/Serilog.Sinks.InMemory.FluentAssertions6.csproj" />
-      <BuildDependency Project="src/Serilog.Sinks.InMemory.FluentAssertions8/Serilog.Sinks.InMemory.FluentAssertions8.csproj" />
-    </Project>
-    <Project Path="src/Serilog.Sinks.InMemory.AwesomeAssertions8/Serilog.Sinks.InMemory.AwesomeAssertions8.csproj" />
-    <Project Path="src/Serilog.Sinks.InMemory.AwesomeAssertions9/Serilog.Sinks.InMemory.AwesomeAssertions9.csproj" />
-    <Project Path="src/Serilog.Sinks.InMemory.FluentAssertions5/Serilog.Sinks.InMemory.FluentAssertions5.csproj" />
-    <Project Path="src/Serilog.Sinks.InMemory.FluentAssertions6/Serilog.Sinks.InMemory.FluentAssertions6.csproj" />
-    <Project Path="src/Serilog.Sinks.InMemory.FluentAssertions7/Serilog.Sinks.InMemory.FluentAssertions7.csproj" />
-    <Project Path="src/Serilog.Sinks.InMemory.FluentAssertions8/Serilog.Sinks.InMemory.FluentAssertions8.csproj" />
-    <Project Path="src/Serilog.Sinks.InMemory.Shouldly4/Serilog.Sinks.InMemory.Shouldly4.csproj" />
+    <Project Path="src/Serilog.Sinks.InMemory.Assertions/Serilog.Sinks.InMemory.Assertions.csproj" />
     <Project Path="src/Serilog.Sinks.InMemory/Serilog.Sinks.InMemory.csproj" />
+  </Folder>
+  <Folder Name="/src/Assertions/">
+    <Project Path="src/DragoAnt.Assertions.Abstractions/DragoAnt.Assertions.Abstractions.csproj" />
+    <Project Path="src/DragoAnt.Assertions/DragoAnt.Assertions.csproj" />
+    <Project Path="src/Serilog.Sinks.InMemory.AwesomeAssertions8/DragoAnt.Assertions.AwesomeAssertions8.csproj" />
+    <Project Path="src/Serilog.Sinks.InMemory.AwesomeAssertions9/DragoAnt.Assertions.AwesomeAssertions9.csproj" />
+    <Project Path="src/Serilog.Sinks.InMemory.FluentAssertions5/DragoAnt.Assertions.FluentAssertions5.csproj" />
+    <Project Path="src/Serilog.Sinks.InMemory.FluentAssertions6/DragoAnt.Assertions.FluentAssertions6.csproj" />
+    <Project Path="src/Serilog.Sinks.InMemory.FluentAssertions7/DragoAnt.Assertions.FluentAssertions7.csproj" />
+    <Project Path="src/Serilog.Sinks.InMemory.FluentAssertions8/DragoAnt.Assertions.FluentAssertions8.csproj" />
+    <Project Path="src/Serilog.Sinks.InMemory.Shouldly4/DragoAnt.Assertions.Shouldly4.csproj" />
   </Folder>
   <Folder Name="/test/">
     <Project Path="test/Serilog.Sinks.InMemory.Assertions.Tests.Unit.AwesomeAssertions8/Serilog.Sinks.InMemory.Assertions.Tests.Unit.AwesomeAssertions8.csproj" />
@@ -55,5 +55,8 @@
     <File Path="test/Serilog.Sinks.InMemory.Assertions.Tests.Unit/WhenAssertingPropertyValuesOnMultipleMessages.cs" />
     <File Path="test/Serilog.Sinks.InMemory.Assertions.Tests.Unit/WhenAssertingScalarLogPropertyExists.cs" />
     <File Path="test/Serilog.Sinks.InMemory.Assertions.Tests.Unit/WhenAssertingStructuredLogPropertyExists.cs" />
+    <File Path="test/Serilog.Sinks.InMemory.Assertions.Tests.Unit/WhenAssertingWithPredicate.cs" />
+    <File Path="test/Serilog.Sinks.InMemory.Assertions.Tests.Unit/WhenUsingBridgeLayer.cs" />
+    <File Path="test/Serilog.Sinks.InMemory.Assertions.Tests.Unit/WhenUsingLogEventsSourceAssertionsDirectly.cs" />
   </Folder>
 </Solution>

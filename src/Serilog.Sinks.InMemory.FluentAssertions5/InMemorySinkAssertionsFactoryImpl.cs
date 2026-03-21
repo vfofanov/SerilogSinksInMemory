@@ -1,9 +1,9 @@
 namespace Serilog.Sinks.InMemory.AssertionsFrameworkExtension;
 
-partial class InMemorySinkAssertionsFactoryImpl
+partial class AssertionFactoryImpl
 {
-    public InMemorySinkAssertions CreateInMemorySinkAssertions(InMemorySink snapshotInstance)
-        => new InMemorySinkAssertionsImpl(snapshotInstance);
+    public LogEventsSourceAssertions CreateLogEventsSourceAssertions(IReadOnlyCollection<LogEvent> logEvents)
+        => new LogEventsSourceAssertionsImpl(logEvents);
 
     public LogEventsAssertions CreateLogEventsAssertions(string messageTemplate, IReadOnlyCollection<LogEvent> logEvents)
         => new LogEventsAssertionsImpl(messageTemplate, logEvents);

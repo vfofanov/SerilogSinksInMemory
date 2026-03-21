@@ -1,27 +1,31 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
-namespace Serilog.Sinks.InMemory.Assertions;
+namespace DragoAnt.Assertions;
 
-public static class InMemorySinkAssertionUtils
+public static class AssertionUtils
 {
-    public static InMemorySinkAssertionsFactory CreateMemorySinkAssertionsFactory(
+    public static IAssertionsFactory CreateAssertionsFactory()
+    {
+        var (assertionFramework, majorVersion, assemblyLocation) = GetAssertionsFramework();
+        return CreateAssertionsFactory(assertionFramework, majorVersion, assemblyLocation);
+    }
+
+    public static IAssertionsFactory CreateAssertionsFactory(
         AssertionFrameworks assertionFramework,
         int majorVersion,
         string? assemblyLocation = null)
     {
         var factoryType = GetAssertionsFactoryType(assertionFramework, majorVersion, assemblyLocation) ??
-                          throw new InvalidOperationException("Unable to load InMemorySinkAssertionsFactory");
+                          throw new InvalidOperationException("Unable to load assertion factory");
 
-        return (InMemorySinkAssertionsFactory)Activator.CreateInstance(factoryType);
+        var instance = Activator.CreateInstance(factoryType);
+        return instance as IAssertionsFactory ?? throw new InvalidOperationException("Loaded assertion factory has an unexpected type");
     }
-
-    public static InMemorySinkAssertions CreateInMemorySinkAssertionsFromSnapshot(this InMemorySinkAssertionsFactory factory, InMemorySink instance)
-        => factory.CreateInMemorySinkAssertions(instance.Snapshot());
 
     internal static (AssertionFrameworks Framework, int MajorVersion, string AssemblyLocation) GetAssertionsFramework()
     {
-        var assemblyLocation = GetInMemoryExtensionsAssemblyLocation();
+        var assemblyLocation = GetAssertionsAssemblyLocation();
 
         AssertionFrameworks? assertionFramework = null;
         int? majorVersion = null;
@@ -39,7 +43,7 @@ public static class InMemorySinkAssertionUtils
         }
         else if (IsFluentAssertionsAlreadyLoadedIntoDomain(out var fluentAssertionsAssembly))
         {
-            assertionFramework = AssertionFrameworks.FluentAssertions; // "FluentAssertions"
+            assertionFramework = AssertionFrameworks.FluentAssertions;
             majorVersion = fluentAssertionsAssembly.GetName().Version!.Major;
         }
         else if (IsShouldlyAlreadyLoadedIntoDomain(out var shouldlyAssembly))
@@ -47,8 +51,7 @@ public static class InMemorySinkAssertionUtils
             assertionFramework = AssertionFrameworks.Shouldly;
             majorVersion = shouldlyAssembly.GetName().Version!.Major;
         }
-        else if (IsAwesomeAssertionsAvailableOnDisk(assemblyLocation,
-                     out var awesomeAssertionsOnDiskAssembly))
+        else if (IsAwesomeAssertionsAvailableOnDisk(assemblyLocation, out var awesomeAssertionsOnDiskAssembly))
         {
             assertionFramework = AssertionFrameworks.AwesomeAssertions;
             majorVersion = awesomeAssertionsOnDiskAssembly.GetName().Version!.Major;
@@ -56,12 +59,12 @@ public static class InMemorySinkAssertionUtils
         else if (IsFluentAssertionsAvailableOnDisk(assemblyLocation, out var fluentAssertionsOnDiskAssembly))
         {
             assertionFramework = AssertionFrameworks.FluentAssertions;
-            majorVersion = fluentAssertionsOnDiskAssembly.GetName().Version.Major;
+            majorVersion = fluentAssertionsOnDiskAssembly.GetName().Version!.Major;
         }
         else if (IsShouldlyAvailableOnDisk(assemblyLocation, out var shouldlyOnDiskAssembly))
         {
             assertionFramework = AssertionFrameworks.Shouldly;
-            majorVersion = shouldlyOnDiskAssembly.GetName().Version.Major;
+            majorVersion = shouldlyOnDiskAssembly.GetName().Version!.Major;
         }
 
         if (assertionFramework == null || majorVersion == null)
@@ -72,9 +75,9 @@ public static class InMemorySinkAssertionUtils
         return (assertionFramework.Value, majorVersion.Value, assemblyLocation);
     }
 
-    private static string GetInMemoryExtensionsAssemblyLocation()
+    private static string GetAssertionsAssemblyLocation()
     {
-        var assemblyLocation = Path.GetDirectoryName(typeof(InMemorySinkAssertionUtils).Assembly.Location);
+        var assemblyLocation = Path.GetDirectoryName(typeof(AssertionUtils).Assembly.Location);
         return string.IsNullOrEmpty(assemblyLocation) ? throw new Exception("Unable to determine path to load assemblies from") : assemblyLocation;
     }
 
@@ -83,11 +86,11 @@ public static class InMemorySinkAssertionUtils
         int majorVersion,
         string? assemblyLocation = null)
     {
-        assemblyLocation ??= GetInMemoryExtensionsAssemblyLocation();
+        assemblyLocation ??= GetAssertionsAssemblyLocation();
 
         var versionedLocation = Path.Combine(
             assemblyLocation,
-            $"Serilog.Sinks.InMemory.{assertionFramework:G}{majorVersion}.dll");
+            $"DragoAnt.Assertions.{assertionFramework:G}{majorVersion}.dll");
 
         if (!File.Exists(versionedLocation))
         {
@@ -98,7 +101,7 @@ public static class InMemorySinkAssertionUtils
         var versionedAssembly = Assembly.LoadFile(versionedLocation);
 
         return versionedAssembly.GetTypes()
-            .SingleOrDefault(t => t.Name == "InMemorySinkAssertionsFactoryImpl");
+            .SingleOrDefault(t => typeof(IAssertionsFactory).IsAssignableFrom(t) && !t.IsAbstract && !t.IsInterface);
     }
 
     private static bool IsFluentAssertionsAlreadyLoadedIntoDomain(
@@ -122,7 +125,7 @@ public static class InMemorySinkAssertionUtils
                 var metadataAttributes = assembly.GetCustomAttributes<AssemblyMetadataAttribute>().ToArray();
 
                 return !metadataAttributes.Any() ||
-                       metadataAttributes.Any(metadata => metadata.Value.Contains("FluentAssertions", StringComparison.OrdinalIgnoreCase));
+                       metadataAttributes.Any(metadata => metadata.Value.IndexOf("FluentAssertions", StringComparison.OrdinalIgnoreCase) >= 0);
             });
 
         return fluentAssertionsAssembly != null;
@@ -160,7 +163,7 @@ public static class InMemorySinkAssertionUtils
         }
 
         return assembly.GetCustomAttributes<AssemblyMetadataAttribute>()
-            .Any(metadata => metadata.Value.Contains("AwesomeAssertions", StringComparison.OrdinalIgnoreCase));
+            .Any(metadata => metadata.Value.IndexOf("AwesomeAssertions", StringComparison.OrdinalIgnoreCase) >= 0);
     }
 
     private static bool IsShouldlyAlreadyLoadedIntoDomain(
@@ -195,7 +198,7 @@ public static class InMemorySinkAssertionUtils
             var metadataAttributes = assembly.GetCustomAttributes<AssemblyMetadataAttribute>().ToList();
 
             if (!metadataAttributes.Any() ||
-                metadataAttributes.Any(metadata => metadata.Value.Contains("FluentAssertions", StringComparison.OrdinalIgnoreCase)))
+                metadataAttributes.Any(metadata => metadata.Value.IndexOf("FluentAssertions", StringComparison.OrdinalIgnoreCase) >= 0))
             {
                 return true;
             }
@@ -254,7 +257,7 @@ public static class InMemorySinkAssertionUtils
 
     /// <summary>
     /// NuGet consumers resolve assertion libraries next to the test assembly (BaseDirectory), not only
-    /// next to <see cref="Serilog.Sinks.InMemory.Assertions"/> in the package lib folder.
+    /// next to <see cref="DragoAnt.Assertions"/> in the package lib folder.
     /// </summary>
     private static IEnumerable<string> GetAssertionProbeDirectories(string packageLibDirectory)
     {

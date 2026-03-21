@@ -12,6 +12,8 @@ It is maintained here as **`DragoAnt.*` NuGet packages** while keeping the same 
 
 [![NuGet DragoAnt.Serilog.Sinks.InMemory](https://buildstats.info/nuget/DragoAnt.Serilog.Sinks.InMemory)](https://www.nuget.org/packages/DragoAnt.Serilog.Sinks.InMemory/)
 [![NuGet DragoAnt.Serilog.Sinks.InMemory.Assertions](https://buildstats.info/nuget/DragoAnt.Serilog.Sinks.InMemory.Assertions)](https://www.nuget.org/packages/DragoAnt.Serilog.Sinks.InMemory.Assertions/)
+[![NuGet DragoAnt.Assertions](https://buildstats.info/nuget/DragoAnt.Assertions)](https://www.nuget.org/packages/DragoAnt.Assertions/)
+[![NuGet DragoAnt.Assertions.Abstractions](https://buildstats.info/nuget/DragoAnt.Assertions.Abstractions)](https://www.nuget.org/packages/DragoAnt.Assertions.Abstractions/)
 
 ## Maintainers
 
@@ -22,6 +24,7 @@ Stable releases and beta/prerelease publishing through GitHub Actions are docume
 Compared with tag `2.0.0.0`, this fork currently differs in the following user-visible ways:
 
 - NuGet package IDs are `DragoAnt.Serilog.Sinks.InMemory` and `DragoAnt.Serilog.Sinks.InMemory.Assertions`. Namespaces and assembly names remain `Serilog.Sinks.InMemory*`.
+- Assertion framework discovery and adapter loading are now encapsulated in standalone packages `DragoAnt.Assertions` and `DragoAnt.Assertions.Abstractions`.
 - Packages now target `netstandard2.0` instead of `netstandard2.1`, widening compatibility for older test projects.
 - `WriteTo.InMemory(outputTemplate: ...)` is no longer part of the public API. Use `WriteTo.InMemory()` for the default singleton sink, or `WriteTo.InMemory(sink, ...)` to write into an explicit `InMemorySink` instance.
 - The sink and assertions APIs now support predicate-based filtering via `InMemorySink.Snapshot(Func<LogEvent, bool>)`, `HaveMessage(Func<LogEvent, bool>, ...)`, and `NotHaveMessage(Func<LogEvent, bool>, ...)`.
@@ -58,6 +61,27 @@ PowerShell:
 ```PowerShell
 Install-Package DragoAnt.Serilog.Sinks.InMemory.Assertions
 ```
+
+### Using DragoAnt.Assertions directly
+
+`DragoAnt.Assertions` is the framework-agnostic assertion bridge used by this repository.
+Use it when you want to write one extension method that works across FluentAssertions, AwesomeAssertions, and Shouldly without branching per framework.
+
+`dotnet` CLI:
+
+```bash
+dotnet add package DragoAnt.Assertions
+dotnet add package FluentAssertions
+```
+
+PowerShell:
+
+```PowerShell
+Install-Package DragoAnt.Assertions
+Install-Package FluentAssertions
+```
+
+You can swap `FluentAssertions` with `AwesomeAssertions` or `Shouldly`; the same extension code keeps working.
 
 ## Example
 
@@ -358,28 +382,83 @@ When the property `SomeObject` doesn't hold a destructured object the assertion 
 
 ### Building custom assertion extensions
 
-All assertion abstraction interfaces expose a `Subject` property. In addition, `InMemorySinkAssertions`, `LogEventsAssertions`, and `PatternLogEventsAssertions` provide `ToAssertion()` so extension authors can reuse the package's framework-aware failure handling.
+All assertion abstraction interfaces expose a `Subject` property. In addition, top-level assertion types implement `IAssertionsExtension`, so extension authors can call `ToAssertion()` and reuse framework-aware failure handling.
+
+#### Framework-independent extension
 
 ```csharp
+using System;
+using System.Linq;
+using DragoAnt.Assertions;
+using Serilog.Sinks.InMemory.Assertions;
+
 public static class CustomLogEventAssertions
 {
     public static LogEventsAssertions HaveAtLeast(
         this LogEventsAssertions assertions,
-        int count)
+        int count,
+        string because = "",
+        params object[] becauseArgs)
     {
         var extension = assertions.ToAssertion();
 
         extension.Assert(
-            extension.Assertions.Subject.Count >= count,
+            assertions.Subject.Count >= count,
             new FailMessage(
                 "Expected at least {0} matching log events, but found {1}.",
                 count,
-                extension.Assertions.Subject.Count));
+                assertions.Subject.Count),
+            because,
+            becauseArgs);
 
-        return extension.Assertions;
+        return assertions;
     }
 }
 ```
+
+#### Idempotent extension pattern
+
+Keep custom assertions read-only and deterministic:
+
+- do not mutate `Subject`
+- compute result from current state only
+- return the same assertion object for chaining
+
+```csharp
+using System;
+using System.Linq;
+using DragoAnt.Assertions;
+using Serilog.Sinks.InMemory.Assertions;
+
+public static class CustomLogEventAssertions
+{
+    public static LogEventsAssertions HaveUniqueMessageTemplates(
+        this LogEventsAssertions assertions,
+        string because = "",
+        params object[] becauseArgs)
+    {
+        var templates = assertions.Subject
+            .Select(e => e.MessageTemplate.Text)
+            .ToArray();
+
+        var uniqueCount = templates
+            .Distinct(StringComparer.Ordinal)
+            .Count();
+
+        assertions.ToAssertion().Assert(
+            uniqueCount == templates.Length,
+            new FailMessage(
+                "Expected matching log events to have unique templates, but found {0} duplicates.",
+                templates.Length - uniqueCount),
+            because,
+            becauseArgs);
+
+        return assertions;
+    }
+}
+```
+
+These extensions are framework-idempotent: the same implementation and failure message shape are used no matter whether the runtime framework is FluentAssertions, AwesomeAssertions, or Shouldly.
 
 ## Clearing log events between tests
 

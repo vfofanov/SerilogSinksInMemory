@@ -1,12 +1,16 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <RootNamespace>Serilog.Sinks.InMemory.Assertions</RootNamespace>
-        <IsPackable>false</IsPackable>
-    </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>Serilog.Sinks.InMemory.Assertions</RootNamespace>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\Serilog.Sinks.InMemory\Serilog.Sinks.InMemory.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DragoAnt.Assertions.Abstractions\DragoAnt.Assertions.Abstractions.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Serilog" />
+  </ItemGroup>
 
 </Project>

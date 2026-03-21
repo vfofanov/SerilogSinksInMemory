@@ -1,8 +1,9 @@
-﻿using Serilog.Events;
+using DragoAnt.Assertions;
+using Serilog.Events;
 
 namespace Serilog.Sinks.InMemory.Assertions;
 
-public interface LogEventsAssertions :IAssertionsExtension, ISubjectAssertions<IReadOnlyCollection<LogEvent>>
+public interface LogEventsAssertions : IAssertionsExtension, ISubjectAssertions<IReadOnlyCollection<LogEvent>>
 {
     LogEventsAssertions Appearing();
     LogEventsAssertions Times(int number, string because = "", params object[] becauseArgs);

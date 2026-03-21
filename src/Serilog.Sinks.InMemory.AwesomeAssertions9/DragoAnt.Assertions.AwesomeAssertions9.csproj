@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>Serilog.Sinks.InMemory.AssertionsFrameworkExtension</RootNamespace>
+    <IsPackable>false</IsPackable>
+    <Title>Assertion framework adapter</Title>
+    <Description>AwesomeAssertions 9 adapter</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AwesomeAssertions" VersionOverride="9.*" PrivateAssets="all" />
+    <PackageReference Include="Serilog" VersionOverride="4.*" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DragoAnt.Assertions.Abstractions\DragoAnt.Assertions.Abstractions.csproj" />
+    <ProjectReference Include="..\Serilog.Sinks.InMemory.Assertions.Abstractions\Serilog.Sinks.InMemory.Assertions.Abstractions.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Serilog.Sinks.InMemory.AwesomeAssertions8\Implementation\**\*.cs">
+      <Link>Implementation\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Compile>
+  </ItemGroup>
+</Project>

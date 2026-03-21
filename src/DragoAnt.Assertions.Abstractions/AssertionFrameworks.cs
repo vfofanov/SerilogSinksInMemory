@@ -1,4 +1,4 @@
-namespace Serilog.Sinks.InMemory.Assertions;
+namespace DragoAnt.Assertions;
 
 public enum AssertionFrameworks
 {

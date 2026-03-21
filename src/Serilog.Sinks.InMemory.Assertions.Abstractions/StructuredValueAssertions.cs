@@ -1,4 +1,5 @@
-﻿using Serilog.Events;
+using DragoAnt.Assertions;
+using Serilog.Events;
 
 namespace Serilog.Sinks.InMemory.Assertions;
 

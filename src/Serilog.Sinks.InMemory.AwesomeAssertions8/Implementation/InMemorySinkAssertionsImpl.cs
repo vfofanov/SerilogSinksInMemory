@@ -1,6 +1,6 @@
-﻿namespace Serilog.Sinks.InMemory.AssertionsFrameworkExtension;
+namespace Serilog.Sinks.InMemory.AssertionsFrameworkExtension;
 
-public partial class InMemorySinkAssertionsImpl : InMemorySinkAssertions
+public partial class LogEventsSourceAssertionsImpl : LogEventsSourceAssertions
 {
     public LogEventsAssertions HaveMessage(
         Func<LogEvent, bool> predicate,
@@ -11,7 +11,6 @@ public partial class InMemorySinkAssertionsImpl : InMemorySinkAssertions
         predicateErrorName ??= "<predicate>";
 
         var matches = Subject
-            .LogEvents
             .Where(predicate)
             .ToList();
 
@@ -30,7 +29,7 @@ public partial class InMemorySinkAssertionsImpl : InMemorySinkAssertions
 
     public PatternLogEventsAssertions HaveMessage()
     {
-        var logEvents = Subject.LogEvents;
+        var logEvents = Subject;
         return this.CreatePatternLogEventsAssertions(logEvents);
     }
 
@@ -58,13 +57,13 @@ public partial class InMemorySinkAssertionsImpl : InMemorySinkAssertions
 
         if (predicate != null)
         {
-            count = Subject.LogEvents.Count(predicate);
+            count = Subject.Count(predicate);
 
             failureMessage = $"Expected message \"{predicateErrorName}\" not to be logged, but it was found {(count > 1 ? $"{count} times" : "once")}";
         }
         else
         {
-            count = Subject.LogEvents.Count();
+            count = Subject.Count();
 
             failureMessage = $"Expected no messages to be logged, but found {(count > 1 ? $"{count} messages" : "message")}";
         }
