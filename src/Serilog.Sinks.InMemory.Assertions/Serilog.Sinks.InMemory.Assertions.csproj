@@ -20,7 +20,7 @@
     <ProjectReference Include="..\Serilog.Sinks.InMemory\Serilog.Sinks.InMemory.csproj" PrivateAssets="all" />
     <ProjectReference Include="..\DragoAnt.Assertions\DragoAnt.Assertions.csproj" />
 
-    <ProjectReference Include="..\Serilog.Sinks.InMemory.Assertions.Abstractions\Serilog.Sinks.InMemory.Assertions.Abstractions.csproj">
+    <ProjectReference Include="..\DragoAnt.Assertions.Serilog.Abstractions\DragoAnt.Assertions.Serilog.Abstractions.csproj">
       <ReferenceOutputAssembly>True</ReferenceOutputAssembly>
       <Package>true</Package>
       <OutputItemType>Content</OutputItemType>

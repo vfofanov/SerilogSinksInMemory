@@ -8,4 +8,4 @@ global using AwesomeAssertions.Execution;
 global using AwesomeAssertions.Primitives;
 global using DragoAnt.Assertions;
 global using Serilog.Events;
-global using Serilog.Sinks.InMemory.Assertions;
+global using DragoAnt.Assertions.Serilog;

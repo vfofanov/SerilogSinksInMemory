@@ -1,7 +1,7 @@
 using DragoAnt.Assertions;
 using Serilog.Events;
 
-namespace Serilog.Sinks.InMemory.Assertions;
+namespace DragoAnt.Assertions.Serilog;
 
 public interface LogEventsPropertyAssertion : IAssertionsExtension, ISubjectAssertions<IReadOnlyCollection<LogEvent>>
 {

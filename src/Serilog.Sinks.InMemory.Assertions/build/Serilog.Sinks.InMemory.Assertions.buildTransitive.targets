@@ -7,6 +7,6 @@
     Packed as buildTransitive/$(NuGetPackageIdPrefix).Serilog.Sinks.InMemory.Assertions.targets
   -->
   <ItemGroup>
-    <Reference Include="$(MSBuildThisFileDirectory)..\lib\netstandard2.0\Serilog.Sinks.InMemory.Assertions.Abstractions.dll" />
+    <Reference Include="$(MSBuildThisFileDirectory)..\lib\netstandard2.0\DragoAnt.Assertions.Serilog.Abstractions.dll" />
   </ItemGroup>
 </Project>

@@ -5,6 +5,11 @@ namespace DragoAnt.Assertions;
 
 public static class AssertionUtils
 {
+    static AssertionUtils()
+    {
+        AssertionFramework.SetDefault(GetDefaultAssertionFramework);
+    }
+
     public static IAssertionsFactory CreateAssertionsFactory()
     {
         var (assertionFramework, majorVersion, assemblyLocation) = GetAssertionsFramework();
@@ -73,6 +78,12 @@ public static class AssertionUtils
         }
 
         return (assertionFramework.Value, majorVersion.Value, assemblyLocation);
+    }
+
+    private static AssertionFramework GetDefaultAssertionFramework()
+    {
+        var (framework, majorVersion, _) = GetAssertionsFramework();
+        return new AssertionFramework(framework, new Version(majorVersion, 0));
     }
 
     private static string GetAssertionsAssemblyLocation()

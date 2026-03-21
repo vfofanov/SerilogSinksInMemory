@@ -1,8 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <RootNamespace>Serilog.Sinks.InMemory.Assertions</RootNamespace>
-    <IsPackable>false</IsPackable>
+    <RootNamespace>DragoAnt.Assertions.Serilog</RootNamespace>
+    <IsPackable>true</IsPackable>
+    <Title>Serilog assertion abstractions</Title>
+    <Description>Framework-agnostic Serilog assertion abstractions and contracts</Description>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,5 +13,4 @@
   <ItemGroup>
     <PackageReference Include="Serilog" />
   </ItemGroup>
-
 </Project>

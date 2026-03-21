@@ -1,3 +1,5 @@
+using DragoAnt.Assertions.Serilog;
+
 namespace Serilog.Sinks.InMemory.Assertions;
 
 public static class InMemorySinkAssertionExtensions

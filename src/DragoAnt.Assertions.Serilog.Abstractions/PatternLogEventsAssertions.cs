@@ -1,4 +1,4 @@
-﻿namespace Serilog.Sinks.InMemory.Assertions;
+namespace DragoAnt.Assertions.Serilog;
 
 public interface PatternLogEventsAssertions : LogEventsAssertions
 {

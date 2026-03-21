@@ -8,4 +8,4 @@ global using FluentAssertions.Execution;
 global using FluentAssertions.Primitives;
 global using DragoAnt.Assertions;
 global using Serilog.Events;
-global using Serilog.Sinks.InMemory.Assertions;
+global using DragoAnt.Assertions.Serilog;

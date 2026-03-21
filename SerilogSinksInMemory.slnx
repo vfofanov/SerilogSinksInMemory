@@ -19,12 +19,12 @@
     <File Path="README.md" />
   </Folder>
   <Folder Name="/src/">
-    <Project Path="src/Serilog.Sinks.InMemory.Assertions.Abstractions/Serilog.Sinks.InMemory.Assertions.Abstractions.csproj" />
     <Project Path="src/Serilog.Sinks.InMemory.Assertions/Serilog.Sinks.InMemory.Assertions.csproj" />
     <Project Path="src/Serilog.Sinks.InMemory/Serilog.Sinks.InMemory.csproj" />
   </Folder>
   <Folder Name="/src/Assertions/">
     <Project Path="src/DragoAnt.Assertions.Abstractions/DragoAnt.Assertions.Abstractions.csproj" />
+    <Project Path="src/DragoAnt.Assertions.Serilog.Abstractions/DragoAnt.Assertions.Serilog.Abstractions.csproj" />
     <Project Path="src/DragoAnt.Assertions/DragoAnt.Assertions.csproj" />
     <Project Path="src/Serilog.Sinks.InMemory.AwesomeAssertions8/DragoAnt.Assertions.AwesomeAssertions8.csproj" />
     <Project Path="src/Serilog.Sinks.InMemory.AwesomeAssertions9/DragoAnt.Assertions.AwesomeAssertions9.csproj" />

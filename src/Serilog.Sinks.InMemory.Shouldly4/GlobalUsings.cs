@@ -6,5 +6,5 @@ global using System.Diagnostics.CodeAnalysis;
 global using System.Linq;
 global using DragoAnt.Assertions;
 global using Serilog.Events;
-global using Serilog.Sinks.InMemory.Assertions;
+global using DragoAnt.Assertions.Serilog;
 global using Shouldly;
