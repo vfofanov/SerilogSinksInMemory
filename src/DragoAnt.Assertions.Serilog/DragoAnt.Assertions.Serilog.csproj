@@ -22,49 +22,49 @@
     <ProjectReference Include="..\DragoAnt.Assertions.Serilog.FluentAssertions5\DragoAnt.Assertions.Serilog.FluentAssertions5.csproj">
       <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <Package>true</Package>
+      <Pack>true</Pack>
       <OutputItemType>Content</OutputItemType>
       <PackagePath>lib/$(TargetFramework)</PackagePath>
     </ProjectReference>
     <ProjectReference Include="..\DragoAnt.Assertions.Serilog.FluentAssertions6\DragoAnt.Assertions.Serilog.FluentAssertions6.csproj">
       <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <Package>true</Package>
+      <Pack>true</Pack>
       <OutputItemType>Content</OutputItemType>
       <PackagePath>lib/$(TargetFramework)</PackagePath>
     </ProjectReference>
     <ProjectReference Include="..\DragoAnt.Assertions.Serilog.FluentAssertions7\DragoAnt.Assertions.Serilog.FluentAssertions7.csproj">
       <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <Package>true</Package>
+      <Pack>true</Pack>
       <OutputItemType>Content</OutputItemType>
       <PackagePath>lib/$(TargetFramework)</PackagePath>
     </ProjectReference>
     <ProjectReference Include="..\DragoAnt.Assertions.Serilog.FluentAssertions8\DragoAnt.Assertions.Serilog.FluentAssertions8.csproj">
       <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <Package>true</Package>
+      <Pack>true</Pack>
       <OutputItemType>Content</OutputItemType>
       <PackagePath>lib/$(TargetFramework)</PackagePath>
     </ProjectReference>
     <ProjectReference Include="..\DragoAnt.Assertions.Serilog.AwesomeAssertions8\DragoAnt.Assertions.Serilog.AwesomeAssertions8.csproj">
       <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <Package>true</Package>
+      <Pack>true</Pack>
       <OutputItemType>Content</OutputItemType>
       <PackagePath>lib/$(TargetFramework)</PackagePath>
     </ProjectReference>
     <ProjectReference Include="..\DragoAnt.Assertions.Serilog.AwesomeAssertions9\DragoAnt.Assertions.Serilog.AwesomeAssertions9.csproj">
       <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <Package>true</Package>
+      <Pack>true</Pack>
       <OutputItemType>Content</OutputItemType>
       <PackagePath>lib/$(TargetFramework)</PackagePath>
     </ProjectReference>
     <ProjectReference Include="..\DragoAnt.Assertions.Serilog.Shouldly4\DragoAnt.Assertions.Serilog.Shouldly4.csproj">
       <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <Package>true</Package>
+      <Pack>true</Pack>
       <OutputItemType>Content</OutputItemType>
       <PackagePath>lib/$(TargetFramework)</PackagePath>
     </ProjectReference>

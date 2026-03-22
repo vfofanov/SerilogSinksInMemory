@@ -6,12 +6,33 @@
     This package ships multiple assemblies under lib/netstandard2.0; expose them for compilation.
   -->
   <ItemGroup>
-    <Reference Include="$(MSBuildThisFileDirectory)..\lib\netstandard2.0\DragoAnt.Assertions.FluentAssertions5.dll" />
-    <Reference Include="$(MSBuildThisFileDirectory)..\lib\netstandard2.0\DragoAnt.Assertions.FluentAssertions6.dll" />
-    <Reference Include="$(MSBuildThisFileDirectory)..\lib\netstandard2.0\DragoAnt.Assertions.FluentAssertions7.dll" />
-    <Reference Include="$(MSBuildThisFileDirectory)..\lib\netstandard2.0\DragoAnt.Assertions.FluentAssertions8.dll" />
-    <Reference Include="$(MSBuildThisFileDirectory)..\lib\netstandard2.0\DragoAnt.Assertions.AwesomeAssertions8.dll" />
-    <Reference Include="$(MSBuildThisFileDirectory)..\lib\netstandard2.0\DragoAnt.Assertions.AwesomeAssertions9.dll" />
-    <Reference Include="$(MSBuildThisFileDirectory)..\lib\netstandard2.0\DragoAnt.Assertions.Shouldly4.dll" />
+    <Reference Include="DragoAnt.Assertions.FluentAssertions5">
+      <HintPath>$(MSBuildThisFileDirectory)..\lib\netstandard2.0\DragoAnt.Assertions.FluentAssertions5.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="DragoAnt.Assertions.FluentAssertions6">
+      <HintPath>$(MSBuildThisFileDirectory)..\lib\netstandard2.0\DragoAnt.Assertions.FluentAssertions6.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="DragoAnt.Assertions.FluentAssertions7">
+      <HintPath>$(MSBuildThisFileDirectory)..\lib\netstandard2.0\DragoAnt.Assertions.FluentAssertions7.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="DragoAnt.Assertions.FluentAssertions8">
+      <HintPath>$(MSBuildThisFileDirectory)..\lib\netstandard2.0\DragoAnt.Assertions.FluentAssertions8.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="DragoAnt.Assertions.AwesomeAssertions8">
+      <HintPath>$(MSBuildThisFileDirectory)..\lib\netstandard2.0\DragoAnt.Assertions.AwesomeAssertions8.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="DragoAnt.Assertions.AwesomeAssertions9">
+      <HintPath>$(MSBuildThisFileDirectory)..\lib\netstandard2.0\DragoAnt.Assertions.AwesomeAssertions9.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="DragoAnt.Assertions.Shouldly4">
+      <HintPath>$(MSBuildThisFileDirectory)..\lib\netstandard2.0\DragoAnt.Assertions.Shouldly4.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
   </ItemGroup>
 </Project>

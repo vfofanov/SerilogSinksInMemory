@@ -22,7 +22,7 @@
 
     <ProjectReference Include="..\DragoAnt.Assertions.Serilog.Abstractions\DragoAnt.Assertions.Serilog.Abstractions.csproj">
       <ReferenceOutputAssembly>True</ReferenceOutputAssembly>
-      <Package>true</Package>
+      <Pack>true</Pack>
       <OutputItemType>Content</OutputItemType>
       <PackagePath>lib/$(TargetFramework)</PackagePath>
       <ExcludeAssets>all</ExcludeAssets>
