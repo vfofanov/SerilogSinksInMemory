@@ -24,15 +24,25 @@
   </Folder>
   <Folder Name="/src/Assertions/">
     <Project Path="src/DragoAnt.Assertions.Abstractions/DragoAnt.Assertions.Abstractions.csproj" />
+    <Project Path="src/DragoAnt.Assertions.AwesomeAssertions8/DragoAnt.Assertions.AwesomeAssertions8.csproj" />
+    <Project Path="src/DragoAnt.Assertions.AwesomeAssertions9/DragoAnt.Assertions.AwesomeAssertions9.csproj" />
+    <Project Path="src/DragoAnt.Assertions.FluentAssertions5/DragoAnt.Assertions.FluentAssertions5.csproj" />
+    <Project Path="src/DragoAnt.Assertions.FluentAssertions6/DragoAnt.Assertions.FluentAssertions6.csproj" />
+    <Project Path="src/DragoAnt.Assertions.FluentAssertions7/DragoAnt.Assertions.FluentAssertions7.csproj" />
+    <Project Path="src/DragoAnt.Assertions.FluentAssertions8/DragoAnt.Assertions.FluentAssertions8.csproj" />
     <Project Path="src/DragoAnt.Assertions.Serilog.Abstractions/DragoAnt.Assertions.Serilog.Abstractions.csproj" />
+    <Project Path="src/DragoAnt.Assertions.Serilog/DragoAnt.Assertions.Serilog.csproj" />
+    <Project Path="src/DragoAnt.Assertions.Shouldly4/DragoAnt.Assertions.Shouldly4.csproj" />
     <Project Path="src/DragoAnt.Assertions/DragoAnt.Assertions.csproj" />
-    <Project Path="src/Serilog.Sinks.InMemory.AwesomeAssertions8/DragoAnt.Assertions.AwesomeAssertions8.csproj" />
-    <Project Path="src/Serilog.Sinks.InMemory.AwesomeAssertions9/DragoAnt.Assertions.AwesomeAssertions9.csproj" />
-    <Project Path="src/Serilog.Sinks.InMemory.FluentAssertions5/DragoAnt.Assertions.FluentAssertions5.csproj" />
-    <Project Path="src/Serilog.Sinks.InMemory.FluentAssertions6/DragoAnt.Assertions.FluentAssertions6.csproj" />
-    <Project Path="src/Serilog.Sinks.InMemory.FluentAssertions7/DragoAnt.Assertions.FluentAssertions7.csproj" />
-    <Project Path="src/Serilog.Sinks.InMemory.FluentAssertions8/DragoAnt.Assertions.FluentAssertions8.csproj" />
-    <Project Path="src/Serilog.Sinks.InMemory.Shouldly4/DragoAnt.Assertions.Shouldly4.csproj" />
+  </Folder>
+  <Folder Name="/src/Assertions.Serilog/">
+    <Project Path="src/Serilog.Sinks.InMemory.AwesomeAssertions8/DragoAnt.Assertions.Serilog.AwesomeAssertions8.csproj" />
+    <Project Path="src/Serilog.Sinks.InMemory.AwesomeAssertions9/DragoAnt.Assertions.Serilog.AwesomeAssertions9.csproj" />
+    <Project Path="src/Serilog.Sinks.InMemory.FluentAssertions5/DragoAnt.Assertions.Serilog.FluentAssertions5.csproj" />
+    <Project Path="src/Serilog.Sinks.InMemory.FluentAssertions6/DragoAnt.Assertions.Serilog.FluentAssertions6.csproj" />
+    <Project Path="src/Serilog.Sinks.InMemory.FluentAssertions7/DragoAnt.Assertions.Serilog.FluentAssertions7.csproj" />
+    <Project Path="src/Serilog.Sinks.InMemory.FluentAssertions8/DragoAnt.Assertions.Serilog.FluentAssertions8.csproj" />
+    <Project Path="src/Serilog.Sinks.InMemory.Shouldly4/DragoAnt.Assertions.Serilog.Shouldly4.csproj" />
   </Folder>
   <Folder Name="/test/">
     <Project Path="test/Serilog.Sinks.InMemory.Assertions.Tests.Unit.AwesomeAssertions8/Serilog.Sinks.InMemory.Assertions.Tests.Unit.AwesomeAssertions8.csproj" />

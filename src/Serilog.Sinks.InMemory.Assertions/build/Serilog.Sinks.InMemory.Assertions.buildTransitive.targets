@@ -3,7 +3,7 @@
 <Project>
   <!--
     Expose the bundled abstractions assembly as compile reference when this package is consumed.
-    Adapter DLLs are now bundled by the DragoAnt.Assertions package.
+    Adapter DLLs are bundled by the DragoAnt.Assertions.Serilog package.
     Packed as buildTransitive/$(NuGetPackageIdPrefix).Serilog.Sinks.InMemory.Assertions.targets
   -->
   <ItemGroup>

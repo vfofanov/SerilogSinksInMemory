@@ -1,3 +1,7 @@
+using AwesomeAssertions.Execution;
+using AwesomeAssertions.Primitives;
+using DragoAnt.Assertions;
+
 namespace Serilog.Sinks.InMemory.AssertionsFrameworkExtension;
 
 public abstract class BaseAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<TSubject, TAssertions>, IAssertionsExtension

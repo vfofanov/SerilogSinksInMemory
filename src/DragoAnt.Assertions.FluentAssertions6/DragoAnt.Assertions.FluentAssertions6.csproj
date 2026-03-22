@@ -2,15 +2,17 @@
   <PropertyGroup>
     <RootNamespace>Serilog.Sinks.InMemory.AssertionsFrameworkExtension</RootNamespace>
     <IsPackable>false</IsPackable>
+    <Title>Pure assertion framework adapter</Title>
+    <Description>FluentAssertions 6 pure adapter without Serilog dependencies</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AwesomeAssertions" VersionOverride="8.*" PrivateAssets="all" />
-    <PackageReference Include="Serilog" VersionOverride="4.*" PrivateAssets="all" />
+    <PackageReference Include="FluentAssertions" VersionOverride="6.*">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\DragoAnt.Assertions.Abstractions\DragoAnt.Assertions.Abstractions.csproj" />
-    <ProjectReference Include="..\DragoAnt.Assertions.Serilog.Abstractions\DragoAnt.Assertions.Serilog.Abstractions.csproj" />
   </ItemGroup>
 </Project>

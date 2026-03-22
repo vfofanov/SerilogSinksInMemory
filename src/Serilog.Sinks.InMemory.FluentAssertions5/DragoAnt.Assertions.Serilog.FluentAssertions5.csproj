@@ -1,13 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <RootNamespace>Serilog.Sinks.InMemory.AssertionsFrameworkExtension</RootNamespace>
+    <AssemblyName>DragoAnt.Assertions.Serilog.FluentAssertions5</AssemblyName>
     <IsPackable>false</IsPackable>
     <Title>Assertion framework adapter</Title>
-    <Description>FluentAssertions 6 adapter</Description>
+    <Description>FluentAssertions 5 Serilog adapter</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentAssertions" VersionOverride="6.*">
+    <PackageReference Include="FluentAssertions" VersionOverride="5.*">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Serilog" VersionOverride="4.*">
@@ -18,6 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DragoAnt.Assertions.Abstractions\DragoAnt.Assertions.Abstractions.csproj" />
     <ProjectReference Include="..\DragoAnt.Assertions.Serilog.Abstractions\DragoAnt.Assertions.Serilog.Abstractions.csproj" />
+    <ProjectReference Include="..\DragoAnt.Assertions.FluentAssertions5\DragoAnt.Assertions.FluentAssertions5.csproj" />
   </ItemGroup>
 
   <ItemGroup>

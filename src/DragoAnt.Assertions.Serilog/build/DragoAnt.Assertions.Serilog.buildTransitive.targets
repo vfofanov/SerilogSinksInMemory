@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Project>
+  <!--
+    NuGet only adds the assembly matching the package id as a compile reference.
+    This package ships multiple assemblies under lib/netstandard2.0; expose them for compilation.
+  -->
+  <ItemGroup>
+    <Reference Include="$(MSBuildThisFileDirectory)..\lib\netstandard2.0\DragoAnt.Assertions.Serilog.FluentAssertions5.dll" />
+    <Reference Include="$(MSBuildThisFileDirectory)..\lib\netstandard2.0\DragoAnt.Assertions.Serilog.FluentAssertions6.dll" />
+    <Reference Include="$(MSBuildThisFileDirectory)..\lib\netstandard2.0\DragoAnt.Assertions.Serilog.FluentAssertions7.dll" />
+    <Reference Include="$(MSBuildThisFileDirectory)..\lib\netstandard2.0\DragoAnt.Assertions.Serilog.FluentAssertions8.dll" />
+    <Reference Include="$(MSBuildThisFileDirectory)..\lib\netstandard2.0\DragoAnt.Assertions.Serilog.AwesomeAssertions8.dll" />
+    <Reference Include="$(MSBuildThisFileDirectory)..\lib\netstandard2.0\DragoAnt.Assertions.Serilog.AwesomeAssertions9.dll" />
+    <Reference Include="$(MSBuildThisFileDirectory)..\lib\netstandard2.0\DragoAnt.Assertions.Serilog.Shouldly4.dll" />
+  </ItemGroup>
+</Project>

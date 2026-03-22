@@ -8,8 +8,7 @@ public static class InMemorySinkAssertionExtensions
 
     static InMemorySinkAssertionExtensions()
     {
-        var assertionsFactory = DragoAnt.Assertions.AssertionUtils.CreateAssertionsFactory() as AssertionsFactory
-            ?? throw new InvalidOperationException("Unable to load assertions factory");
+        var assertionsFactory = SerilogAssertionUtils.CreateAssertionsFactory();
 
         AssertionsFactory = new InMemorySinkAssertionsFactoryBridge(assertionsFactory);
     }

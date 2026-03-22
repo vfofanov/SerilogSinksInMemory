@@ -1,23 +1,7 @@
 namespace Serilog.Sinks.InMemory.AssertionsFrameworkExtension;
 
-internal static class AssertionExtensions
+internal static class SerilogAssertionExtensions
 {
-    public static readonly AssertionFramework AssertionFramework =
-        new(AssertionFrameworks.AwesomeAssertions, new Version(9, 0));
-
-    public static void Assert(
-        this AssertionChain assertionChain,
-        bool condition,
-        FailMessage failureMessage,
-        string because = "",
-        params object[] becauseArgs)
-    {
-        assertionChain
-            .BecauseOf(because, becauseArgs)
-            .ForCondition(condition)
-            .FailWith(failureMessage.Message, failureMessage.Args);
-    }
-
     public static LogEventsAssertions CreateLogEventsAssertions<TSubject, TAssertions>(
         this ReferenceTypeAssertions<TSubject, TAssertions> parent,
         string pattern,

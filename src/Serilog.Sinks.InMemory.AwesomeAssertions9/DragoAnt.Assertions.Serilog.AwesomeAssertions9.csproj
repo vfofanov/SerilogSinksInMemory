@@ -1,23 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <RootNamespace>Serilog.Sinks.InMemory.AssertionsFrameworkExtension</RootNamespace>
+    <AssemblyName>DragoAnt.Assertions.Serilog.AwesomeAssertions9</AssemblyName>
     <IsPackable>false</IsPackable>
     <Title>Assertion framework adapter</Title>
-    <Description>FluentAssertions 7 adapter</Description>
+    <Description>AwesomeAssertions 9 Serilog adapter</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentAssertions" VersionOverride="7.*">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Serilog" VersionOverride="4.*">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
+    <PackageReference Include="AwesomeAssertions" VersionOverride="9.*" PrivateAssets="all" />
+    <PackageReference Include="Serilog" VersionOverride="4.*" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\DragoAnt.Assertions.Abstractions\DragoAnt.Assertions.Abstractions.csproj" />
     <ProjectReference Include="..\DragoAnt.Assertions.Serilog.Abstractions\DragoAnt.Assertions.Serilog.Abstractions.csproj" />
+    <ProjectReference Include="..\DragoAnt.Assertions.AwesomeAssertions9\DragoAnt.Assertions.AwesomeAssertions9.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,3 +1,6 @@
+using System.Diagnostics.CodeAnalysis;
+using DragoAnt.Assertions;
+
 namespace Serilog.Sinks.InMemory.AssertionsFrameworkExtension;
 
 public abstract class BaseShouldlyAssertions<T> : ISubjectAssertions<T>
