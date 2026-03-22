@@ -4,6 +4,7 @@
     <IsPackable>true</IsPackable>
     <Title>Serilog in-memory sink assertion extensions</Title>
     <Description>Assertions extensions to use with the Serilog.Sinks.InMemory package</Description>
+    <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);_IncludeAdapterDllsInPackage</TargetsForTfmSpecificBuildOutput>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,11 +23,15 @@
 
     <ProjectReference Include="..\DragoAnt.Assertions.Serilog.Abstractions\DragoAnt.Assertions.Serilog.Abstractions.csproj">
       <ReferenceOutputAssembly>True</ReferenceOutputAssembly>
-      <Pack>true</Pack>
       <OutputItemType>Content</OutputItemType>
-      <PackagePath>lib/$(TargetFramework)</PackagePath>
       <ExcludeAssets>all</ExcludeAssets>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </ProjectReference>
   </ItemGroup>
+
+  <Target Name="_IncludeAdapterDllsInPackage">
+    <ItemGroup>
+      <BuildOutputInPackage Include="$(OutputPath)DragoAnt.Assertions.Serilog.Abstractions.dll" />
+    </ItemGroup>
+  </Target>
 </Project>

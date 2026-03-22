@@ -5,6 +5,7 @@
     <PackageId>DragoAnt.Assertions.Serilog</PackageId>
     <Title>Serilog assertion framework adapters</Title>
     <Description>Serilog-specific adapter discovery and runtime selection for assertion frameworks</Description>
+    <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);_IncludeAdapterDllsInPackage</TargetsForTfmSpecificBuildOutput>
   </PropertyGroup>
 
   <!-- Filename must match PackageId: DragoAnt.Assertions.Serilog.targets -->
@@ -18,55 +19,59 @@
     <ProjectReference Include="..\DragoAnt.Assertions.Serilog.Abstractions\DragoAnt.Assertions.Serilog.Abstractions.csproj" />
   </ItemGroup>
 
+  <!--
+    Adapter projects: build-order dependency + copy to output.
+    ReferenceOutputAssembly=False prevents compile-time coupling.
+    OutputItemType=Content + CopyToOutputDirectory=Always copies DLLs to $(OutputPath) at build time.
+    Packing is handled by _IncludeAdapterDllsInPackage below (works with dotnet pack - -no-build).
+  -->
   <ItemGroup>
     <ProjectReference Include="..\DragoAnt.Assertions.Serilog.FluentAssertions5\DragoAnt.Assertions.Serilog.FluentAssertions5.csproj">
       <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <Pack>true</Pack>
       <OutputItemType>Content</OutputItemType>
-      <PackagePath>lib/$(TargetFramework)</PackagePath>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </ProjectReference>
     <ProjectReference Include="..\DragoAnt.Assertions.Serilog.FluentAssertions6\DragoAnt.Assertions.Serilog.FluentAssertions6.csproj">
       <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <Pack>true</Pack>
       <OutputItemType>Content</OutputItemType>
-      <PackagePath>lib/$(TargetFramework)</PackagePath>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </ProjectReference>
     <ProjectReference Include="..\DragoAnt.Assertions.Serilog.FluentAssertions7\DragoAnt.Assertions.Serilog.FluentAssertions7.csproj">
       <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <Pack>true</Pack>
       <OutputItemType>Content</OutputItemType>
-      <PackagePath>lib/$(TargetFramework)</PackagePath>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </ProjectReference>
     <ProjectReference Include="..\DragoAnt.Assertions.Serilog.FluentAssertions8\DragoAnt.Assertions.Serilog.FluentAssertions8.csproj">
       <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <Pack>true</Pack>
       <OutputItemType>Content</OutputItemType>
-      <PackagePath>lib/$(TargetFramework)</PackagePath>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </ProjectReference>
     <ProjectReference Include="..\DragoAnt.Assertions.Serilog.AwesomeAssertions8\DragoAnt.Assertions.Serilog.AwesomeAssertions8.csproj">
       <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <Pack>true</Pack>
       <OutputItemType>Content</OutputItemType>
-      <PackagePath>lib/$(TargetFramework)</PackagePath>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </ProjectReference>
     <ProjectReference Include="..\DragoAnt.Assertions.Serilog.AwesomeAssertions9\DragoAnt.Assertions.Serilog.AwesomeAssertions9.csproj">
       <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <Pack>true</Pack>
       <OutputItemType>Content</OutputItemType>
-      <PackagePath>lib/$(TargetFramework)</PackagePath>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </ProjectReference>
     <ProjectReference Include="..\DragoAnt.Assertions.Serilog.Shouldly4\DragoAnt.Assertions.Serilog.Shouldly4.csproj">
       <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <Pack>true</Pack>
       <OutputItemType>Content</OutputItemType>
-      <PackagePath>lib/$(TargetFramework)</PackagePath>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </ProjectReference>
   </ItemGroup>
+
+  <Target Name="_IncludeAdapterDllsInPackage">
+    <ItemGroup>
+      <BuildOutputInPackage Include="$(OutputPath)DragoAnt.Assertions.Serilog.FluentAssertions5.dll" />
+      <BuildOutputInPackage Include="$(OutputPath)DragoAnt.Assertions.Serilog.FluentAssertions6.dll" />
+      <BuildOutputInPackage Include="$(OutputPath)DragoAnt.Assertions.Serilog.FluentAssertions7.dll" />
+      <BuildOutputInPackage Include="$(OutputPath)DragoAnt.Assertions.Serilog.FluentAssertions8.dll" />
+      <BuildOutputInPackage Include="$(OutputPath)DragoAnt.Assertions.Serilog.AwesomeAssertions8.dll" />
+      <BuildOutputInPackage Include="$(OutputPath)DragoAnt.Assertions.Serilog.AwesomeAssertions9.dll" />
+      <BuildOutputInPackage Include="$(OutputPath)DragoAnt.Assertions.Serilog.Shouldly4.dll" />
+    </ItemGroup>
+  </Target>
 </Project>
