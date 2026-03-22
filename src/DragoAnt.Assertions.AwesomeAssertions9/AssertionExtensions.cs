@@ -1,7 +1,7 @@
 using AwesomeAssertions.Execution;
 using DragoAnt.Assertions;
 
-namespace Serilog.Sinks.InMemory.AssertionsFrameworkExtension;
+namespace DragoAnt.Assertions.FrameworkExtension;
 
 public static class AssertionExtensions
 {

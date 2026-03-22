@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using DragoAnt.Assertions;
 using Shouldly;
 
-namespace Serilog.Sinks.InMemory.AssertionsFrameworkExtension;
+namespace DragoAnt.Assertions.FrameworkExtension;
 
 public static class AssertionExtensions
 {
@@ -22,6 +22,15 @@ public static class AssertionExtensions
         if (failureMessage.Args.Length != 0)
         {
             message = string.Format(message, FormatArgs(failureMessage.Args));
+        }
+
+        if (!string.IsNullOrWhiteSpace(because))
+        {
+            var becauseMessage = becauseArgs.Length == 0
+                ? because
+                : string.Format(because, becauseArgs);
+
+            message = $"{message} because {becauseMessage}";
         }
 
         throw new ShouldAssertException(message);

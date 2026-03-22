@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace DragoAnt.Assertions.Serilog;
 
@@ -6,7 +7,7 @@ public static class SerilogAssertionUtils
 {
     private static readonly Lazy<bool> EnsureDefaultAssertionFramework = new(() =>
     {
-        _ = DragoAnt.Assertions.AssertionUtils.CreateAssertionsFactory();
+        RuntimeHelpers.RunClassConstructor(typeof(DragoAnt.Assertions.AssertionUtils).TypeHandle);
         return true;
     });
 
@@ -42,19 +43,43 @@ public static class SerilogAssertionUtils
     {
         assemblyLocation ??= GetAssertionsAssemblyLocation();
 
-        var versionedLocation = Path.Combine(
-            assemblyLocation,
-            $"DragoAnt.Assertions.Serilog.{assertionFramework:G}{majorVersion}.dll");
-
-        if (!File.Exists(versionedLocation))
+        foreach (var baseDir in GetAssertionProbeDirectories(assemblyLocation))
         {
-            throw new InvalidOperationException(
-                $"Detected {assertionFramework:G} version {majorVersion} but the Serilog assertions adapter wasn't found on disk");
+            var versionedLocation = Path.Combine(
+                baseDir,
+                $"DragoAnt.Assertions.Serilog.{assertionFramework:G}{majorVersion}.dll");
+
+            if (!File.Exists(versionedLocation))
+            {
+                continue;
+            }
+
+            var versionedAssembly = Assembly.LoadFrom(versionedLocation);
+            var factoryType = versionedAssembly.GetTypes()
+                .SingleOrDefault(t => typeof(AssertionsFactory).IsAssignableFrom(t) && !t.IsAbstract && !t.IsInterface);
+
+            if (factoryType != null)
+            {
+                return factoryType;
+            }
         }
 
-        var versionedAssembly = Assembly.LoadFrom(versionedLocation);
+        throw new InvalidOperationException(
+            $"Detected {assertionFramework:G} version {majorVersion} but the Serilog assertions adapter wasn't found on disk");
+    }
 
-        return versionedAssembly.GetTypes()
-            .SingleOrDefault(t => typeof(AssertionsFactory).IsAssignableFrom(t) && !t.IsAbstract && !t.IsInterface);
+    /// <summary>
+    /// NuGet consumers resolve adapters next to the test assembly (BaseDirectory), not only
+    /// next to <see cref="DragoAnt.Assertions.Serilog"/> in the package lib folder.
+    /// </summary>
+    private static IEnumerable<string> GetAssertionProbeDirectories(string packageLibDirectory)
+    {
+        yield return packageLibDirectory;
+
+        var baseDir = AppContext.BaseDirectory;
+        if (!string.IsNullOrEmpty(baseDir))
+        {
+            yield return baseDir;
+        }
     }
 }

@@ -109,10 +109,10 @@ public static class AssertionUtils
                 $"Detected {assertionFramework:G} version {majorVersion} but the assertions adapter wasn't found on disk");
         }
 
-        var versionedAssembly = Assembly.LoadFile(versionedLocation);
+        var versionedAssembly = Assembly.LoadFrom(versionedLocation);
 
         return versionedAssembly.GetTypes()
-            .SingleOrDefault(t => typeof(IAssertionsFactory).IsAssignableFrom(t) && !t.IsAbstract && !t.IsInterface);
+            .SingleOrDefault(t => typeof(IPureAssertionsFactory).IsAssignableFrom(t) && !t.IsAbstract && !t.IsInterface);
     }
 
     private static bool IsFluentAssertionsAlreadyLoadedIntoDomain(
@@ -200,7 +200,7 @@ public static class AssertionUtils
                 continue;
             }
 
-            assembly = Assembly.LoadFile(assemblyPath);
+            assembly = Assembly.LoadFrom(assemblyPath);
             if (IsAwesomeAssertionsAssembly(assembly))
             {
                 continue;
@@ -233,7 +233,7 @@ public static class AssertionUtils
                     continue;
                 }
 
-                assembly = Assembly.LoadFile(assemblyPath);
+                assembly = Assembly.LoadFrom(assemblyPath);
                 if (!IsAwesomeAssertionsAssembly(assembly))
                 {
                     continue;
@@ -257,7 +257,7 @@ public static class AssertionUtils
 
             if (File.Exists(assemblyPath))
             {
-                assembly = Assembly.LoadFile(assemblyPath);
+                assembly = Assembly.LoadFrom(assemblyPath);
                 return true;
             }
         }

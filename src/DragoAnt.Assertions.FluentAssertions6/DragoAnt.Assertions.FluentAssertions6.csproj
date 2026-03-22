@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <RootNamespace>Serilog.Sinks.InMemory.AssertionsFrameworkExtension</RootNamespace>
+    <RootNamespace>DragoAnt.Assertions.FrameworkExtension</RootNamespace>
     <IsPackable>false</IsPackable>
     <Title>Pure assertion framework adapter</Title>
     <Description>FluentAssertions 6 pure adapter without Serilog dependencies</Description>
@@ -14,5 +14,14 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DragoAnt.Assertions.Abstractions\DragoAnt.Assertions.Abstractions.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\DragoAnt.Assertions.Shared\BaseAssertions.FailMessage.cs">
+      <Link>BaseAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\DragoAnt.Assertions.Shared\PureAssertionFactoryImpl.cs">
+      <Link>AssertionFactoryImpl.cs</Link>
+    </Compile>
   </ItemGroup>
 </Project>
