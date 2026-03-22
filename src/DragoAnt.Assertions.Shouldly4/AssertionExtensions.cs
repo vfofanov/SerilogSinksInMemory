@@ -9,7 +9,11 @@ public static class AssertionExtensions
             (message, condition, because, becauseArgs) =>
                 message.Assert(condition, because, becauseArgs));
 
-    public static void Assert(this FailMessage failureMessage, [DoesNotReturnIf(false)] bool condition, string because = "", params object[] becauseArgs)
+    public static void Assert(
+        this FailMessage failureMessage,
+        [DoesNotReturnIf(false)] bool condition,
+        string because = "",
+        params object?[] becauseArgs)
     {
         if (condition)
         {

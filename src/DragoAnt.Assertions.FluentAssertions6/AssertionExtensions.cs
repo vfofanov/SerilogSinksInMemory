@@ -9,9 +9,9 @@ public static class AssertionExtensions
 
     public static void Assert(
         this FailMessage failureMessage,
-        bool condition,
+        [DoesNotReturnIf(false)]bool condition,
         string because = "",
-        params object[] becauseArgs)
+        params object?[] becauseArgs)
     {
         Execute.Assertion
             .BecauseOf(because, becauseArgs)

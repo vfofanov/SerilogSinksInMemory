@@ -5,4 +5,5 @@ namespace Serilog.Sinks.InMemory.Assertions;
 
 public interface InMemorySinkAssertions : LogEventsSourceAssertions, ISubjectAssertions<InMemorySink>
 {
+    new InMemorySink Subject { get; }
 }

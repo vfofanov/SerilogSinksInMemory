@@ -7,9 +7,9 @@ public readonly struct AssertionFramework
     private static AssertionFramework? _default;
     private static Func<AssertionFramework>? _defaultFactory;
     
-    private readonly Action<FailMessage, bool, string, object[]> _assert;
+    private readonly Action<FailMessage, bool, string, object?[]> _assert;
 
-    public AssertionFramework(AssertionFrameworks framework, Version version, Action<FailMessage, bool, string, object[]> assert)
+    public AssertionFramework(AssertionFrameworks framework, Version version, Action<FailMessage, bool, string, object?[]> assert)
     {
         Framework = framework;
         Version = version;
@@ -77,8 +77,8 @@ public readonly struct AssertionFramework
     public Version Version { get; }
     
     public void Assert(
+        [DoesNotReturnIf(false)] bool condition,
         FailMessage failureMessage,
-        bool condition,
         string because = "",
-        params object[] becauseArgs) => _assert(failureMessage, condition, because, becauseArgs);
+        params object?[] becauseArgs) => _assert(failureMessage, condition, because, becauseArgs);
 }

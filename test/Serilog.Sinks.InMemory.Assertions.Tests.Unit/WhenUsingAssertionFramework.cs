@@ -35,7 +35,7 @@ public class WhenUsingAssertionFramework
             Assert.Equal(customFramework.Framework, current.Framework);
             Assert.Equal(customFramework.Version, current.Version);
 
-            current.Assert("custom assertion should run", condition: true);
+            current.Assert(condition: true, failureMessage: "custom assertion should run");
             Assert.Equal(1, assertCalls);
         }
         finally
@@ -54,7 +54,7 @@ public class WhenUsingAssertionFramework
         FailMessage? capturedMessage = null;
         bool? capturedCondition = null;
         string? capturedBecause = null;
-        object[]? capturedBecauseArgs = null;
+        object?[]? capturedBecauseArgs = null;
 
         var framework = new AssertionFramework(
             AssertionFrameworks.Unknown,
@@ -70,11 +70,9 @@ public class WhenUsingAssertionFramework
         var failMessage = new FailMessage("Expected {0}", "value");
         var becauseArgs = new object[] { "A", 42 };
 
-        framework.Assert(
-            failMessage,
-            condition: false,
-            because: "because {0} {1}",
-            becauseArgs: becauseArgs);
+        framework.Assert(condition: false,
+            failureMessage: failMessage,
+            because: "because {0} {1}", becauseArgs: becauseArgs);
 
         Assert.Equal(failMessage.Message, capturedMessage?.Message);
         Assert.Equal(failMessage.Args, capturedMessage?.Args);
@@ -89,7 +87,7 @@ public class WhenUsingAssertionFramework
         EnsureDefaultFrameworkConfigured();
         var failure = new FailMessage("Expected default framework failure");
 
-        var thrown = Record.Exception(() => AssertionFramework.Default.Assert(failure, condition: false));
+        var thrown = Record.Exception(() => AssertionFramework.Default.Assert(condition: false, failureMessage: failure));
 
         Assert.NotNull(thrown);
         Assert.Contains("Expected default framework failure", thrown.Message, StringComparison.Ordinal);
