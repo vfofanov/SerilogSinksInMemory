@@ -1,6 +1,6 @@
 namespace DragoAnt.Assertions;
 
-public readonly struct AssertionFramework
+public sealed class AssertionFramework
 {
     private static readonly AsyncLocal<AssertionFramework?> LocalCurrent = new();
     private static readonly object DefaultLock = new();
@@ -20,16 +20,16 @@ public readonly struct AssertionFramework
     {
         get
         {
-            if (_default.HasValue)
+            if (_default != null)
             {
-                return _default.Value;
+                return _default;
             }
 
             lock (DefaultLock)
             {
-                if (_default.HasValue)
+                if (_default != null)
                 {
-                    return _default.Value;
+                    return _default;
                 }
 
                 var defaultFactory = _defaultFactory
@@ -37,7 +37,7 @@ public readonly struct AssertionFramework
                         "Default assertion framework is not configured. Make sure DragoAnt.Assertions is referenced.");
 
                 _default = defaultFactory();
-                return _default.Value;
+                return _default;
             }
         }
     }
@@ -65,6 +65,11 @@ public readonly struct AssertionFramework
 
     public static void SetDefault(AssertionFramework framework)
     {
+        if (framework == null)
+        {
+            throw new ArgumentNullException(nameof(framework));
+        }
+
         lock (DefaultLock)
         {
             _default = framework;
