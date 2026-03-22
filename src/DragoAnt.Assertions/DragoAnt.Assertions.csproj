@@ -5,7 +5,6 @@
     <PackageId>DragoAnt.Assertions</PackageId>
     <Title>Assertion framework adapters</Title>
     <Description>Adapter discovery and runtime selection for assertion frameworks</Description>
-    <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);_IncludeAdapterDllsInPackage</TargetsForTfmSpecificBuildOutput>
   </PropertyGroup>
 
   <!-- Filename must match PackageId: DragoAnt.Assertions.targets -->
@@ -21,50 +20,52 @@
   <ItemGroup>
     <ProjectReference Include="..\DragoAnt.Assertions.FluentAssertions5\DragoAnt.Assertions.FluentAssertions5.csproj">
       <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
-      <OutputItemType>Content</OutputItemType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Package>true</Package>
+      <OutputItemType>Content</OutputItemType>
+      <PackagePath>lib/$(TargetFramework)</PackagePath>
     </ProjectReference>
     <ProjectReference Include="..\DragoAnt.Assertions.FluentAssertions6\DragoAnt.Assertions.FluentAssertions6.csproj">
       <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
-      <OutputItemType>Content</OutputItemType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Package>true</Package>
+      <OutputItemType>Content</OutputItemType>
+      <PackagePath>lib/$(TargetFramework)</PackagePath>
     </ProjectReference>
     <ProjectReference Include="..\DragoAnt.Assertions.FluentAssertions7\DragoAnt.Assertions.FluentAssertions7.csproj">
       <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
-      <OutputItemType>Content</OutputItemType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Package>true</Package>
+      <OutputItemType>Content</OutputItemType>
+      <PackagePath>lib/$(TargetFramework)</PackagePath>
     </ProjectReference>
     <ProjectReference Include="..\DragoAnt.Assertions.FluentAssertions8\DragoAnt.Assertions.FluentAssertions8.csproj">
       <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
-      <OutputItemType>Content</OutputItemType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Package>true</Package>
+      <OutputItemType>Content</OutputItemType>
+      <PackagePath>lib/$(TargetFramework)</PackagePath>
     </ProjectReference>
     <ProjectReference Include="..\DragoAnt.Assertions.AwesomeAssertions8\DragoAnt.Assertions.AwesomeAssertions8.csproj">
       <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
-      <OutputItemType>Content</OutputItemType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Package>true</Package>
+      <OutputItemType>Content</OutputItemType>
+      <PackagePath>lib/$(TargetFramework)</PackagePath>
     </ProjectReference>
     <ProjectReference Include="..\DragoAnt.Assertions.AwesomeAssertions9\DragoAnt.Assertions.AwesomeAssertions9.csproj">
       <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
-      <OutputItemType>Content</OutputItemType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Package>true</Package>
+      <OutputItemType>Content</OutputItemType>
+      <PackagePath>lib/$(TargetFramework)</PackagePath>
     </ProjectReference>
     <ProjectReference Include="..\DragoAnt.Assertions.Shouldly4\DragoAnt.Assertions.Shouldly4.csproj">
       <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
-      <OutputItemType>Content</OutputItemType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Package>true</Package>
+      <OutputItemType>Content</OutputItemType>
+      <PackagePath>lib/$(TargetFramework)</PackagePath>
     </ProjectReference>
   </ItemGroup>
-
-  <Target Name="_IncludeAdapterDllsInPackage">
-    <ItemGroup>
-      <BuildOutputInPackage Include="$(OutputPath)DragoAnt.Assertions.FluentAssertions5.dll" />
-      <BuildOutputInPackage Include="$(OutputPath)DragoAnt.Assertions.FluentAssertions6.dll" />
-      <BuildOutputInPackage Include="$(OutputPath)DragoAnt.Assertions.FluentAssertions7.dll" />
-      <BuildOutputInPackage Include="$(OutputPath)DragoAnt.Assertions.FluentAssertions8.dll" />
-      <BuildOutputInPackage Include="$(OutputPath)DragoAnt.Assertions.AwesomeAssertions8.dll" />
-      <BuildOutputInPackage Include="$(OutputPath)DragoAnt.Assertions.AwesomeAssertions9.dll" />
-      <BuildOutputInPackage Include="$(OutputPath)DragoAnt.Assertions.Shouldly4.dll" />
-    </ItemGroup>
-  </Target>
 </Project>

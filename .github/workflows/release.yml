@@ -48,48 +48,48 @@ jobs:
         run: dotnet test --solution SerilogSinksInMemory.slnx -c Release --no-build
 
       - name: Pack NuGet packages
-        run: dotnet pack -c Release -o ${{ env.PACKAGE_OUTPUT_DIRECTORY }} --no-build -p:Version=${{ steps.get_version.outputs.info }} SerilogSinksInMemory.slnx
+        run: dotnet pack -c Release -o ${{ env.PACKAGE_OUTPUT_DIRECTORY }} -p:Version=${{ steps.get_version.outputs.info }} SerilogSinksInMemory.slnx
 
       - name: Run integration tests for FluentAssertions 5
         working-directory: test/Serilog.Sinks.InMemory.Assertions.Tests.Integration.FluentAssertions5
         run: |
-          dotnet restore -p:Version=${{ steps.get_version.outputs.info }} --configfile ../../NuGet.integration.config
+          dotnet restore -p:Version=${{ steps.get_version.outputs.info }}
           dotnet test --no-restore -c Release --project Serilog.Sinks.InMemory.Assertions.Tests.Integration.FluentAssertions5.csproj
 
       - name: Run integration tests for FluentAssertions 6
         working-directory: test/Serilog.Sinks.InMemory.Assertions.Tests.Integration.FluentAssertions6
         run: |
-          dotnet restore -p:Version=${{ steps.get_version.outputs.info }} --configfile ../../NuGet.integration.config
+          dotnet restore -p:Version=${{ steps.get_version.outputs.info }}
           dotnet test --no-restore -c Release --project Serilog.Sinks.InMemory.Assertions.Tests.Integration.FluentAssertions6.csproj
 
       - name: Run integration tests for FluentAssertions 7
         working-directory: test/Serilog.Sinks.InMemory.Assertions.Tests.Integration.FluentAssertions7
         run: |
-          dotnet restore -p:Version=${{ steps.get_version.outputs.info }} --configfile ../../NuGet.integration.config
+          dotnet restore -p:Version=${{ steps.get_version.outputs.info }}
           dotnet test --no-restore -c Release --project Serilog.Sinks.InMemory.Assertions.Tests.Integration.FluentAssertions7.csproj
 
       - name: Run integration tests for FluentAssertions 8
         working-directory: test/Serilog.Sinks.InMemory.Assertions.Tests.Integration.FluentAssertions8
         run: |
-          dotnet restore -p:Version=${{ steps.get_version.outputs.info }} --configfile ../../NuGet.integration.config
+          dotnet restore -p:Version=${{ steps.get_version.outputs.info }}
           dotnet test --no-restore -c Release --project Serilog.Sinks.InMemory.Assertions.Tests.Integration.FluentAssertions8.csproj
 
       - name: Run integration tests for AwesomeAssertions 8
         working-directory: test/Serilog.Sinks.InMemory.Assertions.Tests.Integration.AwesomeAssertions8
         run: |
-          dotnet restore -p:Version=${{ steps.get_version.outputs.info }} --configfile ../../NuGet.integration.config
+          dotnet restore -p:Version=${{ steps.get_version.outputs.info }}
           dotnet test --no-restore -c Release --project Serilog.Sinks.InMemory.Assertions.Tests.Integration.AwesomeAssertions8.csproj
 
       - name: Run integration tests for AwesomeAssertions 9
         working-directory: test/Serilog.Sinks.InMemory.Assertions.Tests.Integration.AwesomeAssertions9
         run: |
-          dotnet restore -p:Version=${{ steps.get_version.outputs.info }} --configfile ../../NuGet.integration.config
+          dotnet restore -p:Version=${{ steps.get_version.outputs.info }}
           dotnet test --no-restore -c Release --project Serilog.Sinks.InMemory.Assertions.Tests.Integration.AwesomeAssertions9.csproj
 
       - name: Run integration tests for Shouldly 4.x
         working-directory: test/Serilog.Sinks.InMemory.Assertions.Tests.Integration.Shouldly4
         run: |
-          dotnet restore -p:Version=${{ steps.get_version.outputs.info }} --configfile ../../NuGet.integration.config
+          dotnet restore -p:Version=${{ steps.get_version.outputs.info }}
           dotnet test --no-restore -c Release --project Serilog.Sinks.InMemory.Assertions.Tests.Integration.Shouldly4.csproj
 
       - name: Create GitHub Release with NuGet assets
