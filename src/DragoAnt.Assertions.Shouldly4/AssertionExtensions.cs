@@ -1,15 +1,13 @@
 // ReSharper disable CoVariantArrayConversion
-using System.Collections;
-using System.Diagnostics.CodeAnalysis;
-using DragoAnt.Assertions;
-using Shouldly;
 
 namespace DragoAnt.Assertions.FrameworkExtension;
 
 public static class AssertionExtensions
 {
     public static readonly AssertionFramework AssertionFramework =
-        new(AssertionFrameworks.Shouldly, new Version(4, 0));
+        new(AssertionFrameworks.Shouldly, new Version(4, 0),
+            (message, condition, because, becauseArgs) =>
+                message.Assert(condition, because, becauseArgs));
 
     public static void Assert(this FailMessage failureMessage, [DoesNotReturnIf(false)] bool condition, string because = "", params object[] becauseArgs)
     {

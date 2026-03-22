@@ -30,5 +30,8 @@
     <Compile Include="..\Serilog.Sinks.InMemory.Assertions.Tests.Unit\WhenUsingBridgeLayer.cs">
       <Link>WhenUsingBridgeLayer.cs</Link>
     </Compile>
+    <Compile Include="..\Serilog.Sinks.InMemory.Assertions.Tests.Unit\WhenUsingAssertionFramework.cs">
+      <Link>WhenUsingAssertionFramework.cs</Link>
+    </Compile>
   </ItemGroup>
 </Project>

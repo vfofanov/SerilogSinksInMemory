@@ -1,12 +1,11 @@
-using DragoAnt.Assertions;
-using FluentAssertions.Execution;
-
 namespace DragoAnt.Assertions.FrameworkExtension;
 
 public static class AssertionExtensions
 {
     public static readonly AssertionFramework AssertionFramework =
-        new(AssertionFrameworks.FluentAssertions, new Version(6, 0));
+        new(AssertionFrameworks.FluentAssertions, new Version(6, 0),
+            (message, condition, because, becauseArgs) =>
+                message.Assert(condition, because, becauseArgs));
 
     public static void Assert(
         this FailMessage failureMessage,

@@ -1,6 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
-using DragoAnt.Assertions;
-
 namespace DragoAnt.Assertions.FrameworkExtension;
 
 public abstract class BaseShouldlyAssertions<T> : ISubjectAssertions<T>

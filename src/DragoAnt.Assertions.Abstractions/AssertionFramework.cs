@@ -1,5 +1,3 @@
-using System.Threading;
-
 namespace DragoAnt.Assertions;
 
 public readonly struct AssertionFramework
@@ -8,11 +6,14 @@ public readonly struct AssertionFramework
     private static readonly object DefaultLock = new();
     private static AssertionFramework? _default;
     private static Func<AssertionFramework>? _defaultFactory;
+    
+    private readonly Action<FailMessage, bool, string, object[]> _assert;
 
-    public AssertionFramework(AssertionFrameworks framework, Version version)
+    public AssertionFramework(AssertionFrameworks framework, Version version, Action<FailMessage, bool, string, object[]> assert)
     {
         Framework = framework;
         Version = version;
+        _assert = assert;
     }
 
     public static AssertionFramework Default
@@ -74,4 +75,10 @@ public readonly struct AssertionFramework
     public AssertionFrameworks Framework { get; }
 
     public Version Version { get; }
+    
+    public void Assert(
+        FailMessage failureMessage,
+        bool condition,
+        string because = "",
+        params object[] becauseArgs) => _assert(failureMessage, condition, because, becauseArgs);
 }

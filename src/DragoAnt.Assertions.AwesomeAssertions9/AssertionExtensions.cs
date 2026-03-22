@@ -1,12 +1,11 @@
-using AwesomeAssertions.Execution;
-using DragoAnt.Assertions;
-
 namespace DragoAnt.Assertions.FrameworkExtension;
 
 public static class AssertionExtensions
 {
     public static readonly AssertionFramework AssertionFramework =
-        new(AssertionFrameworks.AwesomeAssertions, new Version(9, 0));
+        new(AssertionFrameworks.AwesomeAssertions, new Version(9, 0),
+            (message, condition, because, becauseArgs) =>
+                AssertionChain.GetOrCreate().Assert(condition, message, because, becauseArgs));
 
     public static void Assert(
         this AssertionChain assertionChain,

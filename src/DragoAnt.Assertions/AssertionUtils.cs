@@ -82,8 +82,8 @@ public static class AssertionUtils
 
     private static AssertionFramework GetDefaultAssertionFramework()
     {
-        var (framework, majorVersion, _) = GetAssertionsFramework();
-        return new AssertionFramework(framework, new Version(majorVersion, 0));
+        var factory = CreateAssertionsFactory();
+        return factory.AssertionFramework;
     }
 
     private static string GetAssertionsAssemblyLocation()
