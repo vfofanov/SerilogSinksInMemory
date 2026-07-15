@@ -25,7 +25,7 @@ public partial class LogEventPropertyValueAssertionsImpl : LogEventPropertyValue
     {
         var actualValue = GetValueFromProperty(Subject);
 
-        Assert(Equals(actualValue, value),
+        Assert(PropertyValueEquality.Equals(actualValue, value),
             new("Expected property {0} to have value {1} but found {2}",
                 _propertyName,
                 value,
@@ -39,6 +39,7 @@ public partial class LogEventPropertyValueAssertionsImpl : LogEventPropertyValue
         => instance switch
         {
             ScalarValue scalarValue => scalarValue.Value,
+            SequenceValue sequenceValue => sequenceValue.Elements.Select(e => e is ScalarValue sv ? sv.Value : e).ToArray(),
             _ => Subject.ToString(),
         };
 

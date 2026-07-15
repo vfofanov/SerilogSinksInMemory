@@ -15,7 +15,7 @@ public partial class LogEventsPropertyAssertionImpl : LogEventsPropertyAssertion
             .ToArray();
 
         var notFound = values
-            .Where(v => !propertyValues.Contains(v))
+            .Where(v => !propertyValues.Contains(v, PropertyValueEquality.Comparer))
             .ToArray();
 
         Assert(!notFound.Any(),
@@ -31,6 +31,7 @@ public partial class LogEventsPropertyAssertionImpl : LogEventsPropertyAssertion
         => instance switch
         {
             ScalarValue scalarValue => scalarValue.Value,
-            _ => Subject.ToString(),
+            SequenceValue sequenceValue => sequenceValue.Elements.Select(e => e is ScalarValue sv ? sv.Value : e).ToArray(),
+            _ => instance.ToString(),
         };
 }
